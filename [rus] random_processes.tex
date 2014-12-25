@@ -1,0 +1,260 @@
+\documentclass[11pt]{article}
+\usepackage{fontspec} 
+\usepackage{polyglossia}
+\setmainlanguage{russian} 
+\setotherlanguage{english}
+\newfontfamily{\cyrillicfont}{Times New Roman}
+
+\usepackage{mathtools}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage[colorinlistoftodos]{todonotes}
+
+
+\title{Теория случайных процессов}
+\author{Кафедра инфокоммуникационных систем и сетей}
+\begin{document}
+\maketitle
+
+\section{Понятие случайного процесса}
+\begin{center} Конечномерные распределения. Вероятностные характеристики случайного процесса (n-мерная функция распределения, n-мерная плотность, n-мерное распределение процесса с дискретным множеством состояний). \end{center}
+
+$\bullet$ \textbf{Def:} \\
+$\xi = {\xi(t), t \in T}$ на $(\Omega, F, P), \ \xi(t)$ - сечение, $\xi_\omega(t)$ - траектория \\
+
+$\bullet$ \textbf{Def:} \\
+$P_\xi = \{P_\xi(t_1 \ldots t_n), t_i \in T\}$ - n-мерное	распределение, где $P_\xi(t_1 \ldots t_n)$ - совместное распределение $\{\xi(t_1) \ldots \xi(t_n)\}$ \\
+E = R $ \rightarrow$ $$F_\xi(x_1 \ldots x_n;t_1 \ldots t_n) = P(\xi(t_1) \leq x_1 \ldots \xi(t_1) \leq x_n)$$ \ - n-мерная функция распределения
+
+E дискретно $\rightarrow$ $$\pi_{x_1 \ldots x_n}(t_1 \ldots t_n) = P(\xi(t_1) = x_1 \ldots \xi(t_1) = x_n)$$ \ - \ n-мерное \ распределение дискретного случайного процесса
+
+$\{t_j\}$ различны и $P_\xi(t_1 \ldots t_n)$ абсолютно непрерывно относительно n-мерной меры Лебега $\longrightarrow p_\xi(x_1 \ldots x_n;t_1 \ldots t_n)$ - n-мерная плотность распределения 
+
+\section{Гауссовские процессы.}
+\begin{center} Моментные характеристики: математическое ожидание, дисперсия, ковариационная функция. Примеры. \end{center}
+$\bullet$ \textbf{Def:} \\ Процесс гауccовский, если все его конечномерные распределения гауссовские \\
+T = R $\longrightarrow \xi гауссовский \rightarrow \{\xi(t_1) \ldots \xi(t_n)\}$ гауссовские \\
+
+\section{Модель случайного блуждания}
+\begin{center} Моментные характеристики, одномерное распределение, распределение приращений. \end{center}
+	$X_n = X_{n-1} + V_n$\\
+	$X(0) = 0$ \\
+где 
+$V_n 
+\sim $
+$\begin{vmatrix}
+1 & -1 \\
+\frac{1}{2} & \frac{1}{2}
+\end{vmatrix}$
+
+$$M(X_n) = 0; \ D(X_n) = n; \ K_x(n,m) = \sum_{i}\sum_{j} cov(V_i,V_j) = min(n,m)$$
+$$Law(X_n) \sim N(0,n)$$
+$$Law(X_n - X_m, X_m) \sim Law(X_n - X_m) \otimes Law(X_m)$$
+$$f \sim N(\mu,\sigma^{2}); \ P(\mu - 3\sigma < f < \mu + 3\sigma) = 0.997$$
+
+\section{Винеровский процесс}
+\begin{center} Определение, моментные характеристики, двумерное распределение, распределение приращений. \end{center}
+$\bullet$ \textbf{Def:} \\
+\begin{enumerate}
+	\item $W_0 = 0$
+	\item независимые приращения
+	\item $W_t - W_s \sim N(0, t-s)$
+\end{enumerate}
+$$MW_t = 0; \ DW_t = t; \ cov(W_t,W_s) = min(t,s)$$ \\ \\ \\
+
+\section{Линейные разностные уравнения: метод моментов}
+\begin{center} Метод моментов для случайных последовательностей, удовлетворяющих линейным разностным уравнениям с возмущением в виде белого шума.\end{center}
+Случайная последовательность ${X(n), n = 0, 1, 2, \ldots}$ определена рекуррентным соотношением
+$$X(n)= \alpha X(n−1)+ \beta V_n + \gamma$$, $\{V_n\}$ стандартный дискретный белый шум
+$$m_X(n)= \alpha m_X(n−1)+ \gamma \ (M{V_n} = 0)$$
+$$ cov(V_n, V_m) = 0;\ cov(V_n, X(0)) = 0 => cov(V_n, X(n − 1)) = 0 =>$$
+$$ D(\alpha X(n − 1) + \beta V_n + \gamma) =  \alpha^2D(X(n − 1)) + \beta^2D(V_n) $$
+$$D_X(n)= \alpha^2D_X(n−1)+\beta^2$$
+
+
+\section{Процесс авторегрессии первого порядка}
+\begin{center} Моментные характеристики и переход к стационарному режиму. \end{center}
+
+	$\xi(n) = \alpha \xi(n-1) + \beta V_n + \gamma$ \\
+	$\xi(0), V_1, \ldots$ – независимые гауссовские \\
+${V_n}$ – стандартный белый шум, т.е. $MV_n = 0,\ cov(V_n,V_m) = \begin{cases}
+	0, &\text{ if } m \neq m\\
+	1, &\text{ if } m = n
+\end{cases}$
+
+$$m_X(n) = \alpha m_X(n-1) + \gamma; \ D_X(n) = \alpha^{2}D_X(n-1) + \beta^{2}$$
+Переход к стационарной последовательности при $|\alpha| < 1$
+
+
+\section{Стационарные процессы в широком смысле и в узком смысле. Пример: почти периодический процесс.}
+$\bullet$ \textbf{Def:} \\
+$\{\xi(t), t \in T \subseteq \{Z,R\}\}$ стационарный в широком смысле, если $m_\xi = const, \ cov(\xi_t, \xi_s) = r_\xi(t-s)$ \\
+
+$\bullet$ \textbf{Example:} Почти периодический процесс:
+$$\xi(t) = \sum_{k}^N W_k e^{it\lambda_k}$$, 
+$\lambda_k=const$ («частота»), $W_k$ - центрированные некоррелированные с.в.: «амплитуда» $DW_k = A_k > 0$
+
+$\bullet$ \textbf{Def:} В узком смысле:  $$W(x,t) = W(x); \ W(x_1,x_2,t_1,t_2) = W(x_1,x_2,t_1 - t_2)$$
+
+\section{Ковариационная ф-ция стационарной последовательности.}
+\begin{center}Спектральное разложение ковариационной функции стационарной последовательности. Формулы Винера-Хинчина.\end{center}
+$\{\xi(t), t \in Z\}$ – стационарная случайная последовательность с ковариационной функцией $r_\xi(t) \longrightarrow$ на $\sigma$-алгебре $(-\pi;\pi] \exists! \ $ неорицательная мера $S_\xi(d\lambda)$:
+$$r_\xi(t) = \int\limits_{-\pi}^{\pi} e^{in\lambda}S_\xi(d\lambda)$$
+Если $\sum_{n=-\infty}^{\infty} |r_\xi(n)| < \infty \longrightarrow S_\xi(d\lambda)$ имеет плотность
+$$ s_\xi(\lambda) = \frac{1}{2\pi} \sum_{n=-\infty}^{\infty} e^{-in\lambda}r_\xi(n), \ \lambda \in (-\pi;\pi]$$
+
+
+\section{Ковариационная функция стационарного процесса}
+\begin{center}Спектральное разложение ковариационной функции стационарного процесса с непрерывным временем. Формулы Винера-Хинчина.\end{center}
+$\{\xi(t), t \in Z\}$ – стационарная случайная функция с непрерывной ковариационной функцией $r_\xi(t) \longrightarrow$ на $\sigma$-алгебре $R \ \exists! \ $ конечная неорицательная мера $S_\xi(d\lambda)$:
+$$r_\xi(t) = \int\limits_{-\infty}^{\infty} e^{i\tau\lambda}S_\xi(d\lambda), \ \tau \in R$$
+Если $\int\limits_{-\infty}^{\infty} |r_\xi(\tau)|d\tau < \infty \longrightarrow S_\xi(d\lambda)$ абсолютно непрерывна относительно меры Лебега и имеет плотность
+$$ s_\xi(\lambda) = \frac{1}{2\pi} \int\limits_{n=-\infty}^{\infty} e^{-i\tau\lambda}r_\xi(\tau)d\tau, \ \lambda \in (-\pi;\pi]$$ \\ \\ \\
+
+\section{Белый шум как стационарная последовательность}
+\begin{center}Корреляционные и спектральные характеристики. Процесс скользящего среднего: корреляционные и спектральные характеристики.\end{center}
+$\bullet$ \textbf{Def:} \\ Центрированный стационарный случайный процесс $\{V (t), t \in T \}$ с ненулевой постоянной спектральной плотностью называется стационарным белым шумом \\
+\begin{itemize}
+	\item Спектральная плотность: $s_V(\lambda) \equiv c, \lambda \in(−\pi,\pi]$
+	\item $r_V(n) = \int\limits_{-\pi}^{\pi} e^{in\lambda}cd\lambda = 0$ если $n \neq 0$
+	\item $D_V =r_V(0)=\int\limits_{-\pi}^{\pi} cd\lambda=2\pi c$ при $ n=0 $
+	\item $s_V(\lambda) \equiv \frac{D_V}{2\pi}$
+\end{itemize}
+
+$$ x(n)+\sum_{k=1}^{p} \alpha_k x(n−k)= \sum_{j=0}^{q} \beta_j y(n−j) <=>  P(\Delta)\eta = Q(\Delta)\xi$$
+$\bullet$ \textbf{Th:} \\ Если многочлен P(z) не имеет корней в единичном круге ${z \in C: |z| \leq 1}$, то определено стационарное линейное преобразование $\frac{Q(\Delta)}{P(\Delta)}$, которое является физически реализуемым, имеет непрерывную на $[\pi;\pi]$ частотную характеристику $H(\lambda) = \frac{Q(e^{−iλ})}{P(e^{−iλ})}$ и весовую функцию g(n), такую что $$|g(n)| \leq M(1+\varepsilon)−n \forall n \geq 0$$, где M и $\varepsilon$—положительные константы \\
+В условиях теоремы для любой стационарноий посл-ти ${\xi(n), n \in Z}$ на классе стационарных процессов $\{\eta(n), n \in Z\} \exists$ единственное решение уравнения авторегрессии—скользящего среднего: $P(\Delta)\eta = Q(\Delta)\xi$.
+
+
+\section{Процесс авторегрессии первого порядка как стационарная последовательность}
+\begin{center}Cуществование, дисперсия и ковариационная функция, спектральная плотность.\end{center}
+Уравнение авторегрессии 1-го порядка $\eta(n)=a \eta(n−1)+b \xi(n), n \in Z$ имеет единственное решение $\eta := \{\eta (n), n \in Z\}$ – стационарный процесс \\
+$P(z) = 1 − a z;\ Q(z) = b => P(\Delta)\eta = Q(\Delta)\xi$ имеет единственное решение P(z), |w|>1 \\
+$\bullet$ Частотная хар-ка: $$H(\lambda)e^{inλ} = a H(\lambda)e^{i(n−1)\lambda} + b e^{in\lambda} => H(\lambda) = \frac{b}{1-a e^{-i\lambda}}$$\\
+$\bullet$ Решение: $$ \eta(n)=  \sum_{m=-\infty}^{N}ba^{n−m}\xi(m)$$
+$\bullet$ Плотность: $$s_\eta(\lambda) = \frac{1}{2\pi}\sum_{n=-\infty}^{\infty} \frac{b^2a^{|n|}}{1-a^2} e^{-in\lambda}$$
+$\bullet$ Ков. ф-ция:$$r_\eta(n) = \frac{b^2a^{|n|}}{1-a^2}$$
+
+
+\section{Белый шум с непрерывным временем как обобщенный случайный процесс.}
+Pассмотрим случаq непрерывного времени T = R. Заметим сразу, что постоянная плотность $s_V (\lambda) \equiv c$, определенная на всей прямой, соответствует бесконечной мере $S_V (R) = \infty$ \\
+при $r_V (\tau) = 2\pi c\delta(\tau)$, где $\delta(\tau)$ — дельта-функция, $\int\limits_{-\infty}^{\infty} \varphi(\tau)\delta(\tau)d\tau = \varphi(0) \\$
+если $r_V (\tau) = \nu\delta(\tau) => s_V (\lambda) \equiv \frac{\nu}{2\pi}$
+
+\section{Линейное стохастическое дифференциальное уравнение. Метод моментов.}
+$$\dot(X)(t) = a(t)X(t) + u(t)+b(t)V(t)$$
+Метод моментов: $T = [t_0, t_1), \ X(t_0)$ некоррелирован с $V(t) \rightarrow$\\
+$$\dot(m_X)(t) = a(t)m_X(t) + u(t)$$
+$$\dot(D_x)(t) = a(t)D_X(t) + D_X(t)a^*(t) + b(t)\lambda(t)b^*(t)$$
+где $D_X(t) = cov(X_t,X_s), \ \lambda(t)$ – интенсивность V(t)
+
+\section{Стационарные линейные преобразования}
+\begin{center}Определение и свойства. Частотная характеристика и весовая функция\end{center} 
+$\bullet$ \textbf{Def:} \\ Линейное преобразование A, определенное на некотором классе детерминированных функций x: T → C, называется стационарным, если оно перестановочно с любым оператором сдвига $S_\tau$, т.е. $AS_\tau = S_\tau A$ при любом $\tau \in T$, где $(S\tau x)(t):=x(t−\tau)$. \\
+\textbf{Свойства} \\
+$\bullet (Ax)(t)= \sum_{s=-\infty}^{\infty} g(t−s)x(s) при T = Z \\$
+$\bullet (Ax)(t)= \int\limits_{-\infty}^{\infty} g(t−s)x(s)ds при T =R \\$
+g - весовая функция
+
+Гармонические сигналы $e_\lambda(t) := e^{it\lambda}, t \in T$, являются собственными функциями стационарного преобразования:
+$Ae_\lambda = H(\lambda)e_\lambda, \lambda \in \Lambda, \ H(\lambda)$ – собственное значение \\
+$H: \Lambda \rightarrow C$ – частотная характеристика \\
+\textbf{Связь частотной характеристики и весовой функции} \\
+$$H(\lambda) = \sum_{t=-\infty}^{\infty} e^{−it\lambda}g(t) \ \ g(t) = \frac{1}{2\pi}\int\limits_{-\pi}^{\pi} e^{i\lambda t}H(\lambda)d\lambda \ \ при T=Z$$
+$$H(\lambda) = \int\limits_{-\infty}^{\infty} e^{−it\lambda}g(t)dt \ \ g(t) = \frac{1}{2\pi}\int\limits_{-\pi}{\pi} e^{i\lambda t}H(\lambda)d\lambda \ \ при T=\Lambda=R$$
+
+\section{Линейные преобразования стационарных случайных процессов}
+\begin{center}Oсновные характеристик и примеры. Спектральная плотность выходного процесса\end{center}
+$\bullet \ \{\xi(t), t \in T\}$ —центрированный стационарный процесс со спектральной мерой $S_\xi(d\lambda)$ и ортогональной стохастической мерой $Z_\xi(d\lambda)$, A — стационарное линеqное преобразование с весовой функцией g(t), t $\in$ T , и частотной характеристикой $H(\lambda),\lambda \in \Lambda$. Тогда
+\begin{enumerate}
+	\item $\int\limits_{\Lambda} |H(\lambda)|^2 S_\xi(d\lambda) < ∞ \longrightarrow$ определен стац. процесс со спектральноq мерой $S_\eta(d\lambda) = |H(\lambda)|^2 S_\xi(d\lambda)$ и ортогональной стохастической мерой $Z_\eta(d\lambda) = H(\lambda)Z_\xi(d\lambda)$
+	$$\eta(t) =\int\limits_{\Lambda} e^{it\lambda}H(\lambda)Z_\xi(d\lambda), \ t \in T$$
+	\item если $\sum |g(t)| < \infty$ при T = Z, то стационарная последовательность существует и может быть представлена в виде 
+	$$\eta(t) = \sum_{s=-\infty}^{\infty} g(t − s)\xi(s) $$
+	\item если g(t) кусочно-непрерывна и $\int\limits_{T}|g(t)| dt < \infty$ при T = R, то стационарная функция определена и может быть записана как
+	$$\eta(t) =\int\limits_{-\infty}^{\infty} g(t − s)\xi(s)ds $$
+\end{enumerate}
+$\bullet$ \textbf{Def:} \\ Процесс $\eta := {\eta(t), t \in T}$, определенный по правилу 1, называется выходом стационарного линейного преобразования A при входе $\xi := \{\xi(t), t \in T\}$. В этом случае используют обозначение $\eta = A(\xi)$.
+
+
+\section{Модель линейного разностного уравнения с постоянными коэффициентами}
+\begin{center}Условие существования стационарного решения, частотная характеристика и спектральная плотность выхода.\end{center}
+
+Уравнение авторегрессии 1-го порядка $\eta(n)=a \eta(n−1)+b \xi(n), n \in Z$ имеет единственное решение $\eta := \{\eta (n), n \in Z\}$ – стационарный процесс \\
+$P(z) = 1 − a z;\ Q(z) = b => (\Delta)\eta = Q(\Delta)\xi$ имеет единственное решение P(z), |w|>1 \\
+$\bullet$ Частотная хар-ка: $H(\lambda)e^{in\lambda} = a H(\lambda)e^{i(n−1)\lambda} + b e^{in\lambda} => H(\lambda) = \frac{b}{1-a e^{-i\lambda}}$ \\
+$\bullet$ Решение: $$ \eta(n)=  \sum_{m=-\infty}^{N}ba^{n−m}\xi(m)$$
+$\bullet$ Плотность: $s_\eta(\lambda) = \frac{1}{2\pi}\sum_{n=-\infty}^{\infty} \frac{b^2a^{|n|}}{1-a^2} e^{-in\lambda}$ \\
+$\bullet$ Ков. ф-ция: $r_\eta(n) = \frac{b^2a^{|n|}}{1-a^2}$
+
+\section{Модель линейного дифференциального уравнения с постоянными коэффициентами}
+\begin{center}Условие существования стационарного решения, частотная характеристика и спектральная плотность выхода.\end{center}
+Линейное дифференциальное уравнение $\dot{\eta}(t)=−\alpha\eta(t)+\beta\xi(t)$ имеет единственное стационарное решение $\eta := \{\eta(t), t \in R\}$ \\
+$P(z) = z + \alpha; \ Q(z) = \beta$ \\
+$\bullet$ Выход: $\eta(t) = \int\limits_{-\infty}^{t} \beta e^{−\alpha(t−s)} \xi(s)ds$ \\
+$\bullet$ Спектр. плотность: $s_\eta(\lambda) = \frac{1}{2\pi}|H(\lambda)|^2 = \frac{\beta^2}{2\pi(\lambda^2+\alpha^2)}$\\
+$\bullet$ Ков. ф.: $r_\eta(t) = \int\limits_{-\infty}^{\infty} e^{it\lambda}s_\eta(l\lambda)d\lambda = \frac{\beta^2 e^{-\alpha|t|}}{2\alpha}$
+
+\section{Апериодическое звено}
+\begin{center}Частотная характеристика, спектральная плотность и ковариационная функция выхода.\end{center}
+$\dot{\eta} + a\eta = b\zeta, \ a>0$
+\begin{itemize}
+	\item $H(\lambda) = \frac{b}{i\lambda + a}$
+	\item $K_\eta(t) = \int\limits_{-\infty}^{\infty} e^{i\lambda t} s_\eta(\lambda) d\lambda$
+	\item $s_\eta(\lambda) = \frac{b^2}{2\pi(\lambda^2+a^2)}$
+\end{itemize}
+
+
+\section{Колебательное звено}
+\begin{center}Частотная характеристика, спектральная плотность выхода, пиковая частота.\end{center}
+$\omega = \frac{2\pi}{T}$ – собственная циклическая частота, $0 < \beta < 1$ – коэфф. трения \\
+$$\ddot{y} + 2\beta\omega\dot{y} + \omega^2y = X $$
+$X \equiv 0$ и $(y_0 \neq 0 \ или \ \dot{y_0} \neq 0) => \\y(t) = (Acos\omega_0t + Bsin\omega_0t)e^{-\beta\omega t}, \ \omega = \omega_0 \sqrt{1-\beta^2}$ \\
+Пусть Х – б.ш интенсивностью $\nu$
+$$m_Y = 0; \ D_{\dot{\eta}} = \omega^2D_\eta$$
+$$s_\eta(\lambda) = |H(\lambda)|^2s_\zeta(\lambda) = \frac{\nu}{2\pi((\lambda^2+\omega^2)-(2\beta\omega)^2)}, \ где \zeta=\dot{Y_2} + 2\beta\omega Y_2 + \omega^2Y_1$$
+
+
+\section{Три вида условных вероятностей.}
+\begin{center}Условная вероятность относительно дискретной случайной величины. Плотность условного распределения.\end{center}
+\begin{itemize}
+	\item $P(A|C) = \frac{P(AC)}{P(C)}$
+	\item $P(A|\eta) := \varphi(\eta) (\varphi$ - борелевская); $M\{(\eta \in D)P(A|\eta)\}=P(A*\eta \in D) = \int\limits_{D} \varphi(y)dF_\eta(y)$
+	\item $P(A|\eta=y) = \varphi(y)$ \\
+\end{itemize}
+Свойства:
+\begin{enumerate}
+	\item $A, \eta $ независимые $=> P(A|\eta) = P(A)$
+	\item $P(\psi(\gamma, \eta) \in \Gamma | \eta=y) = P(\psi(\gamma, y) \in \Gamma)$
+	\item $P(A|\eta) = P(A|g(\eta))$, где g измеримая борелевская
+\end{enumerate}
+
+\section{Марковские процессы}
+\begin{center}Переходная вероятность. Различные формы марковского свойства. \end{center}
+$\bullet$ \textbf{Def:} \\Случайный процесс $\{\xi(t), t \in T\}$ называется марковским, если для всякого множества $B \in B(E)$ и любых моментов $t_1 < ... < t_{k−1} < t_k$ из T, где $k \geq 3 $, (P-п.н.) выполнено равенство
+$$ P\{\xi(t_k) \in B | \xi(t_1), . . . , \xi(t_{k−1})\} = P\{\xi(t_k) \in B | \xi(t_{k−1})\} $$
+$\bullet$ \textbf{Def:} Переходная веростность:
+$$P(s,x,t,B) := P\{\xi(t) \in B | \xi(s) = x\},$$
+$\bullet$ \textbf{Def:} Если $P(s+h,x,t+h,B)=P(s,x,t,B)$ для любого $h\geq 0$, то марковский процесс $\xi(t)$ называется однородным. Функция $P(x,\tau,B) := P\{\xi(\tau) \in B | \xi(0) = x\}$ – переходная вероятность. \\
+$\bullet$ \textbf{Note:} Марковское свойство представимо как P(ПБ|Н) = P(П|Н) P(Б|Н)
+
+\section{Уравнение Колмогорова-Чепмена. Уравнение Колмогорова для одномерных распределений.}
+\textbf{Def:} Уравнение Колмогорова-Чепмена:
+$$P(s,x,u,B) = \int\limits_{E} P(s,x,t,dy)P(t,y,u,B), \ s \leq t \leq u; \ x \in E; \ B \in B(E) $$
+Однородный случай:
+$$P(x,s+t,B)= \int\limits_{E} P(x,s,dy)P(y,t,B), t\geq s $$
+
+\section{Рекуррентная модель марковского процесса с дискретным временем.}
+
+
+\section{Винеровский процесс как однородный марковский процесс.}
+Винеровский процесс $\{w(t), t \geq 0\}, \ w(0) = 0$
+$$ \forall t > s \geq 0 \ w(t)−w(s) ∼ N(0,\sigma^2(t−s))$$ - по следствию: процессы с распределением приращений $\xi(t) − \xi(s)$ зависящим лишь от t − s - однородные марковcкие; \\
+$$ P^w(x,\tau,B) = P(w(s+\tau)\in B | w(s)=x) = P(w(s+\tau)−w(s)+x\in B)$$
+
+\section{Пуассоновский процесс как однородный марковский процесс.}
+Пуассоновский процесс $\{\eta(t), t \geq 0\}, \ \eta(0) = 0$
+$$ \forall t > s \geq 0 \ \eta(t)−\eta(s) ∼ \Pi(\lambda(t−s))$$ - по следствию: процессы с распределением приращений $\xi(t) − \xi(s)$ зависящим лишь от t − s - однородные марковcкие; \\
+$$ p_{x,y}^\eta (\tau) = P(\eta(s + \tau ) = y | \eta(s) = x) = P(\eta(s + \tau) − \eta(s) = y − x)$$
+
+\end{document}
