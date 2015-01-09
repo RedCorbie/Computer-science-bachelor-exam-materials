@@ -1,0 +1,50 @@
+\documentclass[a4paper]{article}
+\usepackage{fontspec} 
+\usepackage{polyglossia}
+\setmainlanguage{russian} 
+\setotherlanguage{english}
+\newfontfamily{\cyrillicfont}{Times New Roman}
+
+\usepackage{mathtools}
+\usepackage{fullpage}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage[colorinlistoftodos]{todonotes}
+
+
+\title{Формальные языки и трансляции}
+\author{MIPT DIHT}
+\begin{document}
+\maketitle
+
+\section{Билет №1}
+\subsection{Недетерминированный конечный автомат}
+\subsubsection{Конфигурация автомата, начальная конфигурация, такт}
+\subsubsection{Допуск слова автоматом. Язык определяемый автоматом. Граф переходов автомата}
+\subsection{Детерминированный конечный автомат}
+\subsection{Эквивалентность НКА и ДКА (с доказательством)}
+
+\section{Билет №2}
+\subsection{Иерархия грамматик Хомского. Нормальная грамматика Хомского}
+\subsection{Алгоритм устранения $\varepsilon$-правил}
+\subsection{Алгоритм устранения цепных правил}
+\subsection{Алгоритм преобразования грамматики к нормальной форме Хомского}
+
+\section{Билет №3}
+\subsection{Нисходящий синтаксический анализ. Множества FIRST и FOLLOW}
+\subsection{LL(1)-грамматики}
+\subsection{Предиктивный синтаксический анализатор, управляемый таблицей}
+\subsection{Построение ТПСА для LL(1)-грамматик}
+
+\section{Билет №4}
+\subsection{Восходящий синтаксический анализ}
+\subsection{Синтаксический анализ «перенос-свертка»}
+\subsection{Конфликты в процессе ПС-анализа}
+\subsection{Алгоритм построения множеств FIRST и FOLLOW}
+
+\section{Билет №5}
+\subsection{Общее устройство и алгоритм LR-анализатора}
+\subsection{LR(0)- и LR(1)-пункты. Функции CLOSURE и GOTO для LR(0)- и LR(1)-пунктов}
+\subsection{Построение множеств LR(1)-пунктов. Построение таблиц ACTION и GOTO для LR(1)-анализатора}
+
+\end{document}
