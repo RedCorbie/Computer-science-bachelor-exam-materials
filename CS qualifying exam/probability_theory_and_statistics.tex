@@ -1,19 +1,48 @@
 \documentclass[a4paper]{article}
-\usepackage{fontspec} 
-\usepackage{polyglossia}
-\setmainlanguage{russian} 
-\setotherlanguage{english}
-\newfontfamily{\cyrillicfont}{Times New Roman}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage[fleqn]{amsmath}
+\usepackage{amsfonts, amssymb, amsthm, mathtools}
 
 \usepackage{mathtools}
 \usepackage{fullpage}
-\usepackage[utf8x]{inputenc}
-\usepackage{amsmath}
 \usepackage[colorinlistoftodos]{todonotes}
 
 
 \title{Теория вероятностей и математическая статистика}
 \author{MIPT DIHT}
+
+
+\theoremstyle{plain}
+\newtheorem*{theorem-star}{Theorem}
+\newtheorem{theorem}{Theorem}
+\newtheorem*{lem-star}{Lemma}
+\newtheorem{lem}{Lemma}
+\newtheorem*{proposition-star}{Proposition}
+\newtheorem{proposition}{Proposition}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{definition}
+\newtheorem*{definition-star}{Definition}
+\newtheorem{definition}{Definition}
+
+\renewenvironment{proof}{{\bfseries Proof}}{$\bullet$}
+
+\newcommand{\myequat}[1]{\begin{equation} #1 \nonumber \end{equation}}
+\newcommand{\pars}[1]{\left( #1 \right)} 
+\newcommand{\class}[1]{\left[ #1 \right]} 
+\newcommand{\myN}{\mathbb{N}} 
+\newcommand{\myZ}{\mathbb{Z}}
+\newcommand{\myR}{\mathbb{R}}
+\newcommand{\myC}{\mathbb{C}}
+\newcommand{\myQ}{\mathbb{Q}}
+\newcommand{\myE}{\mathcal{E}} 
+\newcommand{\myM}{\mathcal{M}}
+\newcommand{\myO}{(1+o(1))}
+
 \begin{document}
 \maketitle
 
