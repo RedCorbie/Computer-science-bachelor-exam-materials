@@ -9,6 +9,14 @@
 \usepackage{fullpage}
 \usepackage[colorinlistoftodos]{todonotes}
 
+\usepackage{cmap}
+\usepackage[all]{xy}
+\usepackage{mdwlist}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{epstopdf}
+
+
 
 \title{Теория вероятностей и математическая статистика}
 \author{MIPT DIHT}
@@ -21,6 +29,10 @@
 \newtheorem{lem}{Lemma}
 \newtheorem*{proposition-star}{Proposition}
 \newtheorem{proposition}{Proposition}
+\newtheorem{statement}{Statement}
+\newtheorem*{statement-star}{Statement}
+\newtheorem{corollary}{Corollary}
+\newtheorem*{corollary-star}{Corollary}
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
@@ -28,51 +40,1134 @@
 \theoremstyle{definition}
 \newtheorem*{definition-star}{Definition}
 \newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem*{example-star}{Example}
 
 \renewenvironment{proof}{{\bfseries Proof}}{$\bullet$}
 
 \newcommand{\myequat}[1]{\begin{equation} #1 \nonumber \end{equation}}
 \newcommand{\pars}[1]{\left( #1 \right)} 
 \newcommand{\class}[1]{\left[ #1 \right]} 
-\newcommand{\myN}{\mathbb{N}} 
-\newcommand{\myZ}{\mathbb{Z}}
-\newcommand{\myR}{\mathbb{R}}
-\newcommand{\myC}{\mathbb{C}}
-\newcommand{\myQ}{\mathbb{Q}}
-\newcommand{\myE}{\mathcal{E}} 
-\newcommand{\myM}{\mathcal{M}}
-\newcommand{\myO}{(1+o(1))}
+\newcommand{\dd}{\; \mathrm{d}}
+\newcommand{\setR}{\mathbb{R}}
+\newcommand{\setRn}{\mathbb{R}^n}
+\newcommand{\setRinf}{\mathbb{R}^{\infty}}
+\newcommand{\setC}{\mathbb{C}}
+\newcommand{\setN}{\mathbb{N}}
+\newcommand{\setZ}{\mathbb{Z}}
+\newcommand{\setQ}{\mathbb{Q}}
+\newcommand{\setM}{\mathcal{M}}
+\newcommand{\setL}{\mathcal{L}}
+\newcommand{\setA}{\mathcal{A}}
+\newcommand{\setF}{\mathcal{F}}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+\newcommand{\walls}[1]{\left | #1 \right |} % |smth_vertically_large|
+\newcommand{\braces}[1]{\left\{ #1 \right\}} % {smth_vertically_large}
+
+\newcommand{\condset}[2]{\braces{\, #1 \mid #2 \,}} % definition of set with condition
+
+\newcommand{\expl}[1]{\walls{\text{#1}}} % explanation inside formula
+
+\newcommand{\toup}[1]{\xrightarrow{#1}}
+\newcommand{\toae}{\toup{\text{\,п.н.}}} % almost everywhere convergence designation
+\newcommand{\todown}[1]{\xrightarrow[#1]{}}
+
+\newcommand{\equp}[1]{\stackrel{#1}{=}}
+
+\newcommand{\conj}[1]{\overline{#1}} % complex conjugation
+\newcommand{\comp}[1]{\overline{#1}} % set complement
+
+\DeclareMathOperator{\cov}{cov}
+
+\renewcommand{\emptyset}{\varnothing}
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\phi}{\varphi}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+\renewcommand{\Im}{\mathop{\mathrm{Im}}\nolimits}
+\renewcommand{\Re}{\mathop{\mathrm{Re}}\nolimits}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\bigtitle}[1]{\title{\textbf{\underline{#1}}}}
+\newcommand{\boldtitle}[1]{\title{\textbf{#1}}}
+
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}%
+{\hbox{$\mathsurround=0pt #1$}}{}} % a\hm=b makes "=" carriable to the next line with duplication of the sign
+
 
 \begin{document}
 \maketitle
 
 \section{Билет №1}
 \subsection{Вероятностное пространство, аксиомы Колмогорова, свойства вероятностной меры}
+В основе теории вероятностей лежит понятие вероятностного пространства $(\Omega, \setF, P)$ 
+(т.н ``тройки Колмогорова'')
+
+\begin{enumerate}[label=\protect\circled{\arabic*},series=kolm_triple]
+
+\item
+	$\Omega$ --- \emph{пространство элементарных событий}.\\
+	$\omega \in \Omega$ --- называется \emph{элементарным событием}.\\
+	В результате случайного эксперимента получаем один и ровно один элемент $\Omega$.
+
+\item
+	$\setF$ --- $\sigma$-алгебра подмножеств на $\Omega$.\\
+	Элементы $\setF$ называются \emph{событиями}.\\
+	$\forall A \in \setF \implies A \subset \Omega$.
+
+\end{enumerate}
+
+\begin{definition}
+	Система подмножеств $\setF$ множества $\Omega$ называется \emph{алгеброй}, если:
+
+	\begin{enumerate}
+		\item $\Omega \in \setF$
+		\item $\forall A,B \in \setF \implies A \cap B \in \setF$
+		\item $\forall A,B \in \setF \implies A \bigtriangleup B \in \setF$\\
+	\end{enumerate}
+
+\end{definition}
+
+
+\begin{definition}
+ 	$\comp{A} = \Omega \setminus A$, называется дополнительным событием к событию $A$.\\
+\end{definition}
+
+\begin{example}~
+	\begin{enumerate}
+		\item $\setF_* = \braces{\emptyset, \Omega}$ --- тривиальная алгебра
+		\item $\setF^* = 2^\Omega$ (все подмножества $\Omega$) --- дискретная алгебра
+		\item $\setF = \braces{\emptyset, A, \comp{A}, \Omega}$ --- алгебра ``порожденная'' $A$
+		\item Конечные объединения подмножеств вида 
+					$[a, b), (-\infty; c), [d, +\infty)$ образуют алгебру.\\
+	\end{enumerate}
+\end{example}
+
+\begin{definition}
+	Система подмножеств $\setF$ множества $\Omega$ называется $\sigma$-алгеброй, если:
+	\begin{enumerate}
+		\item $\setF$ --- алгебра
+		\item $\forall \braces{A_n, n \in \setN}, A_n \in \setF \; \forall n 
+					\implies \bigcup\limits_{n = 1}^{+\infty} A_n \in \setF$\\
+	\end{enumerate}
+\end{definition}
+
+
+\begin{example}~
+	\begin{enumerate}
+		\item $\setF_* $ --- тривиальная $\sigma$-алгебра
+		\item $\setF^* $ --- дискретная $\sigma$-алгебра
+		\item $\forall$ конечная алгебра является $\sigma$-алгеброй.
+		\item $[a, b), (-\infty; c), [d, +\infty)$ --- не $\sigma$-алгебра.\\
+	\end{enumerate}
+\end{example}
+
+\begin{enumerate}[resume*=kolm_triple]
+	\item
+		$P$ - \emph{вероятностная мера} на $(\Omega, \setF)$
+\end{enumerate}
+
+\begin{definition}
+	Пара $(\Omega, \setF)$ множества $\Omega$ с заданной на нем $\sigma$-алгеброй $\setF$ называется \emph{измеримым пространством}. 
+\end{definition}
+
+\begin{definition}
+	Отображение $P\colon \setF \rightarrow [0;1]$ \\
+	называется вероятностной мерой(или вероятностью) на $(\Omega, \setF)$, если:
+
+	\begin{enumerate}
+		\item $P(\Omega) = 1$
+		\item Для $\forall$ последовательности $\braces{A_n, n \in \setN}, A_n \in \setF \; \forall n
+		\text{ такой, что }  \forall i \neq j: \; A_i \cap A_j = \emptyset$ \\ выполнено свойство счетной аддитивности:
+		\begin{equation*}
+			P\pars{\bigsqcup\limits_{n=1}^{\infty} A_n} = \sum\limits_{n=1}^{\infty} P(A_n)
+		\end{equation*}
+	\end{enumerate}
+\end{definition}
+
+\newpage
+
+\begin{statement}~
+	\begin{enumerate}
+		\item $P(\emptyset) = 0$
+		\item Если $A \cap B = \emptyset, \text{ то } P(A \cup B) = P(A) + P(B) $ (свойство конечной аддитивности)
+		\item $P(\comp{A}) = 1 - P(A)$
+		\item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+		\item $\forall A_1, \ldots, A_m \in \setF \\ 
+				P\pars{\bigcup\limits_{n = 1}^{m} A_n} \leq \sum\limits_{n = 1}^{m} P(A_n) $
+		\item Если $A \subset B, $ то $P(A) \leq P(B)$ \\
+	\end{enumerate}
+
+	\begin{proof}~
+		\begin{enumerate}
+			\item 
+				$\displaystyle \forall n \; A_n = \emptyset \implies
+				P\pars{\bigsqcup_{n = 1}^{\infty} A_n} = \sum_{n = 1}^{\infty} P(A_n) = 
+				\sum_{n = 1}^{\infty} P(\emptyset) < +\infty
+				\implies P(\emptyset) = 0$
+
+			\item 
+				$\displaystyle A_1 = A,\; A_2 = B,\; A_3 = A_4 = \ldots = A_n = \ldots = \emptyset \\ 
+				P\pars{\bigsqcup_{n = 1}^{\infty} A_n} = P(A \cup B) = \sum_{n = 1}^{\infty} P(A_n) = P(A) + P(B)$
+
+			\item $\Omega = A \sqcup \comp{A} \implies \expl{по 2} \implies 
+						1 = P(A) + P(\comp{A})$
+
+			\item 
+				$A \cup B = A \sqcup (B \setminus (A \cap B)) \\
+					\implies P(A \cup B) = P(A) + P(B \setminus (A \cap B))\\\\
+				B = (A \cap B) \sqcup (B \setminus (A \cap B)) \\
+					\implies P(B) = P(A \cap B)  + P(B \setminus (A \cap B))$
+
+				Осталось вычесть одно равенство из другого.
+
+			\item 
+				Если $m = 2$ --- то это пункт 4). \\
+				По индукции\\
+				$\displaystyle P\pars{\bigcup_{n = 1}^m A_n} 
+				\leq P(A_m) + P\pars{\bigcup_{n = 1}^{m - 1} A_n} 
+				\leq \text{|индукция|} \leq P(A_m) + \sum_{n = 1}^{m - 1} P(A_n) = \sum_{n = 1}^{m} P(A_n)$
+
+			\item Следует из 4).
+		\end{enumerate}			
+	\end{proof}
+\end{statement}
+
+\begin{definition}
+	Будем обозначать $A_n \downarrow A$ при $n \to +\infty $, если для последовательности событий $\braces{A_n, n \in \setN}$ выполнены свойства: 
+
+	\begin{enumerate}
+		\item $A_n \supset A_{n+1} \supset \ldots$
+		\item $A = \bigcap\limits_{n}^{\infty} A_n$
+	\end{enumerate}
+\end{definition}
+
+\begin{theorem}[О непрерывности в нуле вероятностной меры]~
+
+	Пусть $(\Omega, \setF)$ - измеримое пространство, а $P\colon \setF \rightarrow [0, 1]$ удовлетворяет двум свойствам:
+	\begin{enumerate}
+		\item $P(\Omega) = 1$
+		\item $P$ - конечно-аддитивна. 
+	\end{enumerate}
+	Тогда $P$ - вероятностная мера $\iff P$ - непрерывна в нуле (т.е если $A_n  \downarrow \emptyset$, то $P(A_n) \to 0$).
+
+\end{theorem}
+
+\begin{proof}~
+
+	$(\implies)$ Пусть $P$ - вероятностная мера, а $A_n \downarrow \emptyset.$
+
+	Рассмотрим $B_m = A_m \setminus A_{m+1}.$ Тогда в силу $\bigcap\limits_n A_n = \emptyset
+	\implies \bigsqcup\limits_{m = n}^{\infty} B_m = A_n$
+
+	Тогда в силу счетной аддитивности $P(A_n) = \sum\limits_{m = n}^{\infty} P(B_m)$
+
+	Но ряд $P(A_1) = \sum\limits_{m=1}^{\infty} P(B_m) $ сходится
+	$\implies \sum\limits_{m=n}^{\infty} P(B_m)$ есть остаток сходящего ряда 
+	$\implies P(A_n)~\to~0$\\
+	
+
+	$(\impliedby)$ Пусть $P$ непрерывна в нуле. 
+	Покажем её счетную аддитивность:
+
+	Пусть ${A_n, n \in \setN} $ т.ч $A_n \in F\; \forall n$ и 
+	$A_i \cap A_j = \emptyset$ при $i \neq j$\\
+	Рассмотрим $B_m = \bigsqcup\limits_{n=m}^{+\infty} A_n.$ 
+	Тогда $B_m \supset B_{m+1} \supset \ldots$
+
+	Покажем, что $\bigcap\limits_m B_m = \emptyset $. \\
+	Пусть $\omega \in \bigcap\limits_m B_m 
+	\implies \omega \in B_1 \implies \exists k: \omega \in A_k 
+	\implies \omega \not\in B_{k+1}$. Противоречие.
+
+	Следовательно, $\bigcap\limits_m B_m = \emptyset$ и в силу непрерывности в нуле 
+	$P(B_m) \to 0$.
+
+	Далее $\displaystyle P\pars{\bigsqcup_{n=1}^{\infty} A_n} = 
+	P\pars{\bigsqcup_{n=1}^{m} A_m \sqcup B_{m+1}} 
+	= \expl{конечная аддитивность} = \\
+	= \sum_{n=1}^{m} P(A_n) + P(B_{m + 1}) \to \sum_{n = 1}^{\infty} P(A_n),\; m \to \infty\\
+	\implies P\pars{\bigsqcup_n A_n} = \sum_n P(A_n)$
+\end{proof}
+
+\begin{corollary}[непрерывность вероятностной меры]~
+	\begin{enumerate}
+		\item Если $A_n \downarrow A, \text{ то } P(A_n) \to P(A)$
+		\item Если $A_n \uparrow A$ (т.е $A_n \subset A_{n + 1} \subset \ldots $,
+		и $A = \bigcup\limits_n A_n$, то $P(A_n) \to P(A)$	
+	\end{enumerate}
+\end{corollary}
+
+\begin{proof}~
+	\begin{enumerate}
+		\item Надо рассмотреть $B_n = A_n \setminus A$
+		\item Надо рассмотреть $B_n = \comp{A_n}$
+	\end{enumerate}
+\end{proof}
+
 \subsection{Условные вероятности. Формула полной вероятности. Формула Байеса}
+
+Пусть $(\Omega, \setF, P)$ -- вероятностное пространство.
+
+\begin{definition}
+	Для $\forall A \in \setF$, т.ч. $P(A) > 0$
+	\emph{условной вероятностью} события $B \in \setF$ при условии $A$ называют
+	\begin{equation*}
+		P(B \mid A) = \frac{P(A \cap B)}{P(A)}
+	\end{equation*}
+	если же $P(A) = 0,$ то $P(B \mid A) = 0,\; \forall B \in \setF$
+\end{definition}
+
+\begin{definition}
+	Систему событий $\braces{B_n}_{n = 1}^{\infty}$ называют разбиением множества $\Omega$, если:
+	\begin{enumerate}
+		\item $\forall i \neq j : B_i \cap B_j = \emptyset$
+		\item $\bigsqcup\limits_{n = 1}^{\infty} B_n = \Omega$ 
+	\end{enumerate}
+	
+	В этом случае также говорят, что $\braces{B_n}_{n = 1}^{\infty}$ образует полную группу несовместных событий.
+\end{definition}
+
+\begin{lem}[формула полной вероятности]~
+
+	Пусть $\braces{B_n}_{n = 1}^{\infty}$ - разбиение $\Omega$. Тогда для $\forall A \in \setF$:
+	\begin{equation*}
+		P(A) = \sum_{n = 1}^{\infty} P(A \mid B_n) P(B_n)
+	\end{equation*}
+
+	\begin{proof}
+		Рассмотрим событие $A$
+		\begin{align*}
+			&P(A) = P(A \cap \Omega) = P\pars{A \cap \bigsqcup_{n = 1}^{\infty} B_n} =
+			P\pars{\bigsqcup_{n = 1}^{\infty} A \cap B_n} = \\
+			&= \expl{счетная аддитивность} = \sum_{n = 1}^{\infty} P(A \cap B_n) = 
+			\sum_{n = 1}^{\infty} P(A \mid B_n) P(B_n)
+		\end{align*}
+	\end{proof}
+\end{lem}
+
+\begin{lem}[формула Байеса]~
+
+	Пусть $\braces{B_n}_{n = 1}^{\infty}$ -- разбиение $\Omega$, а $A \in \setF : P(A) > 0.$ Тогда $\forall n$
+	\begin{equation*}
+		P(B_n \mid A) = \frac{P(A \mid B_n) P(B_n)}{\sum_{k = 1}^{\infty} P(A \mid B_k) P(B_k)}
+	\end{equation*}
+\end{lem}
+
+\begin{definition}
+	$P(B_n)$ называется \emph{априорной вероятностью}.\\
+	$P(B_n \mid A)$ называется \emph{апостериорной вероятностью} (относительная вероятность при условии известного результата эксперимента)
+\end{definition}
 
 \section{Билет №2}
 \subsection{Случайные величины и векторы. Их характеристики: распределение вероятностей, функция распределения, ее свойства, $\sigma$=алгера, порожденная с. в.}
+\begin{definition}
+	Пусть ($\Omega, \setF$) и $(E, \mathcal{E})$ -- два измеримых пространства. 
+  Отображение $X\colon \Omega \to E$ называется случайным элементом,
+   если оно является $\setF$ - измеримым. (или $\setF \setminus \mathcal{E}$ - измеримым) 
+   т.е $\forall B \in \mathcal{E}$
+  \begin{align*}
+    \{ x \in B \} = X^{-1}(B) = \condset{\omega}{X(\omega) \in B} \in \setF.
+  \end{align*}
+\end{definition}
+
+\begin{definition}~
+
+  Если $(E, \mathcal{E})$ = $(\setR, B(\setR))$, то случайный элемент $X$ 
+  называется \emph{случайной величиной}.\\
+
+  Если $(E, \mathcal{E})$ = $(\setRn, B(\setRn))$, то $X$ называется \emph{случайным вектором}.\\
+\end{definition}
+
+\begin{corollary}~
+
+  \begin{enumerate}
+    \item 
+      $X$ -- случайная величина на $(\Omega, \setF)$
+      $\iff \forall x \in \setR :
+       \{ X \leq x \} = 
+      \condset{\omega}{X(\omega) \leq x} \in \setF$
+
+    \item $X = (X_1, \ldots, X_n)$ -- случайный вектор на $(\Omega, \setF)$
+          $\iff \forall i : X_i$ -- случайная величина.
+  \end{enumerate}
+
+\end{corollary}
+
+\begin{proof}~
+
+  $(\implies)$ 1) и 2) очевидно из определения случайных величин и векторов\\
+
+  $(\impliedby)$ \nolinebreak
+  \begin{enumerate}
+    \item 
+      Рассмотрим систему $\setM = \condset{(-\infty; x]}{x \in \setR}$.\\
+      Тогда  $\sigma(\setM) = B(\setR)$. По условию $X^{-1} (B) \in \setF$ для 
+      $\forall B \in \setM$. По лемме о достаточном условии измеримости получим, 
+      что $X$ -- случайная величина.
+
+    \item 
+      Рассмотрим систему $\setM = \condset{B_1 \times \ldots B_n}{B_i \in B(\setR)}$\\
+      Тогда $\sigma(\setM) = B(\setRn)$
+      \begin{align*}
+        &X^{-1} (B_1 \times \ldots \times B_n) = 
+        \condset{\omega}{X_1(\omega) \in B_1, \ldots, X_n(\omega) \in B_n}
+        = \bigcap_{i = 1}^{n} X^{-1}_i (B_i) \in \setF
+      \end{align*}
+
+      $\implies X^{-1} (B) \in \setF$ для $\forall B \in \setM$. По лемме получаем, 
+      что $X$ -- случайный вектор.
+  \end{enumerate}
+
+\end{proof}
+\bigtitle{Распределение случайной величины вектора.}
+
+\begin{definition}
+  Пусть $(\Omega, \setF, P)$ -- вероятностное пространство, $\xi$ - случайная величина на нем. Тогда распределением $\xi$ называется вероятностная мера $P_\xi$ на $(\setR, B(\setR))$, заданная по правилу.
+  \begin{align*}
+    P_\xi (B) = P(\xi \in B),\; B \subset B(\setR).
+  \end{align*}
+\end{definition}
+
+\begin{definition}
+  Пусть $\xi$ - случайный вектор размерности $n$ на $(\Omega, \setF, P)$. 
+  Тогда его распределением $P_\xi$ называется вероятностая мера на ($\setRn, B(\setRn)$), заданная по правилу
+    \begin{align*}
+      P_\xi (B) = P(\xi \in B),\; B \in B(\setRn)
+    \end{align*}
+\end{definition}
+
+\bigtitle{Функция распределения}
+
+\begin{definition}
+  Пусть $(\Omega, \setF, P)$ -- вероятностное пространство.
+  $\xi$ - случайная велличина на нем. Тогда \emph{функцией распределения} случайной величины $\xi$ называется
+    \begin{align*}
+      F_\xi (x) = P(\xi \leq x)
+    \end{align*}
+\end{definition}
+
+\begin{definition}
+  Случайная величина $\xi$ называется
+  \begin{itemize}
+    \item 
+      дискретной, если её функция распределения дискретная.
+
+    \item 
+      абсолютно непрерывной, если её функция распределения абсолютно непрерывна. 
+      В этом случае
+      \begin{align*}
+        P(\xi \leq x) = F_\xi (x) = \int_{-\infty}^{x} p_\xi (t)\, dt
+      \end{align*}
+      и функция $p_\xi (t)$ называется плотностью случайной величины $\xi$.\\
+
+    \item
+      сингулярной, если её функция распределения сингулярна
+
+    \item
+      непрерывной, если её функция рапределения непрерывна.
+  \end{itemize}
+\end{definition}
+
+\begin{definition}
+  Пусть $\xi = (\xi_1, \ldots, \xi_n)$ -- случайный вектор на $(\Omega, \setF, P)$. 
+  Тогда его \emph{функцией распределения} называется 
+  \begin{align*}
+    F_\xi (x_1, \ldots, x_n) = P(\xi_1 \leq x_1, \ldots, \xi_n \leq x_n).
+  \end{align*}
+\end{definition}
+\bigtitle{Порожденная $\sigma$-алгебра}
+
+\begin{definition}
+  Пусть $\xi$ - случайная величина на $(\Omega, \setF, P)$. 
+  Тогда \emph{$\sigma$-алгеброй $\setF_\xi$, порожденной $\xi$} называется
+  \begin{align*}
+    \setF_\xi = \condset{\{ \xi \in B \}}{B \in B(\setR)}
+  \end{align*}
+\end{definition}
+
+\begin{definition}
+  Если $\xi$ -- случайный вектор размерности $n$ на $(\Omega, \setF, P)$, 
+  то $\sigma$-алгеброй, порожденной $\xi$ называется
+  \begin{align*}
+    \setF_\xi = \condset{\{ \xi \in B \}}{B \in B(\setRn)}
+  \end{align*}
+\end{definition}
+
 \subsection{Примеры конкретных распределений}
+
 
 \section{Билет №3}
 \subsection{Матожидание случайной величины: опр-ние для простых, неотрицательных, произвольних с.в.}
+Пусть $(\Omega, \setF, P)$ -- вероятностное пространство, $\xi$ - случайная величина на нем. 
+Что такое $E \xi$?
+
+Простые случайные величины.
+
+Пусть $\xi$ -- простая случайная величина, т.е. 
+\begin{align*}
+  \xi = \sum_{k = 1}^{n} x_k I_{A_k},
+\end{align*}
+где $x_1 \ldots x_n$ -- различные числа, $A_1, \ldots, A_n$ 
+-- разбиение $\Omega$, т.е. $A_k = \{ \xi = x_k \}$
+
+\begin{definition}
+  Для простой случайной величины $\xi$ её математическим ожиданием называют
+  \begin{align*}
+    E\xi = \sum_{k = 1}^n x_k P(A_k)
+  \end{align*}
+\end{definition}
+
+\begin{definition}
+  Пусть $\xi$ -- неотрицательная случайная величина, 
+  а $\{ \xi_n,\, n \in \setN \}$ -- $\forall$ последовательность неотрицательных 
+  простых случайных величин, т.ч. $\xi_n \uparrow \xi$. 
+
+  Тогда $E \xi_n \leq E \xi_{n + 1} \implies \exists$ предел $E \xi_n$ и
+  \begin{align*}
+    E \xi := \lim_{n \to \infty} E \xi_n
+  \end{align*}
+\end{definition}
+
+\begin{definition}
+  Пусть $\xi$ -- произвольная случайная величина, $\xi = \xi^+ - \xi^-$
+
+  \begin{enumerate}
+    \item 
+      Если $E \xi^+$ и $E \xi^-$ -- конечны, то 
+      $\boxed{E\xi := E \xi^+ - E \xi^-}$
+
+    \item 
+      Если $E \xi^+ = +\infty$ и $E \xi^-$ -- конечно, то $\boxed{E\xi := +\infty}$
+
+    \item
+      Если $E \xi^+$ конечно и $E \xi^- = +\infty$, то $\boxed{E\xi := -\infty}$
+
+    \item 
+      Если $E \xi^+$ = $E \xi^-$ $= +\infty$, то $E \xi \text{ не существует(не определено)}$
+
+  \end{enumerate}
+\end{definition}
+\begin{remark}~
+  \begin{enumerate}
+    \item
+      Математическое ожидание случайной величины это интеграл Лебега по вероятностной мере~$P$
+      \begin{align*}
+        E\xi := \int\limits_{\Omega} \xi dP = \int\limits_{\Omega} \xi(\omega) P(d\omega)
+      \end{align*}
+
+    \item
+      $E\xi$ -- конечно $\iff E|\xi|$ -- конечно.
+
+    \item
+      Множество случ. величин $\xi$ на $(\Omega, \setF, P)$ с условием: $E\xi$ -- конечно, образует
+      пространство $L^1(\Omega, \setF, P)$. Далее мы убедимся, что это линейное пространство.
+
+  \end{enumerate}
+\end{remark}
+
 \subsection{Основные свойства матожидания (док-ва только для простых с.в.)}
+\begin{enumerate}
+  \item $\xi = c = const \implies E\xi = c$
+  \item 
+    Линейность
+    \begin{align*}
+      E(a\xi + b\eta) = a E \xi + b E \eta, \quad a, b \in \setR
+    \end{align*}
+
+    \begin{proof}
+      Обозначим $\zeta = a\xi + b\eta$, пусть $\xi$ принимает значения $x_1 \ldots x_n$, 
+      $\eta$ -- значения $y_1 \ldots y_m$, $\zeta$ -- значения $z_1 \ldots z_l$
+
+      Обозначим $C_{k, j} = \{ \xi = x_k, \eta = y_j \}$.\\
+      Тогда 
+      \begin{align*}
+        &E\zeta = \sum_{i = 1}^l z_i P(\zeta = z_i) = \sum_{i = 1}^l z_i 
+        \sum_{\substack{k,j:\\ a x_k + b y_j = z_i}} P(\xi = x_k, \eta = y_j) =\\
+        &\sum_{i = 1}^l \sum_{\substack{k,j:\\ a x_k + b y_j = z_i}} (a x_k + b y_j) 
+        P(\xi = x_k, \eta = y_j) =\\
+        &\sum_{k = 1}^n \sum_{j = 1}^m (a x_k + b y_j) P(\xi = x_k, \eta = y_j) =\\
+        &\sum_{k = 1}^n a x_k P(\xi = x_k) + \sum_{j = 1}^m b y_j P(\eta = y_j) = a E \xi + b E \eta
+      \end{align*}
+
+    \end{proof}
+
+  \item Если $\xi \geq 0$, то $E \xi \geq 0$
+    \begin{proof}
+      Если $\xi \geq 0$, то все $x_k \geq 0 \implies E \xi \geq 0$
+    \end{proof}
+
+  \item Если $\xi \leq \eta$, то $E \xi \leq E \eta$
+    \begin{proof}
+      Рассмотрим $\zeta = \eta - \xi \geq 0$. По свойству 3\\
+        \begin{align*}
+          0 \leq E \zeta = E (\eta - \xi) = E \eta - E \xi
+        \end{align*}
+    \end{proof}
+\end{enumerate}
 \subsection{Дисперсия, ковариация, их св-ва}
+
+\begin{definition}
+  \emph{Дисперсией} с.в. $\xi$ называют
+  \begin{equation*}
+    D\xi = E(\xi - E\xi)^2, \quad \text{если $E\xi$ существует}
+  \end{equation*}
+\end{definition}
+
+\begin{definition}
+  \emph{Ковариацией} случайных величин $\xi$ и $\eta$ называют
+  \begin{align*}
+    \cov(\xi, \eta) = E(\xi - E\xi) (\eta - E\eta)
+  \end{align*}
+  Если $\cov(\xi, \eta) = 0$, то $\xi$ и $\eta$ называются \emph{некоррелированными}.
+\end{definition}
+
+Если $D\xi$ и $D\eta$ -- конечны и положительны, то можно определить расстояние
+\begin{align*}
+  \rho(\xi, \eta) = \frac{\cov(\xi, \eta)}{\sqrt{D \xi D \eta}}
+\end{align*}
+
+которое называется \emph{коэффициентом корреляции} $\xi$ и $\eta$
+
+\begin{lem}[свойства дисперсии и ковариации]~
+
+  Если все математические ожидания конечны, то 
+  \begin{enumerate}
+    \item 
+      Ковариация билинейна.
+
+    \item 
+      $cov(\xi, \eta) = E \xi \eta - E\xi E\eta$
+
+      $D\xi = cov(\xi, \xi) = E\xi^2 - (E \xi)^2$
+
+    \item 
+      $D(c\, \xi) = c^2 D \xi, D(\xi + c) = D \xi$
+
+    \item 
+      Неравенство Коши-Буняковского.
+      \begin{align*}
+        |E\xi \eta|^2 \leq E\xi^2 E\eta^2
+      \end{align*}
+
+    \item 
+      $|\rho(\xi, \eta)| \leq 1$, 
+      причем $\rho(\xi, \eta) = 1 \iff \xi$ и $\eta$ -- п.н. линейно зависимы.
+  \end{enumerate}
+
+\end{lem}
+
+\begin{proof}~
+
+  Свойства $1) - 3)$ легко вытекают из свойств математического ожидания.
+
+  \begin{enumerate}[start=4]
+    \item 
+      Рассмотрим для $\lambda \in \setR:$
+      \begin{align*}
+        f(\lambda) = E(\xi + \lambda \eta)^2 \geq 0
+      \end{align*}
+      Но $f(\lambda) = E \xi^2 + 2E \xi \eta \lambda + \lambda^2 E \eta^2 \geq 0$
+      $\iff$ дискриминант $\leq 0$, т.е.
+      $4 [(E \xi \eta)^2 - E \xi^2 E\eta^2] \leq 0$
+
+    \item 
+      Рассмотрим $\xi_1 = \xi - E \xi$, $\eta_1 = \eta - E \eta$
+
+      Тогда $\cov(\xi, \eta) = E \xi_1 \eta_1,\quad D \xi = E \xi_1^2,\quad D \eta = E\eta_1^2$
+
+      $\implies |\rho(\xi, \eta)| = 
+      \walls{\frac{E \xi_1 \eta_1}{\sqrt{E \xi_1^2 E\eta_1^2}}} \leq 1$, 
+      по нер-ву Коши-Буняковского.
+
+      При этом $|\rho(\xi, \eta)| = 1 \iff$ дискриминант $= 0 
+      \iff \exists ! \lambda_0 \in \setR$ т.ч. $f(\lambda_0) = 0$. 
+      т.е. $E(\xi_1 + \lambda_0 \eta_1)^2 = 0$
+
+      $\implies \xi_1 + \lambda_0 \eta_1 = 0$ п.н. т.е.
+      \begin{align*}
+        \xi = E \xi - \lambda_0 (\eta - E \eta) \text{ п.н.}
+      \end{align*}
+  \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+  Если $\xi_1, \ldots, \xi_n$ -- попарно некоррелируют, $D \xi_i < +\infty$, тогда
+  \begin{align*}
+    D(\xi_1 + \ldots \xi_n) = \sum_{k = 1}^{n} D\xi_k
+  \end{align*}
+\end{corollary}
+\begin{definition}
+  Пусть $\xi = (\xi_1, \ldots, \xi_n)$ -- случ. вектор.
+
+  Тогда его \emph{мат. ожиданием} называется вектор из мат. ожиданий его компонент:
+  \begin{align*}
+    E \xi = (E\xi_1, \ldots, E\xi_n)
+  \end{align*}
+\end{definition}
+
+\begin{definition}
+  \emph{Дисперсией} вектора $\xi$ называется его матрица ковариаций:
+  \begin{align*}
+    D\xi = \begin{Vmatrix}\cov(\xi_i, \xi_j)\end{Vmatrix}_{i, j = 1}^{n}\; 
+    \text{ --- матрица $n \times n$}
+  \end{align*}
+
+\end{definition}
 
 \section{Билет №4}
 \subsection{Сходимость случайных величин: по вероятности, по распределению, почти наверное, в среднем}
+\begin{definition}~
+
+  \begin{enumerate}
+    \item 
+      Последовательность случайных величин $\{ \xi_n,\; n \in \setN \}$ 
+      \emph{сходится по вероятности} к случайной величине $\xi$ 
+      (обозначение $\xi_n \toup{p} \xi$), если для $\forall \epsilon > 0:$
+      \begin{align*}
+        P\pars{|\xi_n - \xi| \geq \epsilon} \todown{n \to \infty} 0
+      \end{align*}
+
+    \item 
+      Последовательность случайных величин $\{ \xi_n,\; n \in \setN \}$ 
+      \emph{сходится с вероятностью 1} к случайной величине $\xi$ 
+      (или сходится \emph{почти наверное}), если 
+      \begin{align*}
+        P(\omega : \lim_{n \to \infty} \xi_n (\omega) = \xi(\omega)) = 1
+      \end{align*}
+
+      Обозначения: $\xi_n \toae \xi,\; \xi_n \to \xi \text{ п.н.}$ или 
+      $\xi_n \to \xi\; P\text{-п.н.}$
+
+    \item 
+      Последовательность случайных величин $\{ \xi_n,\; n \in \setN \}$ 
+      \emph{сходится в среднем порядка $p > 0$} к случайной величине $\xi$
+      (или \emph{сходится в пространстве $L^p$}), если
+      \begin{align*}
+        E|\xi_n - \xi|^p \todown{n \to \infty} 0
+      \end{align*}
+      
+      Обозначение: $\xi_n \toup{L^p} \xi$
+
+    \item 
+      Последовательность случайных величин $\{ \xi_n, n \in \setN \}$ 
+      \emph{сходится по распределению} к случайной величине $\xi$, 
+      если для $\forall$ ограниченой непрерывной ф-ции $f(x)$ выполнено
+      \begin{align*}
+        E f(\xi_n) \todown{n \to \infty} E f(\xi)
+      \end{align*}
+      
+      Обозначение: $\xi_n \toup{d} \xi$\\
+  \end{enumerate}
+\end{definition}
+
 \subsection{Связь между сходимостями (б/д). Теорема о наследовании сходимости}
+\begin{theorem}[взаимоотношение различных видов сходимости]~
+
+  Выполнены соотношение
+  \begin{enumerate}
+    \item $\xi_n \toae \xi \implies \xi_n \toup{P} \xi$
+    \item $\xi_n \toup{L^P} \xi \implies \xi_n \toup{P} \xi$
+    \item $\xi_n \toup{P} \xi \implies \xi_n \toup{d} \xi$
+  \end{enumerate}
+\end{theorem}
+
+
+
 
 \section{Билет №5}
 \subsection{Неравенства Маркова и Чебышева. ЗБЧ в форме Чебышева}
+\begin{enumerate}[label=\protect\circled{\arabic*},series=inequalities]
+
+  \item
+    \bigtitle{Неравенство Маркова}
+
+    Пусть $\xi \geq 0$ -- неотрицательная случайная величина. 
+
+    Тогда для $\forall \epsilon > 0:$ \quad
+    $
+      \boxed{
+        P(\xi \geq \epsilon) \leq \frac{E \xi}{\epsilon}
+      }
+    $
+
+    \begin{proof}
+        $P(\xi \geq \epsilon) = E\, I \{ \xi \geq \epsilon \} 
+        \leq E\pars{\dfrac{\xi}{\epsilon}\, I \{ \xi \geq \epsilon \}}
+        \leq E\pars{\dfrac{\xi}{\epsilon}} = \dfrac{E \xi}{\epsilon}$
+    \end{proof}
+
+  \item
+    \bigtitle{Неравенство Чебышева}
+
+    Если $D\xi < +\infty$, то для $\forall \epsilon > 0:$
+    $
+      \boxed{
+        P(|\xi - E \xi| \geq \epsilon) \leq \frac{D\xi}{\epsilon^2}
+      }
+    $
+
+    \begin{proof}
+      \begin{align*}
+        P(|\xi - E \xi| \geq \epsilon) = P(|\xi - E\xi|^2 \geq \epsilon^2) 
+        \leq \expl{нер-во Маркова} \leq \frac{E\walls{\xi - E\xi}^2}{\epsilon^2} = 
+        \frac{D\xi}{\epsilon^2}
+      \end{align*}
+    \end{proof}
+\end{enumerate}
+
+\begin{theorem}[Закон больших чисел в форме Чебышева]~
+
+  Пусть $\{ \xi_n,\; n \in \setN \}$ -- последовательность попарно некоррелированных случайных величин, т.ч. $\forall n : D\xi_n \leq C$.
+
+  Обозначим $S_n = \xi_1 + \ldots + \xi_n$. Тогда
+  \begin{align*}
+    \frac{S_n - E S_n}{n} \toup{P} 0, \quad n \to \infty
+  \end{align*}
+
+\end{theorem}
+
+\begin{proof}
+  \begin{align*}
+    &P\pars{\walls{\frac{S_n - E S_n}{n}} \geq \epsilon} \leq \expl{нер-во Чебышева}
+    \leq \frac{D\pars{\frac{S_n - E S_n}{n}}}{\epsilon^2} = 
+    \frac{D(S_n - E S_n)}{n^2 \epsilon^2} =\\
+    &= \frac{D S_n}{n^2 \epsilon^2} = \expl{$\xi_i$ и $\xi_j$ - некорр.}
+    = \frac{\sum_{j = 1}^n D \xi_j}{n^2 \epsilon^2} \leq 
+    \frac{C n}{n^2 \epsilon^2} \todown{n \to \infty} 0
+  \end{align*}
+\end{proof}
+
+
+\bigtitle{Смысл ЗБЧ:}
+
+$\xi_1 \ldots \xi_n \ldots$ -- результаты независимых проведений одного и того же эксперимента. 
+
+Тогда их среднее арифметическое сходится к среднему значению результата одного эксперимента $E\xi_i$
+
+Если $\xi_i$ -- индикаторы наступления некоторого события $A$:
+\begin{align*}
+  \xi_i = I \{ A \text{ наступило в $i$-м эксперименте}\}
+\end{align*}
+
+то
+\begin{align*}
+  \frac{\xi_1 + \ldots + \xi_n}{n} \toup{P} E \xi_i = P(A)
+\end{align*}
+
+Таким образом ЗБЧ --- это принцип устойчивости частот.
+
 \subsection{УЗБЧ(все) (б/д)}
+\begin{theorem}[Усиленный закон больших чисел в форме Колмогорова-Хинчина]~
+
+  Пусть $\{ \xi_n,\; n \in \setN \}$ -- независимые с.в. т.ч. $D \xi_n < +\infty \forall n$.
+
+  Пусть последовательность $\{ b_n,\; n \in \setN \}$ т.ч. $b_n > 0, b_n \uparrow +\infty$ и
+  \begin{align*}
+    \sum_{n = 1}^{\infty} \frac{D \xi_n}{b_n^2} < +\infty
+  \end{align*}
+
+  Обозначим $S_n = \xi_1 + \ldots \xi_n$.
+  Тогда 
+  \begin{align*}
+    \boxed{\frac{S_n - E S_n}{b_n} \toae 0} \quad (\text{при } n \to \infty)
+  \end{align*}
+\end{theorem}
+\begin{theorem}[Усиленный закон больших чисел в форме Колмогорова]~
+
+  Пусть $\{ \xi_n,\; n \in \setN \}$ -- независимые одинаково распределенные случ. величины 
+  (н.о.р.с.в), т.ч: $E |\xi_i| < +\infty$. 
+
+  Тогда
+  \begin{align*}
+    \frac{\xi_1 + \ldots + \xi_n}{n} \toae m = E \xi_1
+  \end{align*}
+\end{theorem}
 
 \section{Билет №6}
 \subsection{Характеристические функции с.в и векторов. Их св-ва}
+\begin{definition}
+  Характеристической функцией с.в. $\xi$ называется
+  \begin{align*}
+    \phi_{\xi} (t) = E e^{i t \xi}, \quad t \in \setR
+  \end{align*}
+\end{definition}
+
+\begin{remark}
+  Характеристическая функция, вообще говоря, явл. комплекснозначной. 
+  Мы понимаем $E e^{i t \xi}$ как
+  \begin{align*}
+    E e^{i t \xi} = E \cos(t\xi) + i E \sin(t \xi)
+  \end{align*}
+\end{remark}
+
+\begin{definition}
+  Пусть $F(x),\; x \in \setR$ -- функция распределения на $\setR$\\
+  Её характеристической функцией наз.
+  \begin{align*}
+    \phi(t) = \int\limits_{\setR} e^{i t \xi} dF(x)
+  \end{align*}
+
+  Если $P$ -- вероятностная мера на $(\setR, B(\setR))$, то её характеристической ф-ей наз.
+  \begin{align*}
+    \phi(t) = \int\limits_{\setR} e^{it\xi} P(dx)
+  \end{align*}
+\end{definition}
+
+\begin{corollary}
+  $\phi_\xi (t)$ -- х.ф. с.в. $\xi \iff  \phi_{\xi} (t)$ -- х.ф. $F_{\xi}(x)$
+  $\iff \phi_{\xi} (t)$ -- х.ф. $P_{\xi}$ (распр. $\xi$)
+
+  \begin{proof}
+    \begin{align*}
+      \phi_{\xi} (t) = E e^{i t \xi} = \int\limits_{\setR} e^{i t x} P_{\xi} (dx) 
+      = \int\limits_{\setR} e^{i t x} dF_{\xi} (x)
+    \end{align*}
+  \end{proof}
+
+\end{corollary}
+
+\begin{definition}
+  Пусть $\xi = (\xi_1, \ldots, \xi_n) $ -- случайный вектор.
+  Его характеристической функцией наз.
+  \begin{align*}
+    \phi_{\xi} (t) = E e^{i \langle t, \xi \rangle}, \text{ где } t = (t_1, \ldots, t_n) \in \setRn, 
+    \text{ а } \langle t, \xi \rangle = \sum_{i = 1}^{n} t_i \xi_i
+  \end{align*}
+\end{definition}
+
+\begin{definition}
+  Пусть $F(x), \; x \in \setR$ -- функция распр. в $\setRn$.
+
+  Её х.ф. наз.
+  \begin{align*}
+    \phi(t) = \int\limits_{\setRn} e^{i \langle t, x \rangle} dF(x),\quad t \in \setRn
+  \end{align*}
+
+  Если $P$ -- вероятностная мера в $\setRn$ , то её х.ф. наз
+  \begin{align*}
+    \phi(t) = \int\limits_{\setRn} e^{i \langle t, x \rangle} P(dx),\quad t \in \setRn
+  \end{align*}
+\end{definition}
+
+\begin{corollary}
+  Если $\xi = (\xi_1, \ldots, \xi_n)$ -- сл. вектор, то
+  $\phi_\xi(t)$ -- х.ф. $\xi \iff \phi_\xi(t)$ -- х.ф. $F_\xi (x), x~\in~\setRn
+  \iff \phi_\xi (t)$ -- х.ф. $P_\xi$
+\end{corollary}
+\bigtitle{Основные свойства характеристических функций}
+
+\begin{enumerate}[label=\protect\circled{\arabic*},series=charfunc_properties]
+  \item
+    Пусть $\phi(t)$ -- х.ф. с.в. $\xi$. 
+
+    Тогда $|\phi(t)| \leq \phi(0) = 1, \; \forall t \in \setR$
+    \begin{proof}
+      \begin{align*}
+        |\phi(t)| = |E e^{i t \xi}| \leq E |e^{i t \xi}| = 1 = \phi(0)
+      \end{align*}
+    \end{proof}
+
+  \item 
+    Пусть $\phi(t)$ -- хар. ф. с.в. $\xi$, а $\eta = a \xi + b, \; a, b \in \setR$.
+    Тогда
+    \begin{align*}
+      \phi_{\eta} (t) = e^{i t b} \phi_{\xi} (t a)
+    \end{align*}
+
+    \begin{proof}
+      \begin{align*}
+        \phi_{\eta} (t) = E e^{i t \eta} = E e^{i t (a \xi + b)} 
+        = e^{i t b} E e^{i (a t) \xi} = e^{i t b} \phi_\xi (at)
+      \end{align*}
+    \end{proof}
+
+  \item
+    Пусть $\phi(t)$ -- х.ф.с.в. $\xi$. 
+    Тогда $\phi(t)$ равномерно непрерывна на $\setR$.
+
+    \begin{proof}
+      \begin{align*}
+        |\phi(t + h) - \phi(t)| = \walls{E e^{i (t + h) \xi} - E e^{i t \xi}} 
+        = \walls{E(e^{i(t + h)\xi} - e^{i t \xi})} = \walls{E(e^{i t \xi} (e^{i h \xi} - 1))}
+        = E |e^{i h \xi} - 1|
+      \end{align*}
+      
+      При $h \to 0, \; e^{i h \xi} - 1 \to 0$ п.н. 
+
+      Кроме того, $E|e^{i h \xi} - 1| \leq 2 \implies$
+      по теореме Лебега о мажорируемой сходимости:
+
+      $E|e^{i h \xi} - 1| \todown{h \to 0} 0$ 
+      $\implies \phi(t)$  равномерно непрерывна на $\setR$.
+    \end{proof}
+
+  \item
+    Пусть $\phi(t)$ -- х.ф. с. в. $\xi$. Тогда $\phi(t) = \conj{\phi(-t)}$
+
+    \begin{proof}
+      \begin{align*}
+        \phi(t) = E e^{i t \xi} = E e^{\conj{-i t \xi}} = \conj{E e^{-i t \xi}} = \conj{\phi(-t)}
+      \end{align*}
+    \end{proof}
+
+  \item
+    Пусть $\phi(t)$ -- х.ф. с.в. $\xi$. 
+    Тогда $\phi(t)$ -- действительнозначная $\iff$ распределение $\xi$ 
+    симметрично, т.е. $\forall B \in B(\setR)$
+    \begin{align*}
+      P(\xi \in B) = P(\xi \in -B)
+    \end{align*}
+
+    \begin{proof}~
+
+      $(\impliedby)$ Пусть распр. $\xi$ -- симметрично. 
+      Тогда $\xi \equp{d} -\xi \implies$
+      \begin{align*}
+        &E sin(t\xi) = E sin(-t\xi) = -E sin(t\xi)\\
+        &\implies E sin(t\xi) = 0 \implies \phi(t) = E e^{i t \xi} = E cos(t \xi) \in \setR
+      \end{align*}
+      -- действительнозначная.\\
+
+      $(\implies)$ Пусть $\phi(t) \in \setR, \, \forall t \in \setR$.
+      Тогда по свойствам \circled{2} и \circled{4}.
+      \begin{align*}
+        \phi(t) = \phi_\xi (t) = \overline{\phi_\xi (-t)} = \phi_{\xi} (-t) = \phi_{-\xi} (t)
+      \end{align*}
+      т.е. у $\xi$ и у $-\xi$  одинаковая х.ф. 
+      $\implies$ по теореме о единственности функции распр. $\xi$ и $-\xi$ совпадают.
+
+      $\implies \xi \equp{d} -\xi$ и, значит, для $\forall B \in B(\setR):$
+      \begin{align*}
+        P(\xi \in B) = P(-\xi \in B) = P(\xi \in -B)
+      \end{align*}
+    \end{proof}
+
+    \item
+      Пусть $\xi_1, \ldots, \xi_n$ -- независимые с.в., $S_n = \xi_1 + \ldots + \xi_n$
+      Тогда 
+      \begin{align*}
+        \phi_{S_n} (t) = \prod_{k = 1} \phi_{\xi_k} (t)
+      \end{align*}
+
+      \begin{proof}
+        \begin{align*}
+          &\phi_{S_n} (t) = E e^{i S_n t} = E e^{i \xi_1 t} \ldots e^{i \xi_n t} 
+          = \expl{с.в независимы $\implies$ $e^{\text{с.в}}$ независимы} =\\
+          &= \pars{E e^{i \xi t}} \ldots \pars{E e^{i \xi_n t}} 
+          = \prod_{k = 1}^{n} \phi_{\xi_k} (t)
+        \end{align*}
+      \end{proof}
+
+\end{enumerate}
+
 \subsection{Теорема непрерывности (б/д)}
+\begin{theorem}[непрерывности]~
+
+  Пусть $\{ F_n(x),\; n \in \setN \}$ -- последовательность ф.р. на $\setR$, 
+  а $\{ \phi_n(t),\; n \in \setN \}$ -- последовательность их х.ф.
+
+  Тогда
+  \begin{enumerate}
+    \item
+      Если $F_n \toup{w} F$, где $F(x)$ -- ф.р. на $\setR$, 
+      то для $\forall t \in \setR: \phi_n(t) \to \phi(t)$ при $n \to \infty$, 
+      где $\phi(t)$ - х.ф. $F(x)$
+
+    \item
+      Пусть для $\forall t \in \setR \quad \exists$ предел $\lim\limits_{n \to \infty} \phi_n (t)$,
+      причем $\phi(t) = \lim\limits_{n \to \infty} \phi_n(t)$ непрерывна в нуле. 
+      Тогда $\exists$ ф.р. $F(x)$ т.ч. $F_n \toup{w} F$ и $\phi(t)$ - х.ф. $F(x)$
+  \end{enumerate}
+ \end{theorem}
 
 \section{Билет №7}
 \subsection{ЦПТ для незав. одинаково распр-х с.в.}
+\begin{theorem}[Центральная предельная теорема]~
+
+  Пусть $\{ \xi_n,\; n \in \setN \}$ -- 
+  последовательность независимых одинаково распределенных с.в. т.ч. 
+  $0 < D \xi_n < +\infty$. 
+
+  Обозначим $S_n = \xi_1 + \ldots + \xi_n$
+  Тогда
+  \begin{align*}
+    \frac{S_n - E S_n}{\sqrt{D S_n}} \toup{d} N(0, 1)
+  \end{align*}
+
+  \begin{proof}~
+
+    Обозначим $a = E \xi_i, \sigma^2 = D \xi_i$. 
+    Рассмотрим $\eta_i = \frac{\xi_i - a}{\sigma}
+    \implies E \eta_i = 0, D \eta_i = E \eta_i^2 = 1$
+
+    Тогда
+    \begin{align*}
+      T_n = \frac{S_n - E S_n}{\sqrt{D S_n}} = \expl{независимость}
+      = \frac{S_n - na}{\sqrt{n} \sigma} = \frac{\eta_1 + \ldots \eta_n}{\sqrt{n}}
+    \end{align*}
+
+    Рассмотрим х.ф. $\eta_i:$
+    \begin{align*}
+      \phi_{\eta_i} (t) = \phi(t) = 1 + E \eta_i (i t) + 
+      \frac{1}{2} E \eta_i^2 (it)^2 + \underset{(t \to 0)}{o(t^2)};
+    \end{align*} 
+
+    Отсюда получаем, что 
+    \begin{align*}
+      &\phi_{T_n} (t) = \phi_{\eta_1 + \ldots + \eta_n} (\frac{t}{\sqrt{n}}) 
+      = \expl{независимость} = \pars{\phi\pars{\frac{t}{\sqrt{n}}}}^n 
+      = \pars{1 - \frac{t^2}{2n} + o\pars{\frac{t^2}{n}}}^n 
+      \todown{n \to \infty} e^{- \frac{t^2}{2}}
+    \end{align*}
+    Но $e^{-\frac{t^2}{2}}$ -- х.ф. $N(0, 1)$ 
+    $\implies$ по теорема непрерывности мы получаем, что 
+    \begin{align*}
+      T_n = \frac{S_n - E S_n}{\sqrt{D S_n}} \toup{d} N(0, 1)
+    \end{align*}
+  \end{proof}
+\end{theorem}
+
+\begin{corollary}
+  В условиях ЦПТ для $\forall x \in \setR$ выполнено
+  
+  \begin{align*}
+    P\pars{\frac{S_n - E S_n}{\sqrt{D S_n}} \leq x} 
+    \todown{n \to \infty} \int\limits_{-\infty}^{x} \frac{1}{\sqrt{2\pi}} e^{-\frac{y^2}{2}} dy
+  \end{align*}
+
+  \begin{proof}
+    По ЦПТ $T_n = \frac{S_n - E S_n}{\sqrt{D S_n}} \toup{d} \xi \sim N(0, 1) 
+    \iff F_{T_n} \implies F_{\xi}$, где $F_{\xi} (x)$  -- ф.р. $N(0, 1)$, т.е.
+    $\forall x \in \setR:$
+    \begin{align*}
+      F_{T_n} \todown{n \to \infty} F_{\xi} (x) 
+      = \int\limits_{-\infty}{x} \frac{1}{\sqrt{2 \pi}} e^{-\frac{y^2}{2}} dy
+    \end{align*}
+  \end{proof}
+\end{corollary}
+
+\begin{corollary}
+  В условиях ЦПТ, если $E \xi_i = a, D \xi_i = \sigma^2$, то
+  \begin{align*}
+    \sqrt{n} \pars{\frac{S_n}{n} - a} \toup{d} N(0, \sigma^2)
+  \end{align*}
+
+  \begin{proof}
+    \begin{align*}
+      \sigma T_n = \sigma \frac{S_n - E S_n}{\sqrt{D S_n}} 
+      = \sigma \frac{S_n - na}{\sqrt{n} \sigma} = \sqrt{n} \pars{\frac{S_n}{n} - a}
+    \end{align*}
+
+    Но $T_n \toup{d} N(0, 1) \implies \sigma T_n \toup{d} \sigma N(0, 1) = N(0, \sigma^2)$
+
+    $\implies \sqrt{n} \pars{\frac{S_n}{n} - a} \toup{d} N(0, \sigma^2)$
+  \end{proof}
+\end{corollary}
+
 
 \section{Билет №8}
 \subsection{Выборка, выборочное пр-во. Точные оценки параметров и их св-ва: смещенность, состоятельность, асимптотическая нормальность}
