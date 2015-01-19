@@ -20,6 +20,10 @@
 \newtheorem{lem}{Lemma}
 \newtheorem*{proposition-star}{Proposition}
 \newtheorem{proposition}{Proposition}
+\newtheorem{statement}{Statement}
+\newtheorem*{statement-star}{Statement}
+\newtheorem{corollary}{Corollary}
+\newtheorem*{corollary-star}{Corollary}
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
@@ -27,8 +31,14 @@
 \theoremstyle{definition}
 \newtheorem*{definition-star}{Definition}
 \newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem*{example-star}{Example}
 
 \renewenvironment{proof}{{\bfseries Proof}}{$\bullet$}
+
+\newcommand{\combus}[2]{\left(\begin{smallmatrix}#1 \\ #2 \end{smallmatrix} \right)} % american style for C_n^k
+\newcommand{\combru}[2]{C_{#1}^{#2}} % russian C_n^k
+\newcommand{\comb}[2]{\combru{#1}{#2}}
 
 \newcommand{\myequat}[1]{\begin{equation} #1 \nonumber \end{equation}}
 \newcommand{\pars}[1]{\left( #1 \right)} 
@@ -42,24 +52,331 @@
 \newcommand{\myM}{\mathcal{M}}
 \newcommand{\myO}{(1+o(1))}
 
+\newcommand{\mysetP}{\mathcal{P}}
+\newcommand{\mysetR}{\mathcal{R}}
+\newcommand{\mysetM}{\mathcal{M}}
+\newcommand{\mysetN}{\mathcal{N}}
+\newcommand{\mysetX}{\mathcal{X}}
+
+\newcommand{\mysum}{\sum\limits}
+\newcommand{\myprod}{\prod\limits}
+\newcommand{\mylim}{\lim\limits}
+
+\newcommand{\myset}[1]{\left\{ #1 \right\}}
+
+\newcommand{\walls}[1]{\left | #1 \right |} % |smth_vertically_large|
+\newcommand{\bra}[1]{\langle #1 \rangle} % brackets for span of vectors, eg. <e_1, ..., e_k>
+
 \begin{document}
 \maketitle
 
 \section{Билет №1}
 \subsection{Правила комбинаторики: правила сложения, умножения, принцип Дирихле. Формула включения и исключения}
+
+\begin{definition}{Правило сложения}
+	\newline
+	Если есть два набора объектов, причем в первом $N$ объектов $a_1, \ldots, a_n$, во втором $M$ объектов $b_1, \ldots, b_m$. 
+Тогда есть $N+M$ способов выбрать объект либо из первого множества, либо из второго.
+\end{definition}
+
+\begin{definition}{Правило умножения}
+	\newline
+	Если есть два набора объектов, причем в первом $N$ объектов $a_1, \ldots, a_n$, во втором $M$ объектов $b_1, \ldots, b_m$. 
+Тогда есть $NM$ способов выбрать объект сначала из первого множества, затем из второго.
+\end{definition}
+
+\begin{definition}{Принцип Дирихле}
+	\newline
+	Если есть $N$ ящиков и $N+1$ кролик, то для любой рассадки кроликов по ящикам найдется ящик, в котором находится не менее двух кроликов.
+\end{definition}
+\subsubsection{Формула включения-исключения}
+
+Рассмотрим произвольное $N$ объектов $a_1, a_2, \ldots, a_N$. Выделим некоторые свойства $\alpha_1, \alpha_2, \ldots, \alpha_N$, которые могут быть присущи некоторым объектам.
+
+	Пусть $N(\alpha_i)$ "--- количество объектов, обладающих свойством $\alpha_i$, $N(\alpha_i, \alpha_j)$ "--- количество объектов, обладающих свойствами $\alpha_i$ и $\alpha_j$ одновременно.
+
+	$\alpha_i'$ "--- отрицание свойства $\alpha_i$
+
+\begin{theorem}
+	$N(\alpha_1', \alpha_2', \ldots, \alpha_3') = N - N(\alpha_1) - N(\alpha_2) - \ldots - N(\alpha_n) + N(\alpha_1, \alpha_2) + N(\alpha_1,\alpha_3) + \ldots + N(\alpha_{N-1}\alpha_N) - N(\alpha_1, \alpha_2,\alpha_3) + \ldots \ldots + (-1)^n N(\alpha_1, \alpha_2, \ldots, \alpha_n)$
+\end{theorem}
+
+\begin{proof}
+	Докажем индукцией по $n$ \\
+	\underline{База индукции:} $\forall N\ \forall\ a_1, \ldots, a_N\ \forall\ \alpha_i N(\alpha_i') = N - N(\alpha_i)$ \\
+	\underline{Предположение:} $\forall N\ \forall\ a_1, \ldots, a_N\ \forall\ \alpha_1, \ldots, \alpha_n$ выполняется утверждение теоремы. \\
+	\underline{Шаг индукции:} $\forall N\ \forall\ a_1, \ldots, a_N\ \forall\ \alpha_1, \ldots, \alpha_{n+1}$ выполнено утверждение теоремы. \\
+	Зафиксируем произвольные $N$, $a_1, \ldots, a_N$, $\alpha_1, \ldots, \alpha_n$. Рассмотрим все из наших объектов, которые обладают свойством $\alpha_{n + 1}$. Обозначим их $\myset{b_1, b_2, \ldots, b_M} \subset \myset{a_1, \ldots, a_N}$, где $M = N(\alpha_{n + 1})$. Применим предположение индукции к объектам $\myset{b_1, \ldots, b_M}$ и свойствам $\myset{\alpha_1, \ldots, \alpha_n}$. $M(\alpha_1', \ldots, \alpha_n') = M - M(\alpha_1) - \ldots - M(\alpha_n) + M(\alpha_1\alpha_2) + \ldots + (-1)^nM(\alpha_1, \ldots, \alpha_n)$. \\
+	$N(\alpha_1', \alpha_2', \ldots, \alpha_n', \alpha_{n+1}) = N(\alpha_{n + 1}) - \ldots - N(\alpha_1, \alpha_{n+1}) - \ldots - N(\alpha_n, \alpha_{n + 1}) + \ldots + (-1)^nN(\alpha_1, \ldots, \alpha_n,\alpha_{n+1})$. Применим предположение индукции к множеству $\myset{a_1, \ldots, a_N}$ и свойствам $\myset{\alpha_1, \ldots, \alpha_n}$ $N(\alpha_1',\ldots, \alpha_n') = N - N(\alpha_i) - \ldots + (-1)^nN(\alpha_1, \ldots, \alpha_n)$. \\
+	Вычтем полученные утверждения: $N(\alpha_1', \ldots, \alpha_n') - N(\alpha_1', \ldots, \alpha_n', \alpha_{n + 1}) = N(\alpha_1', \ldots, \alpha_n', \alpha{n + 1}') = N - N(\alpha_1) - \ldots - N(\alpha_n) - N(\alpha_{n + 1}) + \ldots + (-1)^{n + 1}N(\alpha_1, \alpha_2, \ldots, \alpha_n, \alpha_{n + 1})$
+\end{proof}
+
+Еще один вариант формулы включения-исключения. Рассмотрим множества $S_1, \ldots, S_n$. Тогда $\walls{S_1 \cup \ldots \cup S_n} = |S_1| + |S_2| + \ldots + (-1)^{n + 1} |S_1 \cap S_2 \cap \ldots \cap S_n|$
+
 \subsection{Размещения, сочетания и перестановки. Формула Стирлинга (б/д)}
+
+Пусть $A = \myset{a_1, \ldots, a_n}$. Можно составлять упорядоченные последовательности элементов $A$. А можно извлекать объекты "кучами", то есть без учета порядка. 
+Если мы рассматриваем $A$ как упорядоченную последовательность, то говорят о \emph{размещении} объектов. 
+Если же мы извлекаем объекты без учета порядка, то говорят о \emph{сочетании} объектов. Бывают размещения с повторениями и без повторений. 
+Аналогично, сочетания бывают с повторениями и без повторений.
+
+Будем говорить о $k$-сочетании и $k$-размещении, если в сочетании(размещении) ровно $k$ объектов.
+
+Пусть дано множество объектов $\myset{a_1, \ldots, a_n}$. 
+Обозначим через $\overline{A_n^k}$ число всех $k$-размезещений с повторениями и $A_n^k$ число всех $k$-размещений без повторения.
+Аналогично обозначим $\overline{C_n^k}$ и $C_n^k$ число $k$-размещений с повторениями и без повторений соответственно.
+
 
 \section{Билет №2}
 \subsection{Размещения, сочетания, перестановки}
+Пусть $A = \myset{a_1, \ldots, a_n}$. Можно составлять упорядоченные последовательности элементов $A$. А можно извлекать объекты "кучами", то есть без учета порядка. 
+Если мы рассматриваем $A$ как упорядоченную последовательность, то говорят о \emph{размещении} объектов. 
+Если же мы извлекаем объекты без учета порядка, то говорят о \emph{сочетании} объектов. Бывают размещения с повторениями и без повторений. 
+Аналогично, сочетания бывают с повторениями и без повторений.
+
+Будем говорить о $k$-сочетании и $k$-размещении, если в сочетании(размещении) ровно $k$ объектов.
+
+Пусть дано множество объектов $\myset{a_1, \ldots, a_n}$. 
+Обозначим через $\overline{A_n^k}$ число всех $k$-размезещений с повторениями и $A_n^k$ число всех $k$-размещений без повторения.
+Аналогично обозначим $\overline{C_n^k}$ и $C_n^k$ число $k$-размещений с повторениями и без повторений соответственно.
+
 \subsection{Формулы для чисел размещения и сочетания с повторениями и без}
+\begin{theorem}
+	$\overline{A_n^k} = n^k$
+\end{theorem}
+
+\begin{proof}
+	На первую позицию нашего размещения можно поставить любой и $n$ объектов. Как, впрочем, и на все остальные. Тогда по правилу умножения получаем $n^k$
+\end{proof}
+
+\begin{theorem}
+	$A_n^k = \frac{n!}{(n-k)!}$
+\end{theorem}
+
+\begin{proof}
+	На первую позицию нашего размещения можно поставить любой и $n$ объектов. На вторую "--- все, кроме того, который мы поставили на первую позицию, то есть любой из $n-1$ объектов. Иначе говоря, на $i$-тую позицию можно поставить объект $n-i$ способами. То есть $A_n^k = n(n-1)(n-2) \ldots (n-k+1) = \myprod_{i=0}^{k-1} n-i = \frac{n!}{(n-k)!}$
+\end{proof}
+
+\begin{theorem}
+	$C_n^k = \frac{A_n^k}{k!} = \frac{n!}{k!(n-k)!}$
+\end{theorem}
+
+\begin{proof}
+	Каждому $k$-сочетанию без повторений соответствует $k!$ различных размещений без повторения. 
+То есть $k! C_n^k = A_n^k$, откуда следует, что $C_n^k = \frac{A_n^k}{k!} = \frac{n!}{k!(n-k)!}$
+\end{proof}
+
+\begin{theorem}
+	$\overline{C_n^k} = C^k_{n+k-1}$
+\end{theorem}
+
+\begin{proof}
+	Рассмотрим исходное множество объектов ${a_1, \ldots, a_n}$. 
+Каждому $k$-сочетанию с повторениями поставим в соответствие некоторую последовательность из нулей и единиц.
+Ставить в соответствие последовательность из нулей и единиц мы будем по следующему алгоритму: пусть дано $k$-сочетание с повторениями.
+Рисуем в нашу последовательность столько единиц, сколько раз нам встретился элемент $a_i$, после этого рисуем ноль, если это не была последний, $n$-ный объект, и так делаем последовательно $n$ раз для каждого $i$ от $1$ до $n$.
+Всего у нас в нашей последовательности $k$ единиц, так как каждому элементу, входящему в наше сочетание с повторениями соответствует ровно одна единица и $n-1$ единиц. 
+Утвержается, что между такими $0,1$ векторами длины $n-k+1$ с $k$ единицами и сочетаниями с повторениями установилась биекция. 
+Но количество таких последовательностей и нулей и единиц это число способов зафиксировать ровно $k$ позиций среди $n-k+1$, а как известно, это количество равно $C_n^k$
+\end{proof}
+
 \subsection{Бином Ньютона, полиномиальная формула}
+\begin{theorem}{Бином Ньютона}
+	$(x+y)^n = \mysum_{k=0}^n = C_n^k x^k y^{n-k}$ 
+\end{theorem}
+
+\begin{proof}
+	$(x+y)^n = (x+y)(x+y) \ldots (x+y)$. Из каждой скобки надо взять либо $x$, либо $y$. Пусть из $k$ скобок мы взяли $x$, то есть из остальных $n-k$ скобок мы взяли $y$. Но мы выбрать $k$ скобок можем выбрать $C_n^k$ способами, то есть $x^k y^{n_k}$ встречается $C_n^k$ раз, то есть $(x+y)^n = \mysum_k C_n^k x^k y^{n-k}$
+\end{proof}
+
+\begin{remark}
+	$C_n^k$ также называются биномиальными коэффициентами и в западной традиции пишут $\combus{n}{k}$
+\end{remark}
+
+\begin{theorem}{Полиномиальная формула}
+	\newline
+	$(x_1 + x_2 + \ldots + x_k)^n = \mysum_{(n_1, n_2, \ldots, n_k): n_i \in \myN, \mysum n_i = n}P(n_1,n_2, \ldots, n_k)x_1^{n_1}x_2^{n_2}\ldots x_k^{n_k}$
+\end{theorem}
+
+\begin{proof}
+	Возьмем $n_1$ скобок из которых извлекается $x_1$, $n_2$ из которых извлекается $x_2$, $\ldots$, $n_k$ скобок, из которых извлекается $x_k$. Очевидно, что $x_i \in \myN, \mysum n_i = n$. Тогда в произведении получится $x_1^{n_1} x_2^{n_2} \ldots x_k^{n_k}$. Этот моном встретится в $P(n_1, n_2, \ldots, n_k)$ раз в качестве слагаемого, т.к. число способов выбрать скобки для $x_1$ равно $\combru{n}{n_1}$, для $x_2$ остается $n-n_1$ свободных скобок, то есть количество способов выбрать $x_2$ равно $\combru{n-n_1}{n_2}$, и так далее. А как известно, произведение таких биномимиальных коэффициэнтов равно $P(n_1, n_2, \ldots, n_k)$.
+\end{proof}
+
+\begin{remark} 
+	Числа $P(n_1, n_2, \ldots, n_k)$ называются \emph{полиномиальными} коэффициентами
+\end{remark}
+
 \subsection{Простейшие тождества. Оценки биномиальных коэффициентов}
+\begin{itemize}
+	\item $\combru{n}{k} = \combru{n}{n-k}$
+	\item $\combru{n}{k} = \combru{n-1}{k} + \combru{n-1}{k-1}$
+	\item $\mysum_{i=0}^{n} \combru{n}{i} = 2^n$
+		\begin{proof}
+			$\mysum_{i=0}^n \combru{n}{i} = (1 + 1) ^ n = 2 ^ n$
+		\end{proof}
+	\item $\mysum_{(n_1, n_2, \ldots, n_k): n_i \in \myN, \mysum n_i = n}P(n_1,n_2, \ldots, n_k) = k^n$
+	\item $\mysum_{i=0}^{n}(\combru{n}{i})^2 = \combru{2n}{n}$	
+		\begin{proof}
+			$A = \myset{a_1, \ldots, a_{2n}}$. $V$ "--- множество всех $n$ - сочетаний из $A$. $|V| = \combru{2n}{n}$. $V = \bigsqcup\limits_{i=0}^n V_i$, где $V_k$- множество тех $n$-сочетаний, которые содержат ровно $k$ из первых $n$ элементов, то есть $\combru{n}{k}$ спобосов выбрать $k$ элементов из первых $n$ элементов и $\combru{n}{n-k}$ способов выбрать оставшиеся $n-k$ элементов из последних $n$ элементов. То есть $|V_k| = \combru{n}{k}\combru{n}{n-k} = (\combru{n}{k})^2$. 
+			$|V| = \sum |V_i| \Leftrightarrow \combru{2n}{n} = \mysum_{i=0}^{n}(\combru{n}{i})^2$
+		\end{proof}
+	\item $\forall n,m:\ \combru{n+m}{n} = \mysum_{i=n-1}^{n+m-1} \combru{i}{n-1}$
+		\begin{proof}
+			Рассмотрим $A = \myset{a_1, \ldots, a_n, a_{n+1}}$. $V$ "--- множество всех $m$-сочетаний с повторениями из $A$. $|V| = \combru{n+1+m-1}{m} = \combru{n+m}{m}$. Пусть $V_k$ это те сочетания из $V$, в которые объект $a_1$ входит ровно $k$ раз. Осталось оценить $|V_k|$. В любое сочетание из $V_k$ $k$ раз встречается элемент $a_1$ и в этом сочетании еще есть $m-k+1$ "свободных" мест, на котором стоят остальные $n$ элементов. То есть количество элементов в $V_k$ равно количеству с$m-k+1$-ccочетаний с повторениями их $n$ элементов. То есть $|V_k| = \combru{}{}$ %TODO
+		\end{proof} 
+		\begin{corollary}
+			Если мы возьмем $n = 1$ и подставим в тождество, то мы получим $\combru{m+1}{1} = \combru{m}{0} + \combru{m-1}{0} + \ldots + \combru{0}{0}$
+		\end{corollary}
+		\begin{corollary}
+			Если $n = 2$, то $\combru{m+2}{2} = \combru{m+1}{1} + \combru{m}{1} + \ldots + \combru{1}{1} \Leftrightarrow \frac{(m + 2)(m + 1)}{2} = (m + 1) + m + (m - 1) \ldots 1$
+		\end{corollary}
+		\begin{corollary}
+			Если $n = 3$, то $\combru{m+3}{3} = \combru{m+2}{2} + \combru{m+1}{2} + \ldots + \combru{2}{2} \Leftrightarrow \frac{(m + 1)(m + 2)(m + 3)}{6} = \frac{9(m + 1)(m + 2)}{2} + \frac{m(m + 1)}{2} + \ldots + \frac{1 \cdot 2}{2} = \frac{1}{2} (1^2 + 2^2 + \ldots + (m + 1) ^ 2) + \frac{1}{2}(1 + 2 + \ldots + (m + 1)) \Rightarrow \frac{1}{2} (1^2 + 2^2 + \ldots + (m + 1)^2) = \frac{(m + 1)(m + 2)(m + 3)}{6} - \frac{1}{4} (m + 1)(m + 2) = \frac{1}{12} (m + 1)(m + 2)(2m + 3)$
+		\end{corollary}
+\end{itemize}
 
 \section{Билет №3}
-\subsection{Формульные степенные ряды. Производящие функции и тождества}
+\subsection{Формальные степенные ряды. Производящие функции и тождества}
+\subsubsection{Формальные степенные ряды}
+
+\begin{definition}
+	Назовем $A = a_0 + a_1 x + a_2 x^2 + a_3 x^3 + a_4 x^4 + a_5 x^5 + \ldots$ формальным степенным рядом с коэффициентами $\myset{a_i} \in \myR$. 
+\end{definition}
+
+\begin{definition}
+	Пусть $A$ и $B$ два формальных степенных ряда. Назовем их суммой формальный степенной ряд $C$ с коэффициентами $c_i = a_i + b_i$.
+\end{definition}
+
+\begin{definition}
+	Пусть $A$ и $B$ два формальных степенных ряда. Назовем их произведением формальный степенной ряд $C$ с коэффициентами $c_i = \mysum_{j=0}^{i} a_j \cdot b_{i - j}$.
+\end{definition}
+
+\begin{definition}
+	Пусть $A$ и $B$ два формальных степенных ряда. Назовем их отношением формальный степенной ряд $C$, если $A = BC$. 	
+\end{definition}
+
+$b_0 c_0 = a_0 \Rightarrow c_0 = \frac{a_0}{b_0}$ \newline
+$b_1 c_0 + b_0 c_1 = a_1 \Rightarrow c_1 = \frac{a_1 - b_1c_0}{b_0}$ \newline
+$\ldots$ \newline
+
+\subsubsection{Производящая функция}
+\begin{definition}
+	Пусть есть последовательность чисел $a_0, a_1, a_2, \ldots$. Её производящая функция "--- ряд $a_0 + a_1x + a_2x^2 + \ldots$. Хочется научиться понимать какой смысл принимает это выражение 
+\end{definition}
+
+Обозначим 
+	$A(x) = \mysum_{i= 0}^{\infty} a_n x^n$
+
+\begin{definition}
+	Ряд $A(x)$ имеет значение $A$ в точке $x \in \myR$, если $\mylim_{k \to \infty} \mysum_{n=0}^k a_n x^n = A$.
+\end{definition}
+
+Вопрос "--- при каких условиях на $x \in \myR$ такой предел существует.
+
+\begin{theorem} % Без доказательства
+	Положим $\rho = \frac{1}{\limsup\limits_{n \to \infty} \sqrt[n]{a_n}}$. Тогда ряд $\mysum_{n=0}^{\infty}a_nx^n$ сходится при всех $x:\ |x| < \rho$.
+\end{theorem}
+
+\begin{theorem}
+	Пусть $A(x) = \frac{b_0 + b_1x + b_2x^2 + \ldots}{c_0 + c_1x + c_2x + \ldots}$, $c_0 \neq 0, b_0 \neq 0$, и выполнены два следующих условия: все корни знаменателя лежат в $\myR$ (то есть нет комплесных корней) и множество корней числителя и корней знаменателя не пересекается. Тогда ряд $A(x)$ сходится для всеx $x$, таких что $|x|$ меньше наименьшего значения модуля корня знаменателя.
+\end{theorem}
+
+\begin{theorem}
+	Если $|x| < \rho$. $A'(x) = \mysum_{n=1}^{\infty} a_n n x^{n-1}$
+\end{theorem}
+
+\begin{example}
+	Найти $\mysum_{k=0}^n k^2 \combru{n}{k} (\frac{1}{3}) ^ k$ \newline
+	Возьмем $\myset{\combru{n}{k} (\frac{1}{3})^k}$ и составим её производящую функцию. \newline
+	$f(x) = \mysum_{k=0}^n \combru{n}{k}(\frac{1}{3})^k = (1 + \frac{x}{3})^n$ \newline
+	$f'(x) = \mysum_{k=1}^n k \combru{n}{k} (\frac{1}{3})^k x^{k-1}$ \newline
+	$x f'(x) = \mysum_{k=1}^n k \combru{n}{k} (\frac{1}{3})^k x^k$ \newline
+	$(x f'(x))' = \mysum_{k=1}^n k^2 \combru{n}{k} (\frac{1}{3})^k x^{k-1}$ \newline
+	$x (x f'(x))' = \mysum_{k=1}^n k^2 \combru{n}{k} (\frac{1}{3})^k x^k$ \newline
+	$x (x f'(x))' = x(x \frac{n}{3}(1 + \frac{n}{3})^{n-1})'$ \newline
+\end{example}
+
+\begin{example}
+	$F_0 = 1, F_1 = 1, F_n = F_{n-1} + F_{n-2}$
+	Найдем $\mysum_{n=0}^{\infty} F_n (\frac{1}{2})^n$. \newline
+	$xf(x) = F_0x + F_1x^2 + F_2x^3 + \ldots$ \newline
+	$x^2f(x) = F_0x^2 + F_1x^3 + F_2x^4 + \ldots$ \newline
+	$xf(x) + x^2f(x) = F_1x + (F_0+F_1)x^2 + \ldots + (F_{n-2} + F_{n-1})x^n + \ldots = F_1x + F_2x^2 + \ldots = f(x) - F_0$ \newline
+	$xf(x) + x^2f(x) = f(x) - 1 \Rightarrow f(x) = \frac{1}{1-x-x^2}$ Корни знаменателя: $\frac{\sqrt{5}+1}{2}, \frac{\sqrt{5} - 1}{2}$. По теореме о сходимости $|x| < \frac{\sqrt{5} - 1}{2}$
+\end{example}
+
 
 \section{Билет №4}
 \subsection{Линейные рекуррентные соотношения с постоянными коэффициентами}
+
+Линейная зависимость порядка $k$: $x_n = a_{n-1} x_{n-1} + \ldots + a_{n-k} x_{n-k}$.
+
+\paragraph{Для$k=2$} 
+$a_2 y_{n+2} + a_1 y_{n+1} + a_0 y_n = 0$
+\begin{definition}
+	Характеристическое уравнение для линейной зависимости порядка $2$ есть $a_2\lambda^2 + a_1\lambda + a_0 = 0$
+\end{definition}
+
+\begin{theorem}	
+	Пусть у характеристического уравнения есть решение $\lambda_1 \neq \lambda_2$. Тогда
+	\begin{itemize}
+		\item любая последовательность $y_n = c_1 \lambda_1^n + c_2 \lambda_2^n$, $c_1, c_2 \in \myC$ являются решениями зависимости.
+		\item если $y_n$ "--- решение. Тогда $\exists c_1,c_2 \in \myC:\ y_n = c_1 \lambda_1^n + c_2 \lambda_2^n$
+	\end{itemize}
+\end{theorem}
+
+\begin{proof}\\
+	\begin{itemize}
+		\item Подставим и получим равносильность утверждения и характеристического уравнения. 
+		\item Пусть $y_0, y_1, \ldots, y_n,  \ldots$. Рассмотрим уравнения $c_1 + c_2 = y_0$, $c_1\lambda_1 + c_2\lambda_2 = y_1$ c неизвестными $c_1, c_2$. Так как $\lambda_1 \neq \lambda_2$, то у этой системы есть решения. Пусть $c_1^*, c_2^*$ "--- решения этой системы. Рассмотрим последовательность $y_n^* = c_1^* \lambda_1^n + c_2^*\lambda_2^n$.
+	\end{itemize}
+\end{proof}
+
+\begin{theorem}
+	Пусть у характеристического уравнения $\lambda_1 = \lambda_2 = \lambda$. Тогда для любое решение представимо в виде $y_n = (c_1n + c_2) \lambda^n$, и для любых $c_1,c_2$ $y_n = (c_1n + c_2) \lambda^n$ есть решение
+\end{theorem}
+
+\begin{proof}
+	Доказательство аналогично.
+\end{proof}
+
+\paragraph{Общий случай}
+$a_k\lambda^k + a_{k-1}\lambda^{k-1} + \ldots + a_0 = 0$ "--- характеристическое уравнение \newline
+
+$\lambda_1, \ldots, \lambda_k \in \myC$ (основная теорема алгебры). 
+
+Обозначим все различные корни через $\mu_1, \ldots, \mu_l$. Пусть 
+
+\begin{theorem}
+	Пусть $P_1(n), \ldots P_l(n)$, таких что $P_i(n)$ "--- многочлен с произвольными коэффициентами из $\myC$, имеющий степень $n_i - 1$. Тогда любое $y_n = P_1(n) \mu_1^n + \ldots + P_l(n)\mu_l^n$ "--- решение и любое решение представимо в таком виде.
+\end{theorem}
+\begin{theorem}[Шевалле]
+	Рассмотрим многочлен от $n$ переменных c целочисленными коэффициентами $F(x_1, \ldots, x_n) \equiv 0(p)$. Пусть $V_p$ "--- число различных решений этого сравнения. Если $\deg F < n$, то $V_p \equiv 0(p)$
+\end{theorem}
+
+
+\begin{proof}
+	Запишем число решений в виде $\mysum_{x_1 = 1}^p \ldots \mysum_{x_n = 1}^p (1 - F^{p-1}(x_1, \ldots, x_n))$. Действительно, $F(x_1, \ldots, x_n) \equiv 0$ равносильно тому, что $F^{p-1}(x_1, \ldots, x_n) \equiv 0$. Если $F(x_1, \ldots, x_n) \not\equiv 0$, то $F^{p-1}(x_1, \ldots, x_n) \equiv 1$.  
+
+	$\mysum_{x_1 = 1}^p \ldots \mysum_{x_n = 1}^p 1 = p^n \equiv 0$. Осталось доказать, что $\mysum_{x_1 = 1}^p \ldots \mysum_{x_n = 1}^p F^{p-1}(x_1, \ldots, x_n) \equiv 0$.
+	
+	$F^{p-1}$ ~--- это сумма каких-то одночленов. Каждый из этих многочленов имеет вид $x_1^{a_1}x_2^{a_2}\ldots x_n^{a_n}$, $\mysum a_i \leq (n-1)(p-1)$. 
+	Если докажем, что $\mysum_{x_1 = 1}^p \ldots \mysum_{x_n = 1}^p x_1^{a_1}x_2^{a_2}\ldots x_n^{a_n} \equiv 0$, то мы получим, что сумма по всем $F$ сравнима с нулем по модулю $p$. 
+	$\mysum_{x_1 = 1}^p \ldots \mysum_{x_n = 1}^p x_1^{a_1}x_2^{a_2}\ldots x_n^{a_n} = (\mysum_{x_1 = 1}^p x_1^{p_1}) (\mysum_{x_2 = 1}^p x_2^{p_2}) \ldots (\mysum_{x_n = 1}^p x_n^{p_n})$.
+
+	Рассмотрим $p = 2$. $a_1 + \ldots + a_n \leq n - 1 \Rightarrow$ по признаку Дирихле есть $a_i = 0$, откуда $\mysum_{x_i = 1}^p x_i^{a_i} = p \equiv 0$.
+	
+	Рассмотрим $p \leq 3$. Тогда либо есть $a_i = 0$ и все тривиально, либо все $a_i \leq 1$. Но тогда есть $2 \leq a_i \leq p-2$
+	Рассмотрим $S = \mysum_{x_i = 1}^p x_i^{a_i}$. $x^{a_i}S = \mysum_{x_i = 1}^p (xx_i)^{a_i}$. $xx_i$ пробегает полуную систему вычетов, то есть $\mysum_{x_i = 1}^p (xx_i)^{a_i} = \mysum_{x_i = 1}^p x_i^{a_i}$. Получается, что $x^{a_i}S = S \Rightarrow S = 0$
+\end{proof}
+
+\begin{corollary}
+	Пусть степень многочлена $F(x_1, \ldots, x_n)$ от $N$ переменных меньше $n$ и $F(0,0,\ldots, 0) \leq 0$. Тогда существует $x_1, \ldots, x_n$ в котором не все $x_i$ равны $0$, но $F(x_1, \ldots, x_n) = 0$.
+\end{corollary}
+
+\begin{statement}
+	Пусть $F_1(x_1, \ldots, x_n), \ldots, F_k(x_1, \ldots, x_n)$ ~--- полиномы, $\deg F_1 + \ldots + \deg F_2 < n$. Тогда если система сравнений $F_i(x_1, \ldots, x_n) \equiv 0$ имеет $\pars{0,0,\ldots, 0}$ в качестве решения, то у неё есть ненулевое решение
+\end{statement}
 
 \section{Билет №5}
 \subsection{Граф, орграф, псевдограф, мультиграф, гиперграф}
