@@ -31,14 +31,14 @@
 \renewenvironment{proof}{{\bfseries Proof}}{$\bullet$}
 
 \newcommand{\myequat}[1]{\begin{equation} #1 \nonumber \end{equation}}
-\newcommand{\pars}[1]{\left( #1 \right)} 
-\newcommand{\class}[1]{\left[ #1 \right]} 
-\newcommand{\myN}{\mathbb{N}} 
+\newcommand{\pars}[1]{\left( #1 \right)}
+\newcommand{\class}[1]{\left[ #1 \right]}
+\newcommand{\myN}{\mathbb{N}}
 \newcommand{\myZ}{\mathbb{Z}}
 \newcommand{\myR}{\mathbb{R}}
 \newcommand{\myC}{\mathbb{C}}
 \newcommand{\myQ}{\mathbb{Q}}
-\newcommand{\myE}{\mathcal{E}} 
+\newcommand{\myE}{\mathcal{E}}
 \newcommand{\myM}{\mathcal{M}}
 \newcommand{\myO}{(1+o(1))}
 
@@ -48,31 +48,294 @@
 \section{Билет №1}
 \subsection{Недетерминированный конечный автомат}
 \subsubsection{Конфигурация автомата, начальная конфигурация, такт}
+\begin{definition-star} Недетерминированный конечный автомат (далее НКА)  $M$ - пятерка $<Q,\Sigma,\delta,q_0,F>$, где:\\
+$Q$ - конечное множество состояний\\
+$\Sigma$ - алфавит входных символов\\
+$\delta$ - отображение $Q*\Sigma \rightarrow 2^Q$(функция переходов)\\
+$q_0 \in Q$ - начальное состояние\\
+$F \subseteq Q $ - мн-во конечных состояний.
+\end{definition-star}
+\begin{definition-star} Пара $(q,a) \in Q*\Sigma^*$ - конфигурация автомата
+\end{definition-star}
+\begin{definition-star} Пара $(q_0,a) \in Q*\Sigma^*$ - начальная конфигурация автомата
+\end{definition-star}
+\begin{definition-star}  Такт автомата - бинарное отношение, определенное на конфигурации. Если $q' \in \delta(q,aw)$, то $(q,aw) \vdash_M (q',w)  \forall w \in \Sigma^*$
+\end{definition-star}
 \subsubsection{Допуск слова автоматом. Язык определяемый автоматом. Граф переходов автомата}
+\begin{definition-star} Автомат $M$ допускает слово $w$, если  $(q_0,w) \vdash^*_M (q,\varepsilon)$, где $q \in F$
+\end{definition-star}
+\begin{definition-star} Язык $L(M)$ определяемый автоматом $М$: $L(M)=\{w| w \in \Sigma^*: (q_0,w) \vdash^*_M (q,\varepsilon) \} $где $q \in F$
+\end{definition-star}
+\begin{definition-star}  Граф переходов автомата $М$ - граф, вершины которого помечены состояниями, и в котором есть дуга $(q,a)$ если  $\exists  a \in \Sigma : q \in \delta(p,a)$.Кроме того, дуга $(q,a)$ помечена спиком таких $a$, что $q \in \delta(p,a)$
+\end{definition-star}
 \subsection{Детерминированный конечный автомат}
+\begin{definition-star} пусть $M$ - НКА. $M$ называется Детерминированным конечным автоматом, если $|\delta(q,a)|\le 1 \ \forall q\in Q, \forall a \in \Sigma^*$
+\end{definition-star}
 \subsection{Эквивалентность НКА и ДКА (с доказательством)}
-
+\begin{theorem} Если $L=L(M)$ для некоторого НКА, то 	$\exists$ $M'$ ДКА : $L=L(M')$
+\end{theorem}
+\begin{proof} Пусть $M = <Q,\Sigma,\delta,q_0,F>$. Построим $M'=<Q',\Sigma,\delta',q_0',F'>$:\\
+$Q'=2^Q$\\
+$q_0'=\{q_0\}$\\
+$F'=\{q|q \in Q',\exists p\in F: p\in q\}$\\
+$\delta'(q',a)=\{p|p\in \delta(q,a),\forall q\in q'\}$\\
+\\
+1. Докажем, что любое слово, принимаемое НКА, будет принято ДКА.\\
+Заметим, что $\forall q \in q', \forall a \in \Sigma, \forall p \in \delta(q,a) \ p \in \delta'(q',a)$\\
+Рассмотрим слово $w=w_1w_2w_3...w_n$, которое принимает НКА.\\
+$(q_0,w_1..w_n) \vdash_M (u_1,w_2..w_n) \vdash^*_M(u_m,\varepsilon) $\\
+Проверим, что  построенное ДКА тоже  принимает это слово.\\
+$q_0 \in q' \Rightarrow u_1 \in u_1' $ где $ u_1' \in\delta'(q_0',w_1)$\\
+Далее $\forall i \le m:  u_i \in u_i', (q_0',w_1..w_n) \vdash(u_1',w_2..w_n) \vdash^*(u_i',w_{i+1}..w_n)$
+Т.о. $u_m \in u_m', u_m' \in F'$, ДКА принимает слово $w$.\\
+\\
+2.Докажем, что любое слово, принимаемое ДКА, будет принято НКА.\\
+Заметим, то если $q'=\{q\}$, и из него мы достигли состояния $p'$ по строке $S$, то  $\forall p \in p'$  существует путь  из $q$ в $p$ в НКА по строке  $S$.(2)\\
+Рассмотрим слово $w_1..w_n$, принимаемое ДКА.\\
+$(q_0',w_1..w_n) \vdash (u_1',w_2..w_n) \vdash^*(u_m',\varepsilon), u_m' \in F' $\\
+Проверим, что НКА также принимает это слово.\\
+Т.к. $q_0'=\{q_0\}$,  и мы достигли из $q_0'\  u_m' \in F'$,  то возьмем любое состояние $u_m \in u_m'$. По (2) в НКа будет существовать путь из $q_0$ в $u_m$ по строке $w \Rightarrow$ НКА принимает это слово.\end{proof}
 \section{Билет №2}
 \subsection{Иерархия грамматик Хомского. Нормальная грамматика Хомского}
+\subsubsection {Порождающая грамматика}
+\begin{definition-star} Порождающая грамматика (типа 0) - четверка $G=<N,\Sigma,P,S>$, где
+$N$ - конечный нетерминальный алфавит, $\Sigma$ - конечный терминальный алфавит,$N\cap\Sigma=\emptyset$ ,$S \in N$ - начальный символ
+$P \subset (N\cup\Sigma)^+*(N\cup\Sigma)^*$конечно.
+\end{definition-star}
+Пары $(\alpha,\beta)\in P$ - правила. $\alpha \in(N\cup\Sigma)^+, \beta \in(N\cup\Sigma)^*,\alpha\rightarrow\beta$
+$w_0\Rightarrow_G w_1 \Rightarrow_G w_2 ..\Rightarrow_G w_n,\ n>0$,то $w_0\Rightarrow^*_G w_n$
+$w_0,w_1,..,w_n$- вывод слова $w_n$ из $w_0$ в $G$
+\begin{definition-star}Контекстная грамматика типа 1 (Контекстно-зависимая) - Порождающая грамматика , каждое правило которой имеет вид $\eta A \theta \rightarrow \eta \alpha \theta$, где  $A \in N, \eta,\theta \in (N\cup\Sigma)^*, \alpha \in (N\cup \Sigma)^+$
+\end{definition-star}
+\begin{definition-star}Контекстная грамматика типа 2 (Контекстно-свободная) - Порождающая грамматика , каждое правило которой имеет вид $A \rightarrow  \alpha$, где  $A \in N,  \alpha \in (N\cup \Sigma)^*$
+\end{definition-star}
+\begin{definition-star}Контекстная грамматика типа 3 (Праволинейная) - Порождающая грамматика , каждое правило которой имеет вид $A \rightarrow  u$ или $A \rightarrow  uB$, где  $A,B \in N,  u\in \Sigma^*$
+\end{definition-star}
+\begin{definition-star}Назовем $X \in N$ бесполезным симвом, если $L(G')=\emptyset$, где $G'=<N,\Sigma,P,X>$
+\end{definition-star}
+\begin{definition-star}Назовем $X \in N\cup \Sigma$ недостижимым симвом, если не существует вывода, где этот символ встречается.
+\end{definition-star}
+Алгоритм:
+Вход: КС грамматика $G=<N,\Sigma,P,S>$
+Выход: КС грамматика $G'=<N',\Sigma',P',S'>$т.ч.
+a)$L(G)=L(G')$
+б)любой символ достижим
+1)$V_0=\{S\},i=1$
+2)$V_i=\{X|A\rightarrow\alpha X \beta \in P \ и \ A\in V_{i-1}\}\cup V_{i-1}$
+3)Если $V_i\ne V_{i-1}:  i++; goto $ 2)
+4)$N'=N\cap V_i, \Sigma'=\Sigma \cap V_i$
+$P'$ содержит те правила из $P$, что содержат символы из $V_i$
 \subsection{Алгоритм устранения $\varepsilon$-правил}
-\subsection{Алгоритм устранения цепных правил}
-\subsection{Алгоритм преобразования грамматики к нормальной форме Хомского}
+\begin{definition-star}$G=<N,\Sigma,P,S>$ - КС грамматика без $\varepsilon$-правил, если $P$ не содержит $\varepsilon$-правил, или содержит $\{S\rightarrow \varepsilon\}$, но нет правил, где $S$ содержится в правых частях.
+\end{definition-star}
+Алгоритм:
+Вход: КС грамматика $G=<N,\Sigma,P,S>$
+Выход: КС грамматика $G'=<N',\Sigma',P',S'>$
+1)построить $N_\varepsilon = \{A|A\in N,A \Rightarrow_G^* \varepsilon\}$
+а)$N_0=\{A|(A\rightarrow \varepsilon) \in P\}$
+б)$N_i = \{A|A\in N,(A \rightarrow w)\in P, w \in N_{i-1}^*\} \cup N_{i-1}$
+в)Если$N_i = N_{i-1}$, то $N_i=N_\varepsilon$, иначе пункт б)
 
+2)Построить $P'$
+а)Если $(A\rightarrow \alpha_0B_1\alpha_1...B_k\alpha_k)\in P,\  \forall i,j \ B_i \in N_\varepsilon$ и $\alpha_i \in (\Sigma \cup N\setminus N_\varepsilon)^*$
+то включить в $P'$ все правила вида $(A\rightarrow \alpha_0X_1\alpha_1...X_k\alpha_k)$где $X_i=B_i$ или $X_i=\varepsilon$ , но без $\varepsilon$-правил.
+б) Если $S\in N_\varepsilon$, то включить в $P'$ правила  $S'\rightarrow\varepsilon|S$ и $N'=N\cup\{S'\}$, иначе $N=N',S=S'$
+\subsection{Алгоритм устранения цепных правил}
+Алгоритм:
+Вход: КС грамматика $G=<N,\Sigma,P,S>$ без эпсилон-правил
+Выход: КС грамматика $G'=<N',\Sigma',P',S'>$без эпсилон и цепных правил
+1)построить $ \forall A \in N \  N_A = \{B|B\in N,A \Rightarrow^*B\}$
+а)$N_{A_0}=\{A\}$
+б)$N_{A_i}=\{C|(B\rightarrow C)\in P , B\in N_{A_i-1}\}\cup N_{A_i-1}$
+в)Если $N_{A_i-1}\ne N_A$  повторить пункт б), иначе остановка
+2)построить $P'$:
+если $(B\rightarrow \alpha)\in P$ и не является цепным правилом, то  включить в $P'$ все правила вида $A\rightarrow \alpha, \forall A: B\in N_A$
+\subsection{Алгоритм преобразования грамматики к нормальной форме Хомского}
+\begin{definition-star}КС грамматика называется грамматикой в НФХ, если  каждое правило из $P$  имеет один из следующих видов:
+1)$A\rightarrow BC; A,B,C\in N$
+2)$A\rightarrow a; A\in N, a\in \Sigma$
+3)$S'\rightarrow \varepsilon$ если  $\varepsilon \in L(G)$ причем $S$  не встречается  в правых частях правил при подстановке
+\end{definition-star}
+Алгоритм:
+Вход:Приведенная КС грамматика $G=<N,\Sigma,P,S>$
+Выход: КС грамматика в НФХ $G'=<N',\Sigma,P',S'>$
+1)включить в $P'$ все правила вида $A\rightarrow a$
+2)включить в $P'$ все правила вида $A\rightarrow BC$
+3)включить в $P'$ $(S\rightarrow \varepsilon)$ если оно было в $P$
+4)для каждого правила из $P$ вида
+$A\rightarrow X_1..X_k\  k>2$ включить в $P'$ правила вида:
+$A\rightarrow X_1'X_2..X_k$
+$X_2..X_k\rightarrow X_2'X_3..X_k$
+...
+$X_{k-1}X_k\rightarrow X'_{k-1}X'_k$ где $X'_i=X_i$  если  $X_i \in N$ или  $X_i'$- новый нетерминал если $X_i \in \Sigma$
+5)Для каждого нетерминала  вида $X_i'$ добавить в $P'$  правило:
+$X'_i\rightarrow X_i ,X_i \in \Sigma$
+6)$N'=N+$ все введенные новые нетерминалы
 \section{Билет №3}
 \subsection{Нисходящий синтаксический анализ. Множества FIRST и FOLLOW}
+\begin{definition-star}
+1)НСА можно рассматривать как задачу построения дерева разбора, начиная с корня, и связывая узлы в порядке левого разбора.
+2)На каждом шаге ключевой проблемой является определение продукции, применимой для нетерминала. Отсальная часть процесса - проверка соответствий
+Предиктивный синтаксический анализатор может выбрать нужную продукцию, просматривая несколько непрочитанных символов.
+\end{definition-star}
+\begin{definition-star}
+$LL(k)$ - класс грамматик, для которых можно построить предиктивный синтаксический анализатор, просматривающий не более $k$ символов вперед.
+\end{definition-star}
+\begin{definition-star}
+$FIRST(\alpha), \alpha \in (N\cup \Sigma)^*$ - множество терминалов, с которых начинаются строки, порождаемые $\alpha$. Если $\alpha\Rightarrow^*\varepsilon$, то $\varepsilon \in FIRST(\alpha)$
+\end{definition-star}
+\begin{definition-star}
+$Follow(A), A \in N$ - множество терминалов, таких что существует порождение вида $S\Rightarrow^*\alpha Aa\beta$
+\end{definition-star}
+Алгоритм FIRST
+Будем придерживаться следующих правил, пока ни к одному из мн-в $FIRST$ не могут быть добавлены ни $\varepsilon$, ни нетерминал.
+$FIRST(X)$
+*если $X$-терминал, то $FIRST(X)=\{X\}$
+*если $X\rightarrow\varepsilon\in P$, то добавим $\varepsilon$ в $FIRST(X)$
+*если $X\in N$ и имеется продукция вида $X\rightarrow Y_1Y_2Y_3$, то поместим $a$ в $FIRST(X)$, если $\exists i: a \in FIRST(Y_i)$ и $\varepsilon \in FIRST(Y_j) j=1...i-1$
+*если $\varepsilon \in FIRST(Y_i) \forall i=1..k$, то добавить $\varepsilon$ в $FIRST(X)$
+Алгоритм FOLLOW
+будем применять правила, пока ни в одно из множеств $FOLLOW(A)$ нельзя будет добавить ни одного символа.
+*поместим @ в $FOLLOW(S)$, $S$ - аксиома, @ - правый ограничитель входного потока.
+*если имеется продукция $A\rightarrow\alpha B\beta$, то $FIRST(\beta)\setminus\{\varepsilon\}$ помещаем в $FOLLOW(B)$
+*если имеется продукция $A\rightarrow\alpha B$ или $A\rightarrow\alpha B\beta$, где$\varepsilon \in FIRST(\beta)$, то $FOLLOW(A)$ помещаем в $FOLLOW(B)$
 \subsection{LL(1)-грамматики}
+\begin{definition-star} КС-грамматика G принадлежит классу $LL(1)$ т. и т.т, когда $\forall$  2ух продукций из $P$ $A\rightarrow\alpha|\beta$:
+*$FIRST(\alpha)\cap FIRST(\beta)=\emptyset$
+*либо если $\varepsilon \in FIRST(\beta), то FIRST(\alpha)\cup Follow(A)=\emptyset$
+*либо если $\varepsilon \in FIRST(\alpha), то FIRST(\beta)\cup Follow(A)=\emptyset$
+\end{definition-star}
 \subsection{Предиктивный синтаксический анализатор, управляемый таблицей}
+Алгоритм ПСА для $LL(1)$-грамматики G
+Вход: $w@$ - входная строка
+М-ТПСА для $LL(1)$-грамматики $G$
+Изначальное содержимое стека $S@$
+$X$-символ на вершине стека.
+$a$-текущий входной символ.
+while ($x\ne @$){
+    if ($x=a$){
+        pop();
+        переход к следующему символу
+        }
+        else if($x \in\Sigma$){Error();}
+        else if($|M(x,a)|=0$){Error();}
+        else if ($M(x,a)=X\rightarrow Y_1..Y_k$){
+        выводим $X\rightarrow Y_1..Y_k$;
+        pop();
+        push($Y_1..Y_k$);
+        }
 \subsection{Построение ТПСА для LL(1)-грамматик}
-
+\begin{definition-star}
+Таблица предиктивного синтаксического анализатора (ТПСА) - двумерный массив $M(A,a),A\in N, a \in \Sigma\cup\{@\}$.
+Ячейка $M(A,a)$ - некоторое множество $A$-продукций.
+Для $LL(1)$-грамматики каждая ячейка содержит не более одной продукции.
+\end{definition-star}
+Алгоритм построения ТПСА:
+Для каждой продукции $A\rightarrow\alpha$ нужно сделать
+1)$\forall$ терминала $a$ из $FIRST(\alpha)$ добавляем $A\rightarrow\alpha$ в $M(A,a)$
+2)Если $\varepsilon \in FIRST(\alpha)$, то $\forall$ терминала $b$ из $FOLLOW(A)$ добавляем $A\rightarrow\alpha$ в $M(A,b)$
+3)Если $\varepsilon \in FIRST(\alpha)$ и $@ \in FOLLOW(A)$, то добавляем $A\rightarrow\alpha$ в $M(A,@)$
 \section{Билет №4}
 \subsection{Восходящий синтаксический анализ}
+\begin{definition-star}
+Восходящий синтаксический анализ соответствует построению дерева разбора, начиная с листьев по направлению к корню.
+\end{definition-star}
 \subsection{Синтаксический анализ «перенос-свертка»}
+Можно рассматривать Восходящий синтаксический анализ как процесс свертки строки w к стартовому символу. На каждом шаге свертки определенная строка, соответствующая телу продукции, заменяется нетерминалом.
+\begin{definition-star}
+Перенос-свертка - разновидность восходящего анализа, в котором для хранения символов грамматики используется стек.
+Изначально во входном буфере находится входная строка.
+В процессе ее сканирования СА выполняет 0 или более переносов символов в стек. Затем выполняется свертка. Процесс выполняется, пока не всплывет ошибка или достигнется конечное состояние (т.е. стартовый символ).
+\end{definition-star}
 \subsection{Конфликты в процессе ПС-анализа}
+1)Конфликт "Перенос-свертка":
+Анализатор не может понять, увуое из двух действий ему выполнить.
+2)Конфликт "Свертка-свертка":
+Анализатор не может понять, по какой продукции следовать
 \subsection{Алгоритм построения множеств FIRST и FOLLOW}
-
+Алгоритм FIRST
+Будем придерживаться следующих правил, пока ни к одному из мн-в $FIRST$ не могут быть добавлены ни $\varepsilon$, ни нетерминал.
+$FIRST(X)$
+*если $X$-терминал, то $FIRST(X)=\{X\}$
+*если $X\rightarrow\varepsilon\in P$, то добавим $\varepsilon в FIRST(X)$
+*если $X\in N$ и имеется продукция вида $X\rightarrow Y_1Y_2Y_3$, то поместим $a$ в $FIRST(X)$, если $\exists i: a \in FIRST(Y_i)$ и $\varepsilon \in FIRST(Y_j) j=1...i-1$
+*если $\varepsilon \in FIRST(Y_i) \forall i=1..k$, то добавить $\varepsilon в FIRST(X)$
+Алгоритм FOLLOW
+будем применять правила, пока ни в одно из множеств $FOLLOW(A)$ нельзя будет добавить ни одного символа.
+*поместим @ в $FOLLOW(S)$, $S$ - аксиома, @ - правый ограничитель входного потока.
+*если имеется продукция $A\rightarrow\alpha B\beta$, то $FIRST(\beta)\setminus\{\varepsilon\}$ помещаем в $FOLLOW(B)$
+*если имеется продукция $A\rightarrow\alpha B$ или $A\rightarrow\alpha B\beta$, где$\varepsilon \in FIRST(\beta)$, то $FOLLOW(A)$ помещаем в $FOLLOW(B)$
 \section{Билет №5}
 \subsection{Общее устройство и алгоритм LR-анализатора}
+\begin{definition-star}Функция $ACTION(i,a)$ принимает состояние $i$ (состояния хранятся на стеке) и символ $a$.
+$ACTION(i,a)$ может равняться:
+1)переносу $j$, $j$-состояние
+2)свертке $A\rightarrow\beta$
+3)принятию
+4)ошибке
+\end{definition-star}
+\begin{definition-star}$GOTO(i,a)=j$, где $i$,$j$ - состояния, $a$-символ
+\end{definition-star}
+Алгоритм $LR$-анализ
+Вход: строка $w$ и таблицы $ACTION$ и $GOTO$ для КС-грамматики $G$
+Выход: Если $w\in L(R)$ - шаги сверток, иначе сообщение об ошибке.
+Изначально в стеке находится начальное состояние $О$, а во входном буфере $w@$
+Пусть $a$ - текущий символ входной строки, $s$ - состояние на вершине стека.
+1)В зависимости от $ACTION(s,a)$:
+*перенос $t$ - положить $t$ в стек и перейти к следующему входному символу.
+*свертка $A\rightarrow\beta$ - снять $|\beta|$ состояний со стека. Пусть теперь $t$ на вершине стека. Положить в стек $GOTO(t,A)$. Вывести свертку $A\rightarrow\beta$
+*если слово принято, то алгоритм завершает работу.
+*если ошибка, алгоритм завершает работу с уведомлением об ошибке.
+2)Перейти к 1)
 \subsection{LR(0)- и LR(1)-пункты. Функции CLOSURE и GOTO для LR(0)- и LR(1)-пунктов}
-\subsection{Построение множеств LR(1)-пунктов. Построение таблиц ACTION и GOTO для LR(1)-анализатора}
+\begin{definition-star}
+$LR(0)$-пункт - продукция с точкой.
+\end{definition-star}
+\begin{definition-star}
+Функция $CLOSURE(I)$, где $I$ - множество $LR(0)$-пунктов
+1)В $CLOSURE(I)$ добавляем $I$
+2)Если $(A\rightarrow \alpha\cdot B\beta)\in CLOSURE(I)$ и $(B\rightarrow\gamma)$, то в $CLOSURE(I)$ добавляем $(B\rightarrow\cdot\gamma)$
+3)Повторяем 2) пока $CLOSURE(I)$ изменяется
+\end{definition-star}
+\begin{definition-star}
+$GOTO(I,X)$, где $X$ - символ грамматики -  замыкание мн-ва пунктов вида $(A\rightarrow\alpha X\dot\beta)$ таких, что $(A\rightarrow\alpha X\cdot\beta)\in I$
+\end{definition-star}
+\begin{definition-star}
+$LR(0)$-автомат - конечный автомат с начальным состоянием $CLOSURE(\{s'\rightarrow\dot s\})$ и функцией переходов $GOTO$
+Множество состояний $LR(0)$-автоматов - канонический набор $LR(0)$
+\end{definition-star}
+\begin{definition-star}$LR(1)$-пункт - $[A\rightarrow\alpha\cdot\beta,a]$, где $A\rightarrow\alpha\cdot\beta$ - $LR(0)$ пункт, а $a\in\Sigma\cup\{@\}$
+\end{definition-star}
+\begin{definition-star}$CLOSURE(I)$
+1)$\forall [A\rightarrow\alpha\cdot\beta,a]\in I$
+$\forall B\rightarrow\gamma$
+$\forall b \in FIRST(\beta a)$
+добавить $[B\rightarrow\cdot\gamma,b]$ в $I$
+2)повторять 1) пока I изменяется
+\end{definition-star}
+\begin{definition-star}$GOTO(I,X)$ $I$ - мн-во пунктов, $X$ - любой символ
+1) $J=\{\}$
+2)$\forall [A\rightarrow\alpha\cdot X\beta,a] \in I$, добавим
+$[A\rightarrow\alpha X\cdot\beta,a]$ в J
+3)вернуть $CLOSURE(J)$
+\end{definition-star}
 
-\end{document}
+\subsection{Построение множеств LR(1)-пунктов. Построение таблиц ACTION и GOTO для LR(1)-анализатора}
+Построение мн-в $LR(1)$-пунктов
+1)$C=\{CLOSURE(\{s'\rightarrow\cdot s,@\})\} CLOSURE=I_0$
+2)$\forall I \in C, \forall x \in \Sigma\cup N$
+if $GOTO(I,x)=\emptyset$ и $GOTO(I,x)\notin C$
+добавить $GOTO(I,x)$ в $C$
+
+Построение $LR(1)$ функций $ACTION$ и $GOTO$
+1) Построить $C$-набор мн-в $LR(1)$-пунктов
+2)$\forall I_i\in C$ построить состояние $i$
+а)$GOTO(I_i,a)=I_j$
+б)if $[A\rightarrow\alpha\cdot,a]\in I_i$ и $A\ne S$
+$ACTION(i,a)= A\rightarrow\alpha$
+в)if $[s'\rightarrow s\cdot,@] \in I_i$
+$ACTION (i,@)="принятие"$
+3)if $GOTO(I_i,A)=I_j$, то $GOTO(i,A)=j$ где $A \in N$
+4)Начальное состояние $I_0$
+5) Во всех остальных случаях - ошибка.
+\end{document} 
