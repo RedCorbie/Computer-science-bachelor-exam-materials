@@ -285,6 +285,38 @@ $$ Q_\tau(\alpha) = ||F\alpha - y||^2 + \frac{1}{\sigma} ||\alpha||^2$$
 
 \section{Билет №5}
 \subsection{Бустинг}
+$X^l=(x_i,y_i)_{i=1}^l \subset X \times Y$ - обучающая выборка, $y_i=y^*(x_i)$. \\
+$a(x)=C(b(x))$ - алгоритм, где \begin{itemize}
+	\item $b: X \rightarrow R$ - безовый алгоритм (алгоритмический оператор)
+	\item $C: R \rightarrow Y$ - решающее правило
+	\item $r$ - пространство оценок
+\end{itemize}
+\begin{definition}
+Композиция базовых алгоритмов $b_1, \ldots, b_{\tau}$
+$$a(x) = C(F(b_1(x), \ldots, b_{tau}(x)))$$ где $F:R^T \rightarrow R$ - корректирующая операция
+\end{definition}
+\begin{example} 
+$Y=\{1, \ldots, M}$
+$$a(x) = arg \max_{\substack{y \in Y}}b_y(x)$$ где $R=\setR^M, b: X \rightarrow \setR^M, C(b_1, \ldots, b_M)=arg \max_{\substack{y \in Y}} b_y$
+\end{example}
+Функционал качества базового алгоритма (L - функция потерь):
+$$ Q(b,X^l) = \sum_{\substack{i=1}}^l L(b(x_i),y_i) $$
+Итерационный процесс: \begin{itemize}
+	\item $b_1 = arg \min_{\substack{b}} Q(b, X^l) $\\
+	\ldots
+	\item $b_t = arg \min_{\substack{b}} Q(F(b_1, \ldots, b_{t-1}), X^l)$
+\end{itemize}
+Идея - свести задачу к стандартной с весами объектор и, возможно, другой функцией потерь:
+$$ b_t = \arg \min_{\substack{b}} w_i \hat{L}(b(x_i), y_i) $$
+
+\begin{theorem} \textbf{Основная теорема бустинга} \\
+Пусть для любого нормированного вектора весов $U^l \ \exists b \in B$, классифицирующий алгоритм лучше, чем наугад: $P(b;U^l)>N(b;U^l$ \\
+Тогда минимум функционала $\hat{Q}_T$ достигается при
+$$ b_{\tau} = arg \max_{\substack{b}} \sqrt{P(b;\hat{W}^l)} - \sqrt{N(b;\hat{W}^l)} $$
+$$ a_{\tau} = \frac{1}{2} ln \frac{{P(b;\hat{W}^l)}}{{N(b;\hat{W}^l)}} $$
+\end{theorem}
+
 \subsection{Алгоритм AdaBoost}
+
 
 \end{document}
