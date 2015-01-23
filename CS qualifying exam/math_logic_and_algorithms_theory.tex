@@ -20,13 +20,16 @@
 \newtheorem{lem}{Lemma}
 \newtheorem*{proposition-star}{Proposition}
 \newtheorem{proposition}{Proposition}
-
+\newtheorem{example}{Example}
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
-
+\newtheorem*{corollary-star}{Следствие}
+\newtheorem{corollary}{Следствие}
 \theoremstyle{definition}
 \newtheorem*{definition-star}{Definition}
 \newtheorem{definition}{Definition}
+\newtheorem*{designation}{Обозначение}
+\newtheorem{props}{Свойства}
 
 \renewenvironment{proof}{{\bfseries Proof}}{$\bullet$}
 
@@ -43,15 +46,61 @@
 \newcommand{\myO}{(1+o(1))}
 \newcommand{\bra}[1]{\langle #1 \rangle}
 \newcommand{\mysetso}[2]{\myset{#1 \mid #2}} 
+\newcommand{\forcenewline}{\ \newline}
 \begin{document}
 \maketitle
 
 \section{Билет №1}
 \subsection{Множества и подмножества. Операции над множествами, тождества.}
-\subsection{Отображения и соответствия. Сравнения мн-в по мощности}
-\subsection{Теорема Кантора-Бернштейна}
-\subsection{Счетные множества и их св-ва. Теорема Кантора}
+\begin{definition}
+\begin{itemize}
+\item Множество - набор элементов. Если элемент $x$ принадлежит множеству $M$, то пишут $x \in M$\\
+\item Множество $A$ - подмножество $B$ (пишут $A \subset B$), если $\forall x \in A \ x \in B$
+\item Множество $A$ равно множеству $B$, если $A\subset B,\ B\subset A$
+\item Пустое множество $\emptyset$ не содержит ни одного элемента
+\item Пересечение, объединение, разность, симметрическая разность, мощность множества ~ тривиальные определения.
+\end{itemize}
+\end{definition}
 
+\subsection{Отображения и соответствия. Сравнения мн-в по мощности}
+\begin{definition}
+Пусть $A$ и $B$ - множества, тогда мн-во $(a,b)$ упорядоченных пар  называется декартовым произведением $A*B$. Любое подмножество $A*B$ называется отношением.
+\end{definition}
+\begin{definition}
+$F\subset A*B$ называется функцией из $A$ в $B$, если $A*B$ не содержит пар $(a,b_1)$ и $(a,b_2)$
+\end{definition}
+\begin{definition}
+\begin{itemize}
+		\item Отношение F - инъекция, если $\forall a_1,a_2\  a_1 \ne a_2\Rightarrow F(a_1)\ne F(a_2)$ 
+		\item Отношение F - сюръекция, если $\forall b\in B \exists a \in A: F(a)=b$
+	\end{itemize}	
+\end{definition}
+\subsection{Теорема Кантора-Бернштейна}
+\begin{theorem}
+Если $A$ равномощно подмн-ву $B$, а $B$ равномощно подмн-ву $A$, то $A$ и $B$ равномощны	
+\end{theorem}
+\begin{proof}
+	
+\end{proof}
+\subsection{Счетные множества и их св-ва. Теорема Кантора}
+\begin{definition}
+ Множество называется счетным, если оно равномощно множеству $\myN$	
+\end{definition}
+\begin{props}
+\begin{itemize}
+\item Подмножество счетного множества - счетное или конечное множество
+\item В бесконечном мн-ве $\exists$ счетное подмножество
+\item объединение числа конечного/счетного числа конечных/счетных множеств конечно или счетно	
+\end{itemize}	
+\end{props}
+\begin{theorem}{Теорема Кантора}
+Множество бесконечных последовательностей из 0 и 1 несчетно	
+\end{theorem}
+\begin{proof}
+Предположим обратное: мн-во последовательностей счетно.Тогда пронумеруем их:\\
+$\alpha_i = \alpha_{i0}\alpha_{i1}...$\\
+Теперь возьмем последовательностей $\beta=\beta_0\beta_1..$ т.ч. $\beta_i=1-\alpha_{ii}$. $\beta$ отлична от любой последователности $\alpha_i$ $\Rightarrow$ ее нет в нашем счетном множестве. Противоречие.	
+\end{proof}
 \section{Билет №2}
 
 
@@ -233,7 +282,7 @@ $a_1, \ldots, a_n$ - аргументы функции.
 Символы:
 \begin{enumerate}
 	\item Индивидные переменные: $x,y,z,x_1,x_2,\ldots$
-	\item Функциональные символы: $f,y,f_1,f_2, \ldots$. У каждой формулы есть валентность $n \in \mathbb{N}$ - количество принимаемых переменных.
+	\item Функциональные символы: $f,f_1,f_2, \ldots$. У каждой формулы есть валентность $n \in \mathbb{N}$ - количество принимаемых переменных.
 	\item Функциональный символ с нулевой валентностью - константа.
 	\item Предикатные символы: $P,Q,P_1,Q_2, \ldots$. У них тоже есть валентность.
 	\item Кванторы: $\forall, \exists$
@@ -370,7 +419,7 @@ $a_1, \ldots, a_n$ - аргументы функции.
 Кодирование Смаллиана: $n \mapsto n + 1 \mapsto {n + 1}_binary \mapsto {n + 1}_binary \text{без первой единицы}$
 
 \begin{theorem}
-	Есть выразимый предикат от трех параметров $S(x,a,b)$ такой, что $\mysetso{x}{S(x,a,b) = 1}$ конечно и наоборот, для любого конечного множества $A$ найдутся $a$ и $b$ такие, что $A = \mysetso{x}{S(x,a,b) = 1}$
+	Есть выразимый предикат от трех параметров $S(x,a,b)$ такой, что $\{x|S(x,a,b) = 1\}$конечно и наоборот, для любого конечного множества $A$ найдутся $a$ и $b$ такие, что $A=\{x|S(x,a,b) = 1\}$
 \end{theorem}
 
 \begin{proof}
@@ -380,9 +429,56 @@ $a_1, \ldots, a_n$ - аргументы функции.
 
 \section{Билет №4}
 \subsection{Общезначимые формулы первого порядка. Исчисление предикатов: формулы и правила вывода}
+\begin{definition}
+	Общезначимая формула 1го порядка - формула, верная на любой оценке при любой интерпретации
+\end{definition}
+Исчисление предикатов проходит с использованием следующих правил:
+\begin{itemize}
+	\item  1)-11) аксиомы исчисления высказываний
+	\item  12)$\forall x \phi\rightarrow\phi(t|x)$ - подстановка терма $t$ вместо $x$
+	\item 13)$\phi(t|x) \rightarrow \exists x \phi$
+	\item правило $MP (A, A\rightarrow B\ \vdash B)$
+	\item правила Бернайса: 1) $\phi\rightarrow\psi \ \vdash \phi\rightarrow\forall\psi$ 2) $\phi\rightarrow\psi \ \vdash \exists\phi\rightarrow\psi$
+\end{itemize}
 \subsection{Корректность исчисления предикатов}
+\begin{theorem}{Теорема о корректности}
+Любая выводимая формула общезначима	
+\end{theorem}
+\begin{proof}
+1) 1-11 + MP очевидно
+2) 12: $[\phi(t|x)](\pi)=[\phi](\pi+(x\rightarrow [t](\pi)))$\\
+Если $\phi$ - терм, то выполняется подскатовка.\\
+Комбинация с операторами также легко подставляется.\\
+Проверим $\phi=\forall\eta\psi$:\\
+$[\forall\eta\psi(t|x)](\pi)=\bigwedge_m[\psi](\pi+\eta\rightarrow m + (x\rightarrow[t](\pi+\eta\rightarrow m))) = 
+[\forall\eta\psi(t|x)](\pi)=\bigwedge_m[\psi](\pi+\eta\rightarrow m + (x\rightarrow[t](\pi))) = [\forall\eta\psi(t|x)](\pi + x\rightarrow[t](\pi))$\\
+Р-во верно $\Rightarrow \forall x\phi\rightarrow\phi(t|x)$ верно, т.к. если $\phi$ выполнена на $\pi$, то в силу $\forall x\phi$ и на наборе $\pi'$, где $\pi'$ отличается от $\pi$ только в $x$.\\
+3)13: аналогично
+\end{proof}
 \subsection{Теорема Геделя о полноте исчисления предикатов: формулировки, схема доказательства}
+\begin{definition}
+Формула замкнута, если нет свободных переменных ($\forall x \phi(x)$ - замкнута,$\forall x \phi(x,y)$ - нет)	
+\end{definition}
+\begin{definition}
+	\begin{itemize}
+		\item Теория - набор замкнутых формул
+		\item Модель теории - интерпретация, в которой все формулы теории истинны
+		\item Теория совместна, если $\exists$ модель теории 
+		\item Теория противоречива, если из нее выводятся $\phi$ и $\not\phi$ 
+	\end{itemize}	
+\end{definition}
 
+\begin{theorem}{Сильная теорема Гёделя о полноте}
+Если теория непротиворечива, то она совместна	
+\end{theorem}
+\begin{proof}{Схема д-ва}
+Можем пополнить непротиворечивую теорию $\Gamma$ до полной (в которой выводится $\phi$ или $\not\phi$)\\
+Но м.б.$\Gamma \vdash \exists x\phi$ по $\Gamma \nvdash \phi(t|x)$
+Тогда расширяем сигнатуру, добавляя соотв. конст, а значение $\phi(c|x)$ добавляем в теорию. А у любой экзистенциально полной теории есть модель.	
+\end{proof}
+\begin{theorem}{Слабая теорема о полноте}
+Если $\phi$ общезначима, то $\phi$ выводима	
+\end{theorem}
 \section{Билет №5}
 \subsection{Машины Тьюринга. Вычислимые функции}
 \subsection{Разрешимые и перечислимые множества}
