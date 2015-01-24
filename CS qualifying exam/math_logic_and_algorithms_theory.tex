@@ -481,12 +481,59 @@ $[\forall\eta\psi(t|x)](\pi)=\bigwedge_m[\psi](\pi+\eta\rightarrow m + (x\righta
 \end{theorem}
 \section{Билет №5}
 \subsection{Машины Тьюринга. Вычислимые функции}
+\begin{definition}
+Машина Тьюринга - абстрактный вычислитель:
+$\Gamma$ - ленточный алфавит $\Sigma\subset\Gamma$ - входной алфавит
+$Q$ - мн-во состояний, # - бланк $\in \Gamma\backslash\Sigma$
+$\delta: Q*\Gamma\rightarrow Q*\Gamma*\{L,R,N\}$ - правила
+Конфигурация: $AqxB$, где $A,B \in \Gamma^* x\in\Sigma q\in Q$ 	
+\end{definition}
+\begin{definition}
+Машина вычисляет ф-цию, если $\forall x$ $\exists$ вычисление, начинающееся с $q_1x$ и заканчивающееся $q_0(x)$	
+\end{definition}
+\begin{definition}
+$f$ - вычислима, если $\exists$ $MT$, которая ее вычисляет.	
+\end{definition}
 \subsection{Разрешимые и перечислимые множества}
+\begin{definition}
+	$A$ - разрешимо, если хар-кая функция $\hi_A(n) =$\begin{cases}
+	$1,n\in A$\\
+	$0, n\notin A$
+	\end{cases}
+\end{definition}
+\begin{definition}
+$A$ - перечислимо, если полухар-кая функция $\hi_A(n) =$\begin{cases}
+	$1,n\in A$\\
+	$неопр., n\notin A$
+	\end{cases}	
+\end{definition}
 \subsection{Неразрешимость проблем самоприменимости и остановки}
+\begin{proposition}
+	Последовательность конфигурация точно определяет $МТ$ $\Rightarrow$	 вычислимых функций не более чем счетное множество
+\end{proposition}
+\begin{proposition}
+$K=\{n|\phi_n(n) - опред.\}$ - неразрешимо.
+\end{proposition}
+\begin{proof}
+Рассмотрим антидиагональную последовательность.	
+\end{proof}
 \subsection{Теорема Райса-Успенского (б/д)}
+\begin{theorem}
+Мн-во номеров функций мн-ва А (А - не все вычислимые функции, но и не пустое) неразрешимо	
+\end{theorem}
 \subsection{Теорема Клини о неподвижной точке (б/д)}
+\begin{theorem}
+f:\myN\rightarrow\myN - всюду опред. вычислимая функция. Тогда $\exists n: U(n,x)\simeq U(f(n),x)$	
+\end{theorem}
+\begin{proposition}
+$U$ - главная вычислительная нумерация $(U(n,x)\simeq f(n,x))$	 и $\forall V \exists S(n): V(n,x)\simeq U(S(n),x)$
+\end{proposition}
 \subsection{Существование программы, печатающей собственный текст}
-
+programm(String s){\\
+	write_text(s);\\
+	s=h(s);\\
+	programm(s);\\
+}\\
 \section{Билет №6}
 \subsection{Формальная арифметика}
 \subsection{Моделирование МТ в формальной арифметике}
@@ -494,12 +541,101 @@ $[\forall\eta\psi(t|x)](\pi)=\bigwedge_m[\psi](\pi+\eta\rightarrow m + (x\righta
 
 \section{Билет №7}
 \subsection{Лямбда-исчисление. Лямбда-термы и комбинаторы}
+\begin{definition}
+$\lambda$-терм:
+\begin{itemize}
+		\item $x$-переменная - есть $\lambda$-терм
+		\item $A$ и $B$ - термы $\rightarrow$ $(AB)$-терм
+		\item $A$ терм, $x$-переменная $\rightarrow\  \lambda x.A$ - терм
+	\end{itemize}	
+\end{definition}
+\begin{definition}
+\begin{itemize}
+		\item $\alpha$-конверсия: $\lambda x.A \rightarrow_\alpha \lambda y.A(y|x)$
+		\item $\beta$-редукция: $(\lambda x.A)B\rightarrow A(B|x)$
+	\end{itemize}	
+\end{definition}
+\begin{definition}
+терм $A$ является нормальной формой, если к $A$ нельзя применить $\beta$-редукцию	
+\end{definition}
+\begin{definition}
+\lambda-термы $A$ и $B$ равны, если $\exists$ последовательность  конверсий-редукций $c_1c_2..c_n : A\rightarrow\rightarrow c_1...\rightarrow\rightarrow B$	
+\end{definition}
 \subsection{Теорема Черча-Россера (б/д). Нумералы Черча}
+\begin{theorem}
+Если $\lambda$-термы $A$ и $B$ равны, то $\exists \lambda$-терм $C$: $A\rightarrow\rightarrow C$ и $B\rightarrow\rightarrow C$  	
+\end{theorem}
+\begin{definition}
+Комбинаторы - замкнутые термы (не имеющие свободных переменных)	
+\end{definition}
+\begin{definition}
+Нумералы Черча: 0: $\lambda fx.x$  1: $\lambda fx.fx$  2: $\lambda fx.ffx$ и т.д.	
+\end{definition}
 \subsection{Комбинаторы, представляющие арифметические операции. Представление логических значений и операций}
+Арифметические операции:
+\begin{itemize}
+	\item inc: $\lambda nfx.f(nfx)$
+	\item add: $\lambda nmfx.nf((mf)x)$
+	\item mult: $\lambda nmf. n(mf)$
+\end{itemize}
+Логические операции:
+\begin{itemize}
+	\item $True: \lambda xy.x$
+	\item $False: \lambda xy.y$
+	\item $And: \lambda xy.(xyFalse)$
+	\item $Or: \lambda xy.(xTruey)$
+	\item $Not: \lambda x.xFalseTrue$
+\end{itemize}
 \subsection{Комбинатор неподвижной точки}
-
+\begin{definition}
+Комбинатор неподвижной точки ф-ции f есть комбинатор x т.ч. fx=x	
+\end{definition}
+\begin{definition}
+$\theta = (\lambda xy.y(xxy))(\lambda xy.y(xxy))$\\
+\end{definition}
+\begin{proposition}
+$\theta f$ - комбинатор неподвижной точки	
+\end{proposition}
+\begin{proof}
+$\theta A = A(\theta A)$\\
+$\theta f = (\lambda xy.y(xxy))(\lambda xy.y(xxy))f = f((\lambda xy.y(xxy))(\lambda xy.y(xxy))f)=f(\theta f)$
+\end{proof}
 \section{Билет №8}
 \subsection{Классы сложности P и NP}
+\begin{definition}
+$DTIME(n^k)$ = $\{множество языков, разрешимых на детермитированной МТ за O(n^k)\}$\\
+$M(x)=1 \eqv x\in L$	\\
+$NTIME(n^k) = \{множество языков, разрешимых на недетермитированной МТ за O(n^k)\}$
+\end{definition}
+\begin{definition}
+$P=\bigcup_{k=1}DTIME(n^k)$\\
+$NP=\bigcup_{k=1}DNIME(n^k)$\\
+\end{definition}
+\begin{definition}
+Язык $L$ распознается НМТ за $O(n^k)$, если $x\in L \eqv$ все ветви вычисляются за $O(n^k)$ и хоть одна ветвь находится в $q_n$ (завершающем)	
+\end{definition}
 \subsection{NP-hard и NP-complete}
-
+\begin{definition}
+Язык $L$ сводится к $M$ по карпу $L\le_p M$, если $\exists$ вычислимая функция $f:\{0;1\}*\rigtharrow \{0;1\}*$ т.ч. $x\inL \Leftrightarrow f(x)\in M$	
+\end{definition}
+\begin{definition}
+Язык $L$ называется $NP-hard$, если $\forall M\in NP N\le_pL$	
+\end{definition}
+\begin{definition}
+Язык $L$ называется $NP-complete$, если $L$ - $NP-hard$ и $L\in NP$	
+\end{definition}
+\begin{props}
+\begin{itemize}
+		\item $L\le_pL$
+		\item $L\le_pM\  M\le_pK \Rightarrow L\le_pK$
+		\item $L\le_pM\ M\in NP \Rightarrow L\in NP$
+		\item $L\le_pM\ M\in P \Rightarrow L\in P$
+	\end{itemize}	
+\end{props}
+\begin{example}
+	SAT=$\{\phi| \phi$ - выполнимая ф-ла$\}$ и 3SAT=$\{\phi| \phi$ - 3КНФ выполнимая ф-ла$\} \in NPC$
+\end{example}
+\begin{remark}
+По т.Ландера если $P\ne NP$, то $\exists$ $NP$-язык, не являющийся $NPC$	
+\end{remark}
 \end{document}
