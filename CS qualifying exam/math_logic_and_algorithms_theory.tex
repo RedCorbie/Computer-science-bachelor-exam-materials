@@ -20,13 +20,16 @@
 \newtheorem{lem}{Lemma}
 \newtheorem*{proposition-star}{Proposition}
 \newtheorem{proposition}{Proposition}
-
+\newtheorem{example}{Example}
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
-
+\newtheorem*{corollary-star}{Следствие}
+\newtheorem{corollary}{Следствие}
 \theoremstyle{definition}
 \newtheorem*{definition-star}{Definition}
 \newtheorem{definition}{Definition}
+\newtheorem*{designation}{Обозначение}
+\newtheorem{props}{Свойства}
 
 \renewenvironment{proof}{{\bfseries Proof}}{$\bullet$}
 
@@ -41,40 +44,496 @@
 \newcommand{\myE}{\mathcal{E}} 
 \newcommand{\myM}{\mathcal{M}}
 \newcommand{\myO}{(1+o(1))}
-
+\newcommand{\bra}[1]{\langle #1 \rangle}
+\newcommand{\mysetso}[2]{\myset{#1 \mid #2}} 
+\newcommand{\forcenewline}{\ \newline}
 \begin{document}
 \maketitle
 
 \section{Билет №1}
 \subsection{Множества и подмножества. Операции над множествами, тождества.}
+\begin{definition}
+\begin{itemize}
+\item Множество - набор элементов. Если элемент $x$ принадлежит множеству $M$, то пишут $x \in M$\\
+\item Множество $A$ - подмножество $B$ (пишут $A \subset B$), если $\forall x \in A \ x \in B$
+\item Множество $A$ равно множеству $B$, если $A\subset B,\ B\subset A$
+\item Пустое множество $\emptyset$ не содержит ни одного элемента
+\item Пересечение, объединение, разность, симметрическая разность, мощность множества ~ тривиальные определения.
+\end{itemize}
+\end{definition}
+
 \subsection{Отображения и соответствия. Сравнения мн-в по мощности}
+\begin{definition}
+Пусть $A$ и $B$ - множества, тогда мн-во $(a,b)$ упорядоченных пар  называется декартовым произведением $A*B$. Любое подмножество $A*B$ называется отношением.
+\end{definition}
+\begin{definition}
+$F\subset A*B$ называется функцией из $A$ в $B$, если $A*B$ не содержит пар $(a,b_1)$ и $(a,b_2)$
+\end{definition}
+\begin{definition}
+\begin{itemize}
+		\item Отношение F - инъекция, если $\forall a_1,a_2\  a_1 \ne a_2\Rightarrow F(a_1)\ne F(a_2)$ 
+		\item Отношение F - сюръекция, если $\forall b\in B \exists a \in A: F(a)=b$
+	\end{itemize}	
+\end{definition}
 \subsection{Теорема Кантора-Бернштейна}
+\begin{theorem}
+Если $A$ равномощно подмн-ву $B$, а $B$ равномощно подмн-ву $A$, то $A$ и $B$ равномощны	
+\end{theorem}
+\begin{proof}
+	
+\end{proof}
 \subsection{Счетные множества и их св-ва. Теорема Кантора}
-
+\begin{definition}
+ Множество называется счетным, если оно равномощно множеству $\myN$	
+\end{definition}
+\begin{props}
+\begin{itemize}
+\item Подмножество счетного множества - счетное или конечное множество
+\item В бесконечном мн-ве $\exists$ счетное подмножество
+\item объединение числа конечного/счетного числа конечных/счетных множеств конечно или счетно	
+\end{itemize}	
+\end{props}
+\begin{theorem}{Теорема Кантора}
+Множество бесконечных последовательностей из 0 и 1 несчетно	
+\end{theorem}
+\begin{proof}
+Предположим обратное: мн-во последовательностей счетно.Тогда пронумеруем их:\\
+$\alpha_i = \alpha_{i0}\alpha_{i1}...$\\
+Теперь возьмем последовательностей $\beta=\beta_0\beta_1..$ т.ч. $\beta_i=1-\alpha_{ii}$. $\beta$ отлична от любой последователности $\alpha_i$ $\Rightarrow$ ее нет в нашем счетном множестве. Противоречие.	
+\end{proof}
 \section{Билет №2}
-\subsection{Булевы функции и пропозициональные формулы. КНФ, ДНФ. Тавтологии}
-\subsection{Исчисление высказываний: аксиомы, правила вывода, определение выводимости. Корректность исчисления высказываний}
-\subsection{Лемма о дедукции}
-\subsection{Полнота исчисления высказываний}
 
+
+\subsection{Булевы функции и пропозициональные формулы. КНФ, ДНФ. Тавтологии}
+\begin{definition}
+	\emph{Высказывание} - утверждение, которое может быть истинно или ложно.
+\end{definition}
+Пропозициональные переменные - переменные, обозначающие высказывание.
+Будем считать, что есть фиксированное множество пропозициональных переменных $p_1, p_2, \ldots$.
+\begin{definition}
+
+	\begin{itemize}
+		\item Если $p$ - переменная, то $p$ - формула.
+		\item Если $\phi$ - формула, то $\lnot \phi$ - формула.
+		\item Если $\phi, \psi$ - формулы, то $(\phi \land \psi)$, $(\phi \lor \psi)$, $(\phi \leftarrow \psi)$ - формулы.
+	\end{itemize}
+\end{definition}
+
+\begin{example}
+	$(p \leftarrow \lnot q) \land \lnot (v \lor (p \leftarrow \lnot r))$
+\end{example}
+\begin{definition}
+	Булева функция - $f:\{0,1\}^n \mapsto \{0,1\}$.
+\end{definition}
+
+Каждая пропозициональная формула задаёт булеву функцию.
+
+$p_1, \ldots, p_m$ - переменные, входящие в формулу.
+$a_1, \ldots, a_n$ - аргументы функции.
+
+\begin{enumerate}
+	\item Если $\phi = p_i$,то значение функции $(a_1, \ldots, a_n)$ равно $a_i$.
+	\item Если $\phi = \lnot \psi$, то $\phi(a_1, \ldots, a_n) = not \psi(a_1, \ldots, a_n)$
+	\item Если $\phi = (\alpha R \beta)$, то $\phi(a_1, \ldots, a_n) = \alpha(a_1, \ldots, a_n) R \beta(a_1, \ldots, a_n)$
+\end{enumerate}
+
+Всего булевых функций от $n$ - $2 ^ {2 ^ n}$
+Формул от $n$ переменных бесконечно много.
+Рассмотрим частный случай, когда формула равна константе. 
+\begin{itemize}
+	\item Если $[\phi] = 1$, то $\phi$ называется тавтологией % заменить на тройное равно
+	\item Если $[\phi] = 0$, то $\phi$ называется противоречием
+\end{itemize}
+\begin{definition}
+	Литералом называется либо переменная, либо отрицание переменной.
+\end{definition}
+
+\begin{definition}
+	Конъюнкт - конъюнкция литералов.
+\end{definition}
+
+\begin{definition}
+	Дизъюнкт - дизъюнкция литералов.
+\end{definition}
+
+\begin{definition}
+	Конъюнктивная нормальная форма (КНФ) - конъюнкция дизъюнктов.
+\end{definition}
+
+\begin{definition} 
+	Дизъюнктивная нормальная форма (ДНФ) - дизъюнкция конъюнктов.
+\end{definition}
+
+\begin{theorem}
+	Любую функцию $f: \{0,1\}^n \mapsto \{0,1\}$ можно представить в виде ДНФ и виде КНФ.
+\end{theorem}
+
+\begin{definition} % Сделать команду обозначение
+	Если $a \in \{0,1\}$, то $p^a = a$, если $a = 1$, и $p^a = \lnot p$, если 
+\end{definition}
+
+\underline{ДНФ:} \\
+	$f$ принимает значение $1$ на наборах $(a_1^1, \ldots, a_n^1), \ldots, (a_1^k, \ldots, a_n^k)$\\
+	$f = \bigvee_{i=1}^k \land_{j=1}^{n} p_j^{a_j^i}$, где $p_j$ - $j$-тая переменная, а $a_j^i$ - значение, принимаемое переменной $p_j$ в $i$-том наборе.Это работает, если $k > 0$. Если $k = 0$, то функция - противоречие.
+
+\underline{КНФ:} \\
+	$f$ принимает значение $0$ на наборах $(b_1^1, \ldots, b_n^1), \ldots, (b_1^l, \ldots, b_n^l)$\\
+	$f = \bigwedge_{i=1}^l \lor_{j=1}^{n} p_j^{1 - b_j^i}$, где $p_j$ - $j$-тая переменная, а $b_j^i$ - значение, принимаемое переменной $p_j$ в $i$-том наборе.Это работает, если $l > 0$. Если $l = 0$, то функция - тавтология.
+\subsection{Исчисление высказываний: аксиомы, правила вывода, определение выводимости. Корректность исчисления высказываний}
+\subsubsection{Аксиомы}
+\underline{Аксиомы (схемы аксиом)}:
+\begin{enumerate}
+	\item $A \rightarrow (B \rightarrow A)$
+	\item $(A \rightarrow (B \rightarrow C)) \rightarrow ((A \rightarrow B)\rightarrow(A\rightarrow C))$
+	\item $(A \land B)\rightarrow A$
+	\item $(A \land B)\rightarrow B$
+	\item $A \rightarrow (B \rightarrow (A \land B))$
+	\item $A \rightarrow (A \lor B)$
+	\item $B \rightarrow (A \lor B)$
+	\item $(A \rightarrow C) \rightarrow ((B \rightarrow C) \rightarrow ((A \lor B) \rightarrow C))$
+	\item $\lnot A \rightarrow (A \rightarrow B)$
+	\item $(A \rightarrow B) \rightarrow (( A \rightarrow \lnot B) \rightarrow \lnot A)$
+	\item $\lnot A \lor A$
+\end{enumerate}
+\subsubsection{правила вывода,определение выводимости}
+\emph{modus ponens}: если $A$ и $A \rightarrow B$, то $B$. (запись: $\frac{A\quad A \rightarrow B}{B}$)
+
+\begin{definition}
+	Выводом в исчислении высказываний называется такая последовательность высказываний $c_1, \ldots, c_n$, что $c_i$ либо следует из двух ранее встретившихся по правилу modus ponens
+\end{definition}
+
+\begin{definition}
+	Формула называется выводимой если она встречается в каком-то выводе.
+\end{definition}
+\begin{designation}
+	Если $\varphi$ выводимо, то пишут $\vdash \varphi$
+\end{designation}
+
+\begin{definition}
+	Пусть $\Gamma$ - множество пропозициональных формул. Тогда выводом из $\Gamma$ называется последовательность формул $c_1, \ldots, c_n$, такое что либо $c_i$ - аксиома, либо $c_i \in \Gamma$, либо следует из двух предыдущих по правилу modus ponens. 
+\end{definition}
+
+\begin{designation}
+	$\Gamma \vdash \varphi$
+\end{designation}
+\subsubsection{Корректность исчисления высказываний}
+\begin{theorem}{Теорема о корректности}
+	Если $\varphi$ выводимо, то оно является тавтологией.
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+	\item Аксиомы 1-11 - тавтологии.\\
+	\item Если $A$ - тавтология, и $A\rightarrow B$, то $B$ - тавтология.
+\end{enumerate}
+\end{proof}
+
+
+\subsection{Лемма о дедукции}
+\begin{lem}{Лемма о дедукции}
+	\newline
+	Пусть $\Gamma$ - множество пропозициональных формул, $A,B$ - пропозициональные формулы. Тогда $\Gamma \vdash A \rightarrow B \Leftrightarrow \Gamma \cup \{A\} \vdash B$
+\end{lem}
+
+\begin{proof}
+	Слева направо доказать просто: пусть $c_1, \ldots, c_n$ - вывод $A \rightarrow B$ из $\Gamma$. Тогда $A\rightarrow B$ выводится из $\Gamma \cup \{A\}$. И по правилу modus ponens из $A \rightarrow B$ и $A$ получаем $B$. \\
+	Обратно: пусть есть вывод $C_1, \ldots, C_n$ - вывод $B$ из $\Gamma \cup \{A\}$. докажем по индукции, что из $\Gamma \vdash (A \rightarrow C_i)$. Есть три способа получить $C_i$. Пусть $C_i$- аксиома. Тогда надо доказать: $\Gamma \vdash (A \rightarrow C_i)$. Но у нас есть аксиомы $C_i$ и $C_i \rightarrow (A \rightarrow C_i)$. По правилу modus ponens получаем, что нам надо. Если $C_i \in \Gamma \cup \{A\}$. Тогда либо $C_i \in \Gamma$ и все аналогично, либо $C_i = A$, но мы уже доказали, что $\vdash A \rightarrow A$.	\\
+	Третий случай: $C_i$ выведено из $C_j$ и $C_k$ по правилу modus ponens. Значит $C_k = C_j \rightarrow C_i$ (графическое равенство). По предположению индукции $\Gamma \vdash (A \rightarrow C_j)$, $\Gamma \vdash (A \rightarrow C_k) = (A \rightarrow (C_j \rightarrow C_i))$. \\
+	$(A \rightarrow(C_j \rightarrow C_i)) \rightarrow ((A \rightarrow C_j) \rightarrow (A \rightarrow C_i))$ \bf{(А2)} \\
+	$(A \rightarrow C_j) \rightarrow (A \rightarrow C_i)$ \bf{(m.p.)} \\
+	$A \rightarrow C_i$ \bf{(m.p.)}
+\end{proof}
+\subsection{Полнота исчисления высказываний}
+\begin{theorem}{Теорема о полноте}
+	\newline
+	Если $\varphi$ - тавтология, то $\varphi$ выводима.
+\end{theorem}
+
+\begin{lem}
+	Если $\varphi$ выполнена на наборе $X = \{x_1,x_2, \ldots, x_n\}$, то тогда $p_1^{x_1}, p_2^{x_2}, \ldots, p_n^{x_n} \vdash \varphi$ ($\varphi$ зависит от $p_1, \ldots, p_n$)
+\end{lem}
+
+Выведем из леммы теорему: \newline
+Если $\varphi$ - тавтология, то $\varphi$ выполнена на любом наборе. По лемме для любого набора $p_1^{x_1}, p_2^{x_2}, \ldots, p_n^{x_n} \vdash \varphi$, в частности $p_1^{x_1}, p_2^{x_2}, \ldots, p_{n-1}^{x_{n-1}}, p_n \vdash \varphi$ и $p_1^{x_1}, p_2^{x_2}, \ldots, p_{n-1}^{x_{n-1}}, \lnot p_n \vdash \varphi$. Но у нас есть правило разбора случаев $\frac{\Gamma,A\vdash C\ \Gamma,B\vdash C}{\Gamma, A\lor B \vdash C}$(оно следует из восьмой аксиомы). Применив её, получим $p_1^{x_1}, p_2^{x_2}, \ldots, p_{n-1}^{x_{n-1}}, p_n \lor \lnot p_n \vdash \varphi \Rightarrow p_1^{x_1}, p_2^{x_2}, \ldots, p_{n-1}^{x_{n-1}} \vdash \varphi$. Мы исключили последнюю переменную. Аналогично поубиваем остальные $n-1$ переменную и получим, что $\vdash \varphi$
+
+\begin{proof}
+	\forcenewline
+	Докажем следующее утверждение: если $\varphi$ выполнена на наборе $X$, то $p_1^{x_1}, p_2^{x_2}, \ldots, p_n^{x_n} \vdash \varphi$ и если $\varphi$ не выполнена, то $p_1^{x_1}, p_2^{x_2}, \ldots, p_n^{x_n} \vdash \lnot \varphi$. \\
+	Доказывать будет индукцией по построению формулы. 
+\begin{itemize}
+\item Если $\varphi$ - переменная, то это очевидное следствие.
+\item Если $\varphi = \lnot \psi$. Пусть $\psi$ истинно. Тогда по предположению индукции $p_1^{x_1}, p_2^{x_2}, \ldots, p_n^{x_n} \vdash \psi \vdash \lnot \lnot \psi \vdash \lnot \varphi$. Если $\psi$ ложно, то все аналогично.	
+\item Если $\varphi = (\psi \land \xi)$ \\
+	Много капитанских утверждений, которые можно доказать руками.
+	$P,Q \vdash P \land Q$, $P,\lnot Q \vdash \lnot(P \land Q)$,$\lnot P,Q \vdash \lnot(P \land Q)$,$\lnot P,\lnot Q \vdash \lnot(P \land Q)$ \\
+	$P,Q \vdash P \lor Q$, $P,\lnot Q \vdash P \lor Q$,$\lnot P,Q \vdash P \lor Q$,$\lnot P,\lnot Q \vdash \lnot(P \lor Q)$ \\
+	$P,Q \vdash P \rightarrow Q$, $P,\lnot Q \vdash \lnot(P \rightarrow Q)$,$\lnot P,Q \vdash P \rightarrow Q$,$\lnot P,\lnot Q \vdash P \rightarrow Q$ \\
+	\emph{Например} пусть $\varphi = \psi \land \xi$. Пусть $\psi$ истинно и $\xi$ ложно. Тогда по предположению индукции $p_1^{x_1}, p_2^{x_2}, \ldots, p_n^{x_n} \vdash \psi$, $p_1^{x_1}, p_2^{x_2}, \ldots, p_n^{x_n} \vdash \lnot \xi$, и мы знаем, что $\psi,\lnot \xi \vdash \lnot(\psi \land \xi) = \lnot \varphi$. Отсюда следует, что $p_1^{x_1}, p_2^{x_2}, \ldots, p_n^{x_n} \vdash \lnot \varphi$
+\end{itemize}
+\end{proof}
 \section{Билет №3}
 \subsection{Языки первого порядка: сигнатуры, термы, правила построения формул}
+\begin{definition}
+	Сигнатура - набор предикатных и непредикатных символов с указанием валентностей. 
+\end{definition}
+
+Пример формулы: $\forall{x} (\exists{y} P(f(x,y),g(y))\lor\lnot Q(z,g(z))$
+
+Символы:
+\begin{enumerate}
+	\item Индивидные переменные: $x,y,z,x_1,x_2,\ldots$
+	\item Функциональные символы: $f,f_1,f_2, \ldots$. У каждой формулы есть валентность $n \in \mathbb{N}$ - количество принимаемых переменных.
+	\item Функциональный символ с нулевой валентностью - константа.
+	\item Предикатные символы: $P,Q,P_1,Q_2, \ldots$. У них тоже есть валентность.
+	\item Кванторы: $\forall, \exists$
+	\item Cлужебные символы: $()$ и $,$.
+\end{enumerate}
+
+\begin{definition}
+	Терм - это запись, которая может принимать предметное значение.
+	\begin{enumerate}
+		\item Если $x$ - индивидная переменная, то $x$ - терм.
+		\item Если $c$ - функциональный символ валентности $0$, то $c$ - терм.
+		\item Если $t_1, \ldots, t_k$ - термы и $f$ - функциональный символ валентности $k$, то $f(t_1, \ldots, t_k)$ - терм.
+	\end{enumerate}
+\end{definition}
+
+\begin{definition}	
+	Если $t_1, \ldots, t_k$ - термы, а $P$ - предиканый символ, то $P(t_1, \ldots, t_k)$ - атомарная формула.
+\end{definition}
+
+\begin{definition}
+	\forcenewline
+	\begin{itemize}
+		\item Если $F$ - атомарная формула, то $F$ - формула.
+		\item Если $F$ - формула, то $\forall x \space F$ и $\exists x \space F$ - формулы.
+		\item Если $F$ и $T$ - формулы, то $F \land T$, $F \lor T$, $\lnot F$ - формулы.
+	\end{itemize}
+\end{definition}
 \subsection{Интерпретация, оценки, определение истинности формулы}
+\begin{definition}
+	Интерпретация сигнатуры:
+	\begin{itemize}
+		\item Носитель сигнатуры $M \neq \emptyset$
+		\item Для каждого функционального символа валентности $k$ задана функция из $M^k$ в $M$. 
+		\item Для каждого предиката валентности $k$ задан $k$-местный предикат на $M$, то есть функция из $M^k$ в $\{0,1\}$
+	\end{itemize}
+\end{definition}
+
+\begin{definition}
+	Оценка - сопоставление каждой переменной, входящей в функцию элемента из $M$.
+\end{definition}
+
+\paragraph{Определение истинности формулы при заданной интерпретации на заданной оценке}
+
+\begin{designation}
+	$V$ - множество переменных. $\pi: V \rightarrow M$ - оценка. $[\varphi](\pi)$ - значение формулы $\varphi$ на оценке $\pi$. $[t][\pi]$ - значение терма $t$ на оценке $\pi$.
+\end{designation}
+
+\begin{designation}
+	$f$ - фунцкиональный символ. $\tilde{f}$ - функция, ему соответствующая.
+\end{designation}
+
+\begin{definition}
+	Определение значения терма $A$:
+	\begin{itemize}
+		\item Если терм - переменная, то есть $t = x$, то $[t](\pi) = \pi(t)$
+		\item Если терм - константа, то есть $t = c$, то $[t](\pi) = \tilde{c}$
+		\item Если терм был получен с помощью функционального символа, то есть $\varphi = P(t_1, \ldots, t_k)$, то $[t](\pi) = \tilde{f}([t_1](\pi), \ldots, [t_k](\pi))$
+	\end{itemize}
+\end{definition}
+
+\begin{designation}
+	$\pi + x \rightarrow m$ - такая оценка, в которой значение переменной $x$ изменено на $m$.(Если $\pi' = \pi + x \rightarrow m$, то $\pi': V \rightarrow M$, $m \in M$, $\pi'(y) = \pi(y)$, если $x \neq y$, и $\pi'(y) = m$, если $x = y$)
+\end{designation}
+
+\begin{definition}
+	Определение значений формулы определяется аналогично значениям терма.
+	\begin{itemize}
+		\item $\varphi = P(t_1, \ldots, t_k) \Rightarrow [\varphi](\pi) = \tilde{P}([t_1](\pi), \ldots, [t_k](\pi))$
+		\item $\varphi = \lnot \psi \Rightarrow [\varphi](\pi) = \lnot [\psi](\pi)$
+		\item $\varphi = (\psi \land \xi) \Rightarrow [\varphi](\pi) = [\psi](\pi) \land [\psi](\pi)$
+		\item $\varphi = \exists x \psi \Rightarrow [\varphi](\pi) = \bigvee_{m \in M} [\psi](\pi + x \rightarrow m)$
+		\item $\varphi = \forall x \psi \Rightarrow [\varphi](\pi) = \bigwedge_{m \in M} [\psi](\pi + x \rightarrow m)$
+	\end{itemize}
+\end{definition}
+
+\begin{definition}
+	Формула $\varphi$ общезначима, если она истинна при любой интерпретации на любой оценке. 
+\end{definition}
+
+\begin{definition}
+	Параметры функции:
+	\begin{itemize}
+		\item Если $t = x$, то $x$ - единственный параметр $t$.
+		\item Если $t = c$, то у $t$ нет параметров. 
+		\item Если $t = f(t_1, \ldots, t_k)$ или $\varphi = P(t_1, \ldots, t_k)$, то множество параметров $t$($\varphi$) - объединение множеств параметров $t_1, \ldots, t_k$
+		\item Если $\varphi = \lnot \psi$, то множество параметров $\varphi$ равно множеству параметров $\psi$
+		\item Если $\varphi = \psi \land \xi$, то множество параметров $\varphi$
+	\end{itemize}
+\end{definition}
+
+\begin{definition}
+	Формула называется замкнутой, если у неё нет параметров.
+\end{definition}
+
+
+\begin{theorem}
+	Истинность формулы зависит только её параметров и интерпретации. То есть если для оценок $\pi$ и $\pi'$ выполняется $\pi(y) = \pi'(y)$ для всеx $y \in Params( \varphi)$, то $[\varphi](\pi) = [\varphi](\pi')$
+\end{theorem}
+
+\begin{corollary}
+	Истинность замкнутой формулы зависит только от интерпретации
+\end{corollary}
 \subsection{Выразимость предикатов}
+\begin{corollary}
+	При фиксированной интерпретации формула задает функцию из $M^k$ в $\{0,1\}$, т.е. $k$-местный предикат. Эта формула выражает предикат в этой интерпретации. 
+\end{corollary}
+
+\begin{definition}
+	Предикат называется выразимым в данной интерпретации, если его выражает некоторая формула.
+\end{definition}
+
+\begin{definition}
+	Функция $f M^l \mapsto M$ выразима, если выразим предикат $M^{l + 1} \mapsto \{0,1\}$, определяемый так $P_f(x_1, \ldots, x_n, y) = 1 \Leftrightarrow y = f(x_1, \ldots, x_n)$. 
+\end{definition}
+
+\paragraph{Выразимость в арифметике}
+Арифметика: $\bra{\mathbb{N}, =, *, +}$
+\begin{enumerate}
+	\item $x \leq y \Leftrightarrow \exists{z} x + z = y$ 
+	\item $x < y \Leftrightarrow (x \leq y) \land \lnot (x = y)$
+	\item $x = 0 \Leftrightarrow \forall{y} x \leq y$
+	\item $x = 1 \Leftrightarrow \lnot(x = 0) \land x * x = 0$
+	\item $x \backslash y \Leftrightarrow \exists{z}: y * z = x$
+\end{enumerate}
+
+\begin{theorem}
+	Если $Q$ выразима в интерпретации $\bra{M; p_1, \ldots, p_n; f_1, \ldots, f_m}$; а $R$ выразима в интерпретации $\bra{M; Q, p_1, \ldots, p_n; f_1, \ldots, f_m}$, то $R$ выразима и в интерпретации $\bra{M; p_1, \ldots, p_n; f_1, \ldots, f_m}$
+\end{theorem}
+
+Формула не в языке первого порядка: $\forall{\text{конечное множество A}}(1 \in A \land x \in A \land \forall{y}(y \in A \rightarrow \frac{y}{6} \in A))$
+
+Способы выразить квантор $\exists{\text{конечное множество}}$: $\beta$-функция Геделя и кодирование Смаллиана
+
+Кодирование Смаллиана: $n \mapsto n + 1 \mapsto {n + 1}_binary \mapsto {n + 1}_binary \text{без первой единицы}$
+
+\begin{theorem}
+	Есть выразимый предикат от трех параметров $S(x,a,b)$ такой, что $\{x|S(x,a,b) = 1\}$конечно и наоборот, для любого конечного множества $A$ найдутся $a$ и $b$ такие, что $A=\{x|S(x,a,b) = 1\}$
+\end{theorem}
+
+\begin{proof}
+	$S(x,a,b)$ $Sm(a)Sm(x)Sm(a)\subset Sm(b)$ и \underline{$Sm(x)$ не длинее $Sm(a)$}. \newline
+	$b = ax_1ax_2a\ldots ax_ka$	
+\end{proof}
 
 \section{Билет №4}
 \subsection{Общезначимые формулы первого порядка. Исчисление предикатов: формулы и правила вывода}
+\begin{definition}
+	Общезначимая формула 1го порядка - формула, верная на любой оценке при любой интерпретации
+\end{definition}
+Исчисление предикатов проходит с использованием следующих правил:
+\begin{itemize}
+	\item  1)-11) аксиомы исчисления высказываний
+	\item  12)$\forall x \phi\rightarrow\phi(t|x)$ - подстановка терма $t$ вместо $x$
+	\item 13)$\phi(t|x) \rightarrow \exists x \phi$
+	\item правило $MP (A, A\rightarrow B\ \vdash B)$
+	\item правила Бернайса: 1) $\phi\rightarrow\psi \ \vdash \phi\rightarrow\forall\psi$ 2) $\phi\rightarrow\psi \ \vdash \exists\phi\rightarrow\psi$
+\end{itemize}
 \subsection{Корректность исчисления предикатов}
+\begin{theorem}{Теорема о корректности}
+Любая выводимая формула общезначима	
+\end{theorem}
+\begin{proof}
+1) 1-11 + MP очевидно
+2) 12: $[\phi(t|x)](\pi)=[\phi](\pi+(x\rightarrow [t](\pi)))$\\
+Если $\phi$ - терм, то выполняется подскатовка.\\
+Комбинация с операторами также легко подставляется.\\
+Проверим $\phi=\forall\eta\psi$:\\
+$[\forall\eta\psi(t|x)](\pi)=\bigwedge_m[\psi](\pi+\eta\rightarrow m + (x\rightarrow[t](\pi+\eta\rightarrow m))) = 
+[\forall\eta\psi(t|x)](\pi)=\bigwedge_m[\psi](\pi+\eta\rightarrow m + (x\rightarrow[t](\pi))) = [\forall\eta\psi(t|x)](\pi + x\rightarrow[t](\pi))$\\
+Р-во верно $\Rightarrow \forall x\phi\rightarrow\phi(t|x)$ верно, т.к. если $\phi$ выполнена на $\pi$, то в силу $\forall x\phi$ и на наборе $\pi'$, где $\pi'$ отличается от $\pi$ только в $x$.\\
+3)13: аналогично
+\end{proof}
 \subsection{Теорема Геделя о полноте исчисления предикатов: формулировки, схема доказательства}
+\begin{definition}
+Формула замкнута, если нет свободных переменных ($\forall x \phi(x)$ - замкнута,$\forall x \phi(x,y)$ - нет)	
+\end{definition}
+\begin{definition}
+	\begin{itemize}
+		\item Теория - набор замкнутых формул
+		\item Модель теории - интерпретация, в которой все формулы теории истинны
+		\item Теория совместна, если $\exists$ модель теории 
+		\item Теория противоречива, если из нее выводятся $\phi$ и $\not\phi$ 
+	\end{itemize}	
+\end{definition}
 
+\begin{theorem}{Сильная теорема Гёделя о полноте}
+Если теория непротиворечива, то она совместна	
+\end{theorem}
+\begin{proof}{Схема д-ва}
+Можем пополнить непротиворечивую теорию $\Gamma$ до полной (в которой выводится $\phi$ или $\not\phi$)\\
+Но м.б.$\Gamma \vdash \exists x\phi$ по $\Gamma \nvdash \phi(t|x)$
+Тогда расширяем сигнатуру, добавляя соотв. конст, а значение $\phi(c|x)$ добавляем в теорию. А у любой экзистенциально полной теории есть модель.	
+\end{proof}
+\begin{theorem}{Слабая теорема о полноте}
+Если $\phi$ общезначима, то $\phi$ выводима	
+\end{theorem}
 \section{Билет №5}
 \subsection{Машины Тьюринга. Вычислимые функции}
+\begin{definition}
+Машина Тьюринга - абстрактный вычислитель:
+$\Gamma$ - ленточный алфавит $\Sigma\subset\Gamma$ - входной алфавит
+$Q$ - мн-во состояний, # - бланк $\in \Gamma\backslash\Sigma$
+$\delta: Q*\Gamma\rightarrow Q*\Gamma*\{L,R,N\}$ - правила
+Конфигурация: $AqxB$, где $A,B \in \Gamma^* x\in\Sigma q\in Q$ 	
+\end{definition}
+\begin{definition}
+Машина вычисляет ф-цию, если $\forall x$ $\exists$ вычисление, начинающееся с $q_1x$ и заканчивающееся $q_0(x)$	
+\end{definition}
+\begin{definition}
+$f$ - вычислима, если $\exists$ $MT$, которая ее вычисляет.	
+\end{definition}
 \subsection{Разрешимые и перечислимые множества}
+\begin{definition}
+	$A$ - разрешимо, если хар-кая функция $\hi_A(n) =$\begin{cases}
+	$1,n\in A$\\
+	$0, n\notin A$
+	\end{cases}
+\end{definition}
+\begin{definition}
+$A$ - перечислимо, если полухар-кая функция $\hi_A(n) =$\begin{cases}
+	$1,n\in A$\\
+	$неопр., n\notin A$
+	\end{cases}	
+\end{definition}
 \subsection{Неразрешимость проблем самоприменимости и остановки}
+\begin{proposition}
+	Последовательность конфигурация точно определяет $МТ$ $\Rightarrow$	 вычислимых функций не более чем счетное множество
+\end{proposition}
+\begin{proposition}
+$K=\{n|\phi_n(n) - опред.\}$ - неразрешимо.
+\end{proposition}
+\begin{proof}
+Рассмотрим антидиагональную последовательность.	
+\end{proof}
 \subsection{Теорема Райса-Успенского (б/д)}
+\begin{theorem}
+Мн-во номеров функций мн-ва А (А - не все вычислимые функции, но и не пустое) неразрешимо	
+\end{theorem}
 \subsection{Теорема Клини о неподвижной точке (б/д)}
+\begin{theorem}
+f:\myN\rightarrow\myN - всюду опред. вычислимая функция. Тогда $\exists n: U(n,x)\simeq U(f(n),x)$	
+\end{theorem}
+\begin{proposition}
+$U$ - главная вычислительная нумерация $(U(n,x)\simeq f(n,x))$	 и $\forall V \exists S(n): V(n,x)\simeq U(S(n),x)$
+\end{proposition}
 \subsection{Существование программы, печатающей собственный текст}
-
+programm(String s){\\
+	write_text(s);\\
+	s=h(s);\\
+	programm(s);\\
+}\\
 \section{Билет №6}
 \subsection{Формальная арифметика}
 \subsection{Моделирование МТ в формальной арифметике}
@@ -82,12 +541,101 @@
 
 \section{Билет №7}
 \subsection{Лямбда-исчисление. Лямбда-термы и комбинаторы}
+\begin{definition}
+$\lambda$-терм:
+\begin{itemize}
+		\item $x$-переменная - есть $\lambda$-терм
+		\item $A$ и $B$ - термы $\rightarrow$ $(AB)$-терм
+		\item $A$ терм, $x$-переменная $\rightarrow\  \lambda x.A$ - терм
+	\end{itemize}	
+\end{definition}
+\begin{definition}
+\begin{itemize}
+		\item $\alpha$-конверсия: $\lambda x.A \rightarrow_\alpha \lambda y.A(y|x)$
+		\item $\beta$-редукция: $(\lambda x.A)B\rightarrow A(B|x)$
+	\end{itemize}	
+\end{definition}
+\begin{definition}
+терм $A$ является нормальной формой, если к $A$ нельзя применить $\beta$-редукцию	
+\end{definition}
+\begin{definition}
+\lambda-термы $A$ и $B$ равны, если $\exists$ последовательность  конверсий-редукций $c_1c_2..c_n : A\rightarrow\rightarrow c_1...\rightarrow\rightarrow B$	
+\end{definition}
 \subsection{Теорема Черча-Россера (б/д). Нумералы Черча}
+\begin{theorem}
+Если $\lambda$-термы $A$ и $B$ равны, то $\exists \lambda$-терм $C$: $A\rightarrow\rightarrow C$ и $B\rightarrow\rightarrow C$  	
+\end{theorem}
+\begin{definition}
+Комбинаторы - замкнутые термы (не имеющие свободных переменных)	
+\end{definition}
+\begin{definition}
+Нумералы Черча: 0: $\lambda fx.x$  1: $\lambda fx.fx$  2: $\lambda fx.ffx$ и т.д.	
+\end{definition}
 \subsection{Комбинаторы, представляющие арифметические операции. Представление логических значений и операций}
+Арифметические операции:
+\begin{itemize}
+	\item inc: $\lambda nfx.f(nfx)$
+	\item add: $\lambda nmfx.nf((mf)x)$
+	\item mult: $\lambda nmf. n(mf)$
+\end{itemize}
+Логические операции:
+\begin{itemize}
+	\item $True: \lambda xy.x$
+	\item $False: \lambda xy.y$
+	\item $And: \lambda xy.(xyFalse)$
+	\item $Or: \lambda xy.(xTruey)$
+	\item $Not: \lambda x.xFalseTrue$
+\end{itemize}
 \subsection{Комбинатор неподвижной точки}
-
+\begin{definition}
+Комбинатор неподвижной точки ф-ции f есть комбинатор x т.ч. fx=x	
+\end{definition}
+\begin{definition}
+$\theta = (\lambda xy.y(xxy))(\lambda xy.y(xxy))$\\
+\end{definition}
+\begin{proposition}
+$\theta f$ - комбинатор неподвижной точки	
+\end{proposition}
+\begin{proof}
+$\theta A = A(\theta A)$\\
+$\theta f = (\lambda xy.y(xxy))(\lambda xy.y(xxy))f = f((\lambda xy.y(xxy))(\lambda xy.y(xxy))f)=f(\theta f)$
+\end{proof}
 \section{Билет №8}
 \subsection{Классы сложности P и NP}
+\begin{definition}
+$DTIME(n^k)$ = $\{множество языков, разрешимых на детермитированной МТ за O(n^k)\}$\\
+$M(x)=1 \eqv x\in L$	\\
+$NTIME(n^k) = \{множество языков, разрешимых на недетермитированной МТ за O(n^k)\}$
+\end{definition}
+\begin{definition}
+$P=\bigcup_{k=1}DTIME(n^k)$\\
+$NP=\bigcup_{k=1}DNIME(n^k)$\\
+\end{definition}
+\begin{definition}
+Язык $L$ распознается НМТ за $O(n^k)$, если $x\in L \eqv$ все ветви вычисляются за $O(n^k)$ и хоть одна ветвь находится в $q_n$ (завершающем)	
+\end{definition}
 \subsection{NP-hard и NP-complete}
-
+\begin{definition}
+Язык $L$ сводится к $M$ по карпу $L\le_p M$, если $\exists$ вычислимая функция $f:\{0;1\}*\rigtharrow \{0;1\}*$ т.ч. $x\inL \Leftrightarrow f(x)\in M$	
+\end{definition}
+\begin{definition}
+Язык $L$ называется $NP-hard$, если $\forall M\in NP N\le_pL$	
+\end{definition}
+\begin{definition}
+Язык $L$ называется $NP-complete$, если $L$ - $NP-hard$ и $L\in NP$	
+\end{definition}
+\begin{props}
+\begin{itemize}
+		\item $L\le_pL$
+		\item $L\le_pM\  M\le_pK \Rightarrow L\le_pK$
+		\item $L\le_pM\ M\in NP \Rightarrow L\in NP$
+		\item $L\le_pM\ M\in P \Rightarrow L\in P$
+	\end{itemize}	
+\end{props}
+\begin{example}
+	SAT=$\{\phi| \phi$ - выполнимая ф-ла$\}$ и 3SAT=$\{\phi| \phi$ - 3КНФ выполнимая ф-ла$\} \in NPC$
+\end{example}
+\begin{remark}
+По т.Ландера если $P\ne NP$, то $\exists$ $NP$-язык, не являющийся $NPC$	
+\end{remark}
 \end{document}

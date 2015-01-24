@@ -152,8 +152,98 @@ $$ a(x) = arg \max_{\substack{y \in Y}} \bigg( ln \lambda_y \hat{P}_y + \sum){\s
 
 \section{Билет №3}
 \subsection{Метод опорных векторов. Решение двойственной задачи}
-\subsection{Спрямляющее пространство}
-\subsection{Ядра}
+Задача классификации: $X = \setRn, Y = \{-1,+1\}$ по обучающей выборке $X^l=(x_i,y_i)_{i=1}^l$ найти параметры $w \in \setRn, w_0 \in \setR$ алгоритма классификации
+$$ a(x,w) = sign(<x,w>-w_0) $$
+\textbf{Метод минимизации аппроксимированного регуляризованного эмпирического риска} \\
+$$ \sum_{\substack{i=1}}^l (1-M_i(w,w_0))_+ + \frac{1}{2C}||w||^2 \rightarrow min_{\substack{w,w_0}} $$
+где $m_i(w,w_0)=y_i(<x_i,w>-w_0)$ - отступ объекта $x_i$ \\
+Линейный классификатор: $$ a(x,w) = sign(<w,x>-w_0), \ w,x \in \setRn, w_0 \in \setR $$
+Пусть выборка $X^l=(x_i,y_i)_{i=1}^l$ линейно разделима:
+$$ \exists w,w_0: \ M_i(w,w_0)=y_i(<w,x>-w_0)>0, \ i = 0, \ldots l $$
+Нормировка: $ min M_i(w,w_0)=1$. Разделяющая полоса: $\{x: \ -1 \leq <w,x> \leq 1\}$. Ширина полосы: $\frac{<x_+-x_-, w>}{||w||}=\frac{2}{||w||} \rightarrow max$ \\
+Линейно разделимая выборка: $ 
+\begin{cases}
+	||w||^2 \rightarrow \min_{w,w_0};\\
+	M_i(w,w_0) \geq 1, i = 1, \ldots, l
+\end{cases}$ \\
+Переходим к линейно неразделимой выборке (эвристика): $
+\begin{cases}
+	\frac{1}{2}||w||^2 + C \sum_{i=1}^l \xi_i \rightarrow min_{w,w_0,\xi};\\
+	M_i(w,w_0) \geq 1-\xi_i; \\
+	\xi_i \geq 0
+\end{cases}$ \\
+Эквивалентная задача безусловной минимизации: $$ C\sum_{\substack{i=1}}^l \big( 1-M_i(w,w_0)\big)_+ + \frac{1}{2}||w||^2 \rightarrow \min_{\substack{w,w_0}} $$
+
+\subsubsection{Условие Каруша-Куна-Таккера}
+Задача математического программирования:
+$$ \begin{cases}
+	f(x) \rightarrow \min_{\substack{x}} \\
+	g_i(x) \leq 0, i=1, \ldots, m \\
+	h_j(x) = 0, j=1, \ldots, k
+\end{cases}$$
+Необходимые условия: если х - точка локального минимума, то существуют множители $\mu_i, \lambda_j$:
+$$\begin{cases}
+	\frac{\partial L}{\partial x} = 0, \ L(x,\mu, \lambda) = f(x) + \sum_{\substack{i=1}}^m \mu_ig_i(x) + \sum_{\substack{j=1}}^k \lambda_j g_j(x)\\
+	g_i(x) \leq 0, \ h_j(x) = 0 \text{ - исходные ограничения} \\
+	\mu_i \geq 0 \text{ - двойственные ограничения} \\
+	\mu_i g_i(x)=0 \text{ - условие дополняющей нежесткости}
+\end{cases}$$
+Функция Лагранжа: $$ L(w,w_0,\xi; \lambda, \eta) = \frac{1}{2}||w||^2 - \sum_{\substack{i=1}}^l \lambda_i \bigg(M_i(w,w_0)-1 \bigg) - \sum_{\substack{i=1}}^l \xi_i (\lambda_i + \eta_i -C) $$
+$\lambda_i$ - переменные, двойственные к ограничениям $M_i \geq 1 -\xi_i$.\\
+$\eta_i$ - переменные, двойственные к ограничениям $\xi_i \geq 0$
+$$ \begin{cases}
+	\frac{\partial L}{\partial w} = 0, \ \frac{\partial L}{\partial w_0} = 0, \ \frac{\partial L}{\partial \xi} = 0,\\
+	\xi_i \geq 0, \ \lambda_i \geq 0, \ \eta_i \geq 0 \\
+	\lambda_i = 0 \ или \ M_i(w,w_0)=1-\xi_i \\
+	\eta_i = 0 \ или \ \xi_i=0
+\end{cases} $$
+Необходимые условия медловой точки функции Лагранжа 
+$$ \begin{cases}
+	\frac{\partial L}{\partial w} = w - \sum_{\substack{i=1}}^l \lambda_i y_i x_i = 0, & \Rightarrow  w =  \sum_{\substack{i=1}}^l \lambda_i y_i x_i\\
+	\frac{\partial L}{\partial w_0} =  -\sum_{\substack{i=1}}^l \lambda_i y_i = 0 & \Rightarrow  \sum_{\substack{i=1}}^l \lambda_i y_i =0, \\ 
+	\frac{\partial L}{\partial \xi} = - \lambda_i - \eta_i + C = 0 & \Rightarrow  \eta_i + \lambda_i = C
+
+\end{cases} $$
+\subsubsection{Понятие опорного вектора}
+Типизация объектов:
+\begin{enumerate}
+	\item $\lambda_i=0, \eta_i=C, \xi_i=0, M_i \geq 1$ - периферийные (неинформативные) объекты
+	\item $0 < \lambda_i < C, 0 < \eta_i < C, \xi_i = 0, M_i = 1$ - опорные граничные объекты
+	\item $\lambda_i=C, \eta_i=0, \xi_i >0, M_i <1$ - опорные-нарушители
+\end{enumerate}
+$x_i$ - опорный, если $\lambda_i \neq 0$
+
+\subsubsection{Двойственная задача}
+$$ \begin{cases}
+	-L(\lambda) = -\sum_{\substack{i=1}}^l \lambda_i + \frac{1}{2} \sum_{\substack{i=1}}^l\sum_{\substack{j=1}}^l \lambda_i \lambda_j y_i, y_j<x_i,x_j> \rightarrow \min_{\substack{\lambda}}\\
+	0 \leq \lambda_i \leq C, i = 1, \ldots, l \\
+	\sum_{\substack{i=1}}^l \lambda_iy_i=0
+\end{cases} $$
+Решение прямой задачи выражается через решение двойственной:
+$$ \begin{cases}
+	w = \sum_{\substack{i=1}}^l \lambda_i y_i x_i \\
+	w_0 = <w,x> - y_i, \ \forall i: \ \lambda_i>, M_i=1
+\end{cases} $$
+Линейный классификатор: $$ a(x) = sign \bigg( \sum_{\substack{i=1}}^l \lambda_i y_i <x_i,x> - w_0 \bigg)$$
+\subsection{Спрямляющие пространства и ядра}
+Спрямляющее пространство более высокой размерности: $\psi: X \rightarrow H$
+\begin{definition}
+Функция $K: X \times X \rightarrow \setR$ - ядро, если $K(x,x')=<\psi(x),\psi(x')>$ при некотором $\psi: X \rightarrow H$, где Н - гильбертово пространство
+\end{definition}
+\begin{theorem}
+Функция $K(x,x')$ является ядром $\iff K(x,x')=K(x',x)$ и $\int_X \int_X K(x,x')g(x)g(x')dxdx' \geq 0 \forall g:X \rightarrow \setR$ - неотрицательно определена
+\end{theorem}
+Конструктивные методы синтеза ядер:
+\begin{itemize}
+	\item $K(x,x')=<x,x'>$
+	\item $K(x,x')=1$
+	\item $K(x,x')=K_1(x,x')*K_2(x,x')$ - произведение ядер
+	\item $\forall \psi: X \rightarrow \setR \ K(x,x')=\psi(x) \psi(x')$
+	\item $K(x,x') = \alpha_1 K_1(x,x') + \alpha_2 K_2(x,x'), \ \alpha_{1,2} >0$
+	\item $\forall \varphi: X \rightarrow X$ если $K_0$ ядро, то $K(x,x')=K_0(\varphi(x),\varphi(x'))$
+	\item $s: X \times X \rightarrow \setR$ - симметричная интегрируемая, то $K(x,x') = \int_X s(x,z)s(x',z)dz$
+	\item $K_0$ - ядро и ф-ция $f: \setR \rightarrow \setR$ представима через сход. степ. ряд с неотриц. коэффициентами, то $K(x,x')=f(K_0(x,x'))$
+\end{itemize}
 
 \section{Билет №4}
 \subsection{Многомерная линейная регрессия}
@@ -195,6 +285,68 @@ $$ Q_\tau(\alpha) = ||F\alpha - y||^2 + \frac{1}{\sigma} ||\alpha||^2$$
 
 \section{Билет №5}
 \subsection{Бустинг}
+$X^l=(x_i,y_i)_{i=1}^l \subset X \times Y$ - обучающая выборка, $y_i=y^*(x_i)$. \\
+$a(x)=C(b(x))$ - алгоритм, где \begin{itemize}
+	\item $b: X \rightarrow R$ - безовый алгоритм (алгоритмический оператор)
+	\item $C: R \rightarrow Y$ - решающее правило
+	\item $r$ - пространство оценок
+\end{itemize}
+\begin{definition}
+Композиция базовых алгоритмов $b_1, \ldots, b_{\tau}$
+$$a(x) = C(F(b_1(x), \ldots, b_{tau}(x)))$$ где $F:R^T \rightarrow R$ - корректирующая операция
+\end{definition}
+\begin{example} 
+$Y=\{1, \ldots, M\}$
+$$a(x) = arg \max_{\substack{y \in Y}}b_y(x)$$ где $R=\setR^M, b: X \rightarrow \setR^M, C(b_1, \ldots, b_M)=arg \max_{\substack{y \in Y}} b_y$
+\end{example}
+Функционал качества базового алгоритма (L - функция потерь):
+$$ Q(b,X^l) = \sum_{\substack{i=1}}^l L(b(x_i),y_i) $$
+Итерационный процесс: \begin{itemize}
+	\item $b_1 = arg \min_{\substack{b}} Q(b, X^l) $\\
+	\ldots
+	\item $b_t = arg \min_{\substack{b}} Q(F(b_1, \ldots, b_{t-1}), X^l)$
+\end{itemize}
+Идея - свести задачу к стандартной с весами объектор и, возможно, другой функцией потерь:
+$$ b_t = \arg \min_{\substack{b}} w_i \hat{L}(b(x_i), y_i) $$
+
+\begin{theorem} \textbf{Основная теорема бустинга} \\
+Пусть для любого нормированного вектора весов $U^l \ \exists b \in B$, классифицирующий алгоритм лучше, чем наугад: $P(b;U^l)>N(b;U^l$ \\
+Тогда минимум функционала $\hat{Q}_T$ достигается при
+$$ b_{\tau} = arg \max_{\substack{b}} \sqrt{P(b;\hat{W}^l)} - \sqrt{N(b;\hat{W}^l)} $$
+$$ a_{\tau} = \frac{1}{2} ln \frac{{P(b;\hat{W}^l)}}{{N(b;\hat{W}^l)}} $$
+\end{theorem}
+
 \subsection{Алгоритм AdaBoost}
+Классический вариант AdaBoost: \\
+Пусть отказов нет, $b_t: X \rightarrow {-1;+1}$ => P=1-N
+\begin{theorem} \textbf{Основная теорема бустинга} \\
+Пусть для любого нормированного вектора весов $U^l \ \exists b \in B$, классифицирующий алгоритм лучше, чем наугад: $P(b;U^l)>N(b;U^l$ \\
+Тогда минимум функционала $\hat{Q}_T$ достигается при
+$$ b_T = arg \min_{\substack{b}} N(b;\hat{W}^l) $$
+$$ a_{\tau} = \frac{1}{2} ln \frac{1-N(b_T;\hat{W}^l)}{N(b_t;\hat{W}^l)} $$
+\end{theorem}
+\begin{corollary}
+Если на каждом шаге семейство В и метод обучения обеспечивают построение базового алгоритма, такого что
+$$ \sqrt{P(b_T, \hat{W}^l)} - \sqrt{N(b_t, \hat{W}^l)} = \gamma_{\tau} > \gamma$$
+при некотором $\gamma>0$, то за конечное число шагов будет построен корректный алгоритм a(x)
+\end{corollary}
+
+Алгоритм AdaBoost: \\
+Вход: обучающая выборка, параметр Т\\
+Выход: базовые алгоритмы и их веса $\alpha_t b_t, t=1,\ldots,T$ \\
+\begin{enumerate}
+	\item Инициализировать веса объектов \\
+	$w_i=1/l$
+	\item $\forall t = 1,\ldots,T$
+	\begin{itemize}
+		\item обучить базовый алгоритм
+		\item $b_t = arg \min_{\substack{b}} N(b;W^l)$
+		\item $\alpha_t = \frac{1}{2} ln \frac{1-N(b_t;W^l)}{N(b_t;W^l)}$
+		\item обновить веса объектов: $w_i = w_i \ exp(-\alpha_t y_i b_t(x_i))$
+		\item нормировать веса объектов: \\
+		$ w_0 = \sum_{j=1}^l w_j$ \\
+		$w_i = w_i/w_0$
+	\end{itemize}
+\end{enumerate}
 
 \end{document}
