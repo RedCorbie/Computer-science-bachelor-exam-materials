@@ -317,6 +317,36 @@ $$ a_{\tau} = \frac{1}{2} ln \frac{{P(b;\hat{W}^l)}}{{N(b;\hat{W}^l)}} $$
 \end{theorem}
 
 \subsection{Алгоритм AdaBoost}
+Классический вариант AdaBoost: \\
+Пусть отказов нет, $b_t: X \rightarrow {-1;+1}$ => P=1-N
+\begin{theorem} \textbf{Основная теорема бустинга} \\
+Пусть для любого нормированного вектора весов $U^l \ \exists b \in B$, классифицирующий алгоритм лучше, чем наугад: $P(b;U^l)>N(b;U^l$ \\
+Тогда минимум функционала $\hat{Q}_T$ достигается при
+$$ b_T = arg \min_{\substack{b}} N(b;\hat{W}^l) $$
+$$ a_{\tau} = \frac{1}{2} ln \frac{1-N(b_T;\hat{W}^l)}{N(b_t;\hat{W}^l)} $$
+\end{theorem}
+\begin{corollary}
+Если на каждом шаге семейство В и метод обучения обеспечивают построение базового алгоритма, такого что
+$$ \sqrt{P(b_T, \hat{W}^l)} - \sqrt{N(b_t, \hat{W}^l)} = \gamma_{\tau} > \gamma$$
+при некотором $\gamma>0$, то за конечное число шагов будет построен корректный алгоритм a(x)
+\end{corollary}
 
+Алгоритм AdaBoost: \\
+Вход: обучающая выборка, параметр Т\\
+Выход: базовые алгоритмы и их веса $\alpha_t b_t, t=1,\ldots,T$ \\
+\begin{enumerate}
+	\item Инициализировать веса объектов \\
+	$w_i=1/l$
+	\item $\forall t = 1,\ldots,T$
+	\begin{itemize}
+		\item обучить базовый алгоритм
+		\item $b_t = arg \min_{\substack{b}} N(b;W^l)$
+		\item $\alpha_t = \frac{1}{2} ln \frac{1-N(b_t;W^l)}{N(b_t;W^l)}$
+		\item обновить веса объектов: $w_i = w_i \ exp(-\alpha_t y_i b_t(x_i))$
+		\item нормировать веса объектов: \\
+		$ w_0 = \sum_{j=1}^l w_j$ \\
+		$w_i = w_i/w_0$
+	\end{itemize}
+\end{enumerate}
 
 \end{document}
